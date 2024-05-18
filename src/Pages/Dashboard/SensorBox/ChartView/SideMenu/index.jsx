@@ -10,6 +10,8 @@ const SideMenu = () => {
     setDataChartXY,
     setMaxY_Axis,
     setMinY_Axis,
+    windowSize,
+    constrainHeightScreen,
   } = useZustandState((state) => state);
   const menu = [
     {
@@ -121,7 +123,18 @@ const SideMenu = () => {
       {menu.map((item) => (
         <button
           key={item.key}
-          className={` h-[calc(12%)] w-[100px] rounded text-sm text-white ${
+          className={` my-[0px] w-[100px] rounded text-[10px] 
+          ${
+            windowSize.height < constrainHeightScreen
+              ? "h-[25px]"
+              : windowSize.height > 750 && windowSize.height <= 850
+              ? "h-[25px]"
+              : windowSize.height > 850 && windowSize.height <= 1000
+              ? "h-[30px]"
+              : windowSize.height > 1000
+              ? "h-[40px]"
+              : "h-[20px]"
+          } text-white ${
             isSelectMenu[item.key - 1] ? "bg-secondary" : "bg-[#686871]"
           }`}
           onClick={() => onClickHandle(item.key)}

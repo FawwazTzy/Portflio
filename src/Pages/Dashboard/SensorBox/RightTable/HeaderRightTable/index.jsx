@@ -36,13 +36,13 @@ const HeaderSensor = () => {
     <div className="flex flex-col">
       <div className="w-full flex justify-between  items-center">
         <div className="flex">
-          <p className="text-white text-md mr-[10px]">Filter:</p>
+          <p className="text-white text-[12px] mr-[10px]">Filter:</p>
           <DropDownFilter />
         </div>
 
         <div className="flex">
           <button
-            className="bg-secondary  w-[90px] h-[30px] rounded-lg text-white text-xs"
+            className="bg-secondary  w-[90px] h-[20px] rounded-lg text-white text-[10px]"
             onClick={() => onCLickHandle()}
           >
             Download

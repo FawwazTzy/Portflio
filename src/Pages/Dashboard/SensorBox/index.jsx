@@ -59,8 +59,14 @@ const data = [
 ];
 
 const SensorBox = () => {
-  const { isSensorSelect, dataSensorSelect, dataChartXY } =
-    useZustandState((state) => state);
+  const {
+    isSensorSelect,
+    dataSensorSelect,
+    dataChartXY,
+    heightChartBox,
+    windowSize,
+    constrainHeightScreen,
+  } = useZustandState((state) => state);
 
   const defaultDataChartXY = [
     {
@@ -70,9 +76,9 @@ const SensorBox = () => {
   ];
 
   return (
-    <div className="w-full h-full bg-third rounded-xl border-secondary border-2 p-[10px] flex">
-      <div className="flex flex-col w-[calc(75%)] h-full mr-[10px] rounded-xl bg-fourth p-[15px]">
-        <div className="h-[50px]">
+    <div className="w-full h-full bg-third rounded-xl border-secondary border-2 p-[5px] flex">
+      <div className="flex flex-col w-[calc(75%)] h-full mr-[10px] rounded-xl bg-fourth p-[10px]">
+        <div className="h-[35x]">
           <HeaderGraph
             title={
               isSensorSelect && dataSensorSelect.createOn != "-"
@@ -86,21 +92,22 @@ const SensorBox = () => {
             }
           />
         </div>
-        <div className="flex-1 mb-[10px] min-h-[180px]">
-          <ChartView
-            data={
-              isSensorSelect 
-                ? dataChartXY
-                : defaultDataChartXY
-            }
-          />
+        <div
+          style={{
+            height:
+              windowSize.height < constrainHeightScreen
+                ? "100%"
+                : `${heightChartBox}`,
+          }}
+        >
+          <ChartView data={isSensorSelect ? dataChartXY : defaultDataChartXY} />
         </div>
       </div>
-      <div className="flex flex-col flex-1 bg-fourth rounded-xl p-[15px]">
-        <div className="h-[50px] w-full">
+      <div className="flex flex-col flex-1 bg-fourth rounded-xl p-[10px]">
+        <div className="h-[35x] w-full">
           <HeaderTable />
         </div>
-        <div className="flex flex-col flex-1   min-h-[180px] w-full border-2 border-secondary bg-third rounded-2xl p-[10px]">
+        <div className="flex flex-col flex-1 min-h-[155px] w-full border-2 border-secondary bg-third rounded-2xl p-[10px] mt-[10px]">
           <TableTitle />
           <div className="overflow-y-auto w-full h-full place-content-between">
             {isSensorSelect && dataSensorSelect.createOn != "-" ? (

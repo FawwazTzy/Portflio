@@ -7,7 +7,8 @@ import { findDeviceFromSensorBox } from "../function";
 const mapboxToken =
   "pk.eyJ1IjoiemVyb2hhY2siLCJhIjoiY2t2MzR6NzYzOGUxcjJ2bnpydnYwM28yaSJ9._bUy8NIpXyzLkTELdT5qPA";
 
-const MapComponent = () => {
+// eslint-disable-next-line react/prop-types
+const MapComponent = ({ topNavigator }) => {
   const {
     viewport,
     setViewport,
@@ -131,7 +132,10 @@ const MapComponent = () => {
           <p className="text-white">...Loading Maps</p>
         </div>
       )}
-      <div className="absolute bottom-[calc(40%+20px)] right-[440px] z-10">
+      <div
+        style={{ top: topNavigator }}
+        className="absolute right-[440px] z-10"
+      >
         <div className="w-[30px] h-[60px] flex flex-col space-y-2">
           <button
             className="w-full h-20px bg-secondary text-white rounded"

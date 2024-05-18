@@ -13,10 +13,23 @@ import { processDataToSensorBoxData } from "./function";
 
 const Dashboard = () => {
   const [isMenuActive, setIsMenuActive] = useState(false);
-  // const [devices, setDevices] = useState([]);
-  const { setDevices, setSensorBox, isDetailBoxShow } = useZustandState(
-    (state) => state
-  );
+  const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("500px");
+  const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("1024px");
+  const [topNavigator, setTopNavigator] = useState("250px");
+  const [responsiveHeightDeviceBox, setResponsiveHeightDeviceBox] =
+    useState("300px");
+  const [topChartBox, setTopChartBox] = useState("350px");
+
+  const {
+    setDevices,
+    setSensorBox,
+    windowSize,
+    isDetailBoxShow,
+    responsiveHeightSensorBox,
+    setResponsiveHeightSensorBox,
+    constrainHeightScreen,
+    setHeightChartBox,
+  } = useZustandState((state) => state);
 
   useEffect(() => {
     try {
@@ -62,8 +75,41 @@ const Dashboard = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (windowSize.height < constrainHeightScreen) {
+      setResponsiveHeightScreen(`900px`);
+      setResponsiveHeightDeviceBox(`300px`);
+      setTopChartBox("365px");
+      setResponsiveHeightSensorBox("300px");
+      setTopNavigator("295px");
+    } else {
+      setResponsiveHeightScreen(`${windowSize.height}px`);
+      const heightDeviceBox = windowSize.height * 0.6 - 48;
+      setResponsiveHeightDeviceBox(`${heightDeviceBox}px`);
+      const top = heightDeviceBox + 65;
+      setTopChartBox(`${top}px`);
+      const heightSensorBox = windowSize.height * 0.4 - 25;
+      setResponsiveHeightSensorBox(`${heightSensorBox}px`); //"h-[200px]");
+      const tempHeightChartBox = heightSensorBox - 70;
+      setHeightChartBox(`${tempHeightChartBox}px`);
+    }
+
+    if (windowSize.width < 1024) {
+      setResponsiveWidthScreen(`1024px`);
+    } else {
+      setResponsiveWidthScreen(`${windowSize.width}px`);
+    }
+  }, [windowSize]);
+
   return (
-    <div className="w-screen h-screen flex flex-col min-h-[700px]">
+    // <div className="h-screen w-screen relative">
+    <div
+      style={{
+        height: responsiveHeightScreen,
+        width: responsiveWidthScreen,
+      }}
+      className={`flex flex-col fixed`}
+    >
       <HeaderDashboard setIsMenuActive={setIsMenuActive} />
       {/* icon menu */}
       {isMenuActive && (
@@ -80,10 +126,21 @@ const Dashboard = () => {
         profile_name="budi santoso"
       />
       {/* =========== */}
-      <div className="w-full h-full">
-        <MapComponent />
+      <div
+        style={{
+          height: responsiveHeightScreen,
+          width: responsiveWidthScreen,
+        }}
+        className="fixed"
+      >
+        <MapComponent topNavigator={topNavigator} />
       </div>
-      <div className="absolute bottom-[calc(40%+20px)] right-[10px] w-[420px] h-[calc(100%-40%-48px-30px)] z-10">
+      <div
+        style={{
+          height: responsiveHeightDeviceBox,
+        }}
+        className={`absolute top-[55px] right-[10px] w-[300px] z-10`}
+      >
         <DeviceBox />
       </div>
 
@@ -92,13 +149,20 @@ const Dashboard = () => {
           <DeviceDetails />
         </div>
       )}
-      <div className="absolute bottom-[10px] right-[10px] w-[calc(100%-20px)] h-[calc(40%)] min-h-[300px] z-10 ">
+      <div
+        style={{
+          top: topChartBox,
+          height: responsiveHeightSensorBox,
+        }}
+        className={`absolute  right-[10px] w-[calc(100%-20px)] z-10 `} //top-[calc(60%-48px-30px+65px)]
+      >
         <SensorBox />
       </div>
       {/* <div className="absolute bottom-[calc(40%+20px)] right-[580px] z-10">
         <NavigatorMap />
       </div> */}
     </div>
+    // </div>
   );
 };
 

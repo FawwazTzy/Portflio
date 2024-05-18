@@ -75,17 +75,17 @@ const DropDownFilter = () => {
   };
 
   return (
-    <div className="relative inline-block text-left">
-      <div>
+    <div className="relative  inline-block text-left ">
+      <div className="flex items-center justify-center">
         <button
           type="button"
-          className="w-[100px] h-[30px] items-center justify-between inline-flex rounded bg-secondary px-3 py-2  "
+          className="w-[100px] h-[20px] items-center justify-between inline-flex rounded bg-secondary px-3  "
           id="menu-button"
-          aria-expanded="true"
-          aria-haspopup="true"
+          // aria-expanded="true"
+          // aria-haspopup="true"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <p className="text-xs  text-white">{timeFilter}</p>
+          <p className="text-[10px]  text-white">{timeFilter}</p>
           <svg
             className="-mr-1 h-4 w-4 text-white"
             viewBox="0 0 20 20"
@@ -112,7 +112,7 @@ const DropDownFilter = () => {
             {dropDownValue.map((data) => (
               <button
                 key={data.key}
-                className="flex pl-[10px] h-[30px] items-center text-white text-xs w-[100px] border-b-2 border-secondary"
+                className="flex pl-[10px] h-[20px] items-center text-white text-[10px] w-[100px] border-b-2 border-secondary"
                 onClick={() => onClickHandle(data.title)}
               >
                 {data.title}

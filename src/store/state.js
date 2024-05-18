@@ -2,6 +2,33 @@ import { create } from "zustand";
 
 // eslint-disable-next-line no-unused-vars
 export const useZustandState = create((set, get) => ({
+  constrainHeightScreen: 560,
+  windowSize: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
+  initialWindowsSize: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
+  setWindowSize: (value) => {
+    set(() => {
+      return { windowSize: value };
+    });
+  },
+  responsiveHeightSensorBox: "100px",
+  setResponsiveHeightSensorBox: (value) => {
+    set(() => {
+      return { responsiveHeightSensorBox: value };
+    });
+  },
+  heightChartBox: "300px",
+  setHeightChartBox: (value) => {
+    set(() => {
+      return { heightChartBox: value };
+    });
+  },
+
   dashboardFilter: "Show all sensors",
 
   currentZoom: 5,

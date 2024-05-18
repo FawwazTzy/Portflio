@@ -66,6 +66,7 @@ const SensorBox = () => {
     heightChartBox,
     windowSize,
     constrainHeightScreen,
+    heightMinMaxBox,
   } = useZustandState((state) => state);
 
   const defaultDataChartXY = [
@@ -107,7 +108,12 @@ const SensorBox = () => {
         <div className="h-[35x] w-full">
           <HeaderTable />
         </div>
-        <div className="flex flex-col flex-1 min-h-[155px] w-full border-2 border-secondary bg-third rounded-2xl p-[10px] mt-[10px]">
+        <div
+          style={{
+            height: heightMinMaxBox,
+          }}
+          className="flex flex-col w-full border-2 border-secondary bg-third rounded-2xl p-[10px] mt-[10px]"
+        >
           <TableTitle />
           <div className="overflow-y-auto w-full h-full place-content-between">
             {isSensorSelect && dataSensorSelect.createOn != "-" ? (

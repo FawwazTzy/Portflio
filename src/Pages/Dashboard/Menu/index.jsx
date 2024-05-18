@@ -53,10 +53,12 @@ const Menu = ({ className, profile_name, profile_email }) => {
   return (
     <div className={className}>
       <div className="flex flex-col w-full h-[200px] ">
-        <div className="flex w-full h-90  justify-center pt-[15px]">
-          <img src={PLNICONPNG} alt="" />
+        <div className="flex w-full    justify-center pt-[15px]">
+          <div className="flex h-[90px] w-[90px]">
+            <img src={PLNICONPNG} alt="" />
+          </div>
         </div>
-        <div className="flex flex-col flex-1  w-full justify-center items-center text-white">
+        <div className="flex flex-col flex-1  w-full justify-center items-center text-white text-sm">
           <p>VENOM PLN</p>
           <p>Verticality Online Monitoring</p>
         </div>
@@ -76,11 +78,13 @@ const Menu = ({ className, profile_name, profile_email }) => {
           // </div>
         ))}
       </div>
-      <div className="flex h-[60px] ">
-        <div className="h-[48px] w-[48px] flex justify-center items-center mr-[15px]">
-          <img src={avatarPNG} alt="" />
+      <div className="flex h-[60px] w-full">
+        <div className=" h-full w-[48px] flex justify-center items-center ">
+          <div className="h-[48px] w-[48px]  flex justify-center items-center">
+            <img src={avatarPNG} alt="" className="" />
+          </div>
         </div>
-        <div className="flex flex-col w-full h-full truncate text-white">
+        <div className="ml-[15px] flex-1 flex flex-col truncate text-white text-[12px] justify-center">
           <p>{profile_name}</p>
           <p>{profile_email}</p>
         </div>

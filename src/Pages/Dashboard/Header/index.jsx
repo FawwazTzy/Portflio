@@ -53,27 +53,27 @@ const Header = ({ setIsMenuActive }) => {
   }, []);
 
   return (
-    <div className="w-full bg-primary h-[48px] flex p-[15px] justify-between z-20">
+    <div className="w-full bg-primary h-[24px] flex p-[15px] justify-between z-20">
       <div className="flex items-center">
         <div
-          className="flex mr-[15px] cursor-pointer w-[18px] h-[48px] items-center"
+          className="flex mr-[15px] cursor-pointer w-[18px] h-[24px] items-center"
           onClick={() => setIsMenuActive(true)}
         >
-          <img src={MenuPNG} alt="" className="w-[18px] h-[18x]" />
+          <img src={MenuPNG} alt="" className="w-[16px] h-[16x]" />
         </div>
-        <img src={PLNlogo} alt="" className="w-[24px] h-[24px]" />
-        <p className="pl-[7px] text-white text-xs">Venom</p>
+        <img src={PLNlogo} alt="" className="w-[16px] h-[16px]" />
+        <p className="pl-[7px] text-white text-[10px]">Venom</p>
       </div>
       <div className="flex items-center justify-center  w-[230px]">
         <div className="flex justify-end w-[150px] pr-[5px]">
-          <p className="text-white text-xs truncate">{currentDate}</p>
+          <p className="text-white text-[10px] truncate">{currentDate}</p>
         </div>
         <div className="flex-1  ">
-          <p className="text-white text-xs truncate">- {currentTime}</p>
+          <p className="text-white text-[10px] truncate">- {currentTime}</p>
         </div>
       </div>
       <div className="flex items-center">
-        <p className="text-white text-xs pr-[10px]">View filter:</p>
+        <p className="text-white text-[10px] pr-[10px]">View filter:</p>
         <DropDownHeader />
       </div>
     </div>

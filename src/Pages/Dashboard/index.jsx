@@ -29,6 +29,7 @@ const Dashboard = () => {
     setResponsiveHeightSensorBox,
     constrainHeightScreen,
     setHeightChartBox,
+    setHeightMinMaxBox,
   } = useZustandState((state) => state);
 
   useEffect(() => {
@@ -73,25 +74,31 @@ const Dashboard = () => {
     } catch (error) {
       console.log(error);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (windowSize.height < constrainHeightScreen) {
       setResponsiveHeightScreen(`900px`);
       setResponsiveHeightDeviceBox(`300px`);
-      setTopChartBox("365px");
+      setTopChartBox("350px");
+      setHeightMinMaxBox("365px");
       setResponsiveHeightSensorBox("300px");
       setTopNavigator("295px");
     } else {
       setResponsiveHeightScreen(`${windowSize.height}px`);
       const heightDeviceBox = windowSize.height * 0.6 - 48;
       setResponsiveHeightDeviceBox(`${heightDeviceBox}px`);
-      const top = heightDeviceBox + 65;
+      const tempTop = heightDeviceBox - 5;
+      setTopNavigator(`${tempTop}px`);
+      const top = heightDeviceBox + 50;
       setTopChartBox(`${top}px`);
-      const heightSensorBox = windowSize.height * 0.4 - 25;
+      const heightSensorBox = windowSize.height * 0.4 - 10;
       setResponsiveHeightSensorBox(`${heightSensorBox}px`); //"h-[200px]");
       const tempHeightChartBox = heightSensorBox - 70;
       setHeightChartBox(`${tempHeightChartBox}px`);
+      const tempHeightMinMaxBox = heightSensorBox - 60;
+      setHeightMinMaxBox(`${tempHeightMinMaxBox}px`);
     }
 
     if (windowSize.width < 1024) {
@@ -99,6 +106,7 @@ const Dashboard = () => {
     } else {
       setResponsiveWidthScreen(`${windowSize.width}px`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowSize]);
 
   return (
@@ -121,7 +129,7 @@ const Dashboard = () => {
       <Menu
         className={`${
           isMenuActive ? "left-0 " : "-left-[500px]"
-        } fixed top-0  z-30  w-[280px] h-full bg-primary transition-all duration-300 flex flex-col p-[15px]`}
+        } fixed top-0  z-30  w-[240px] h-full bg-primary transition-all duration-300 flex flex-col p-[15px]`}
         profile_email="zerohack61@gmail.com"
         profile_name="budi santoso"
       />
@@ -139,13 +147,13 @@ const Dashboard = () => {
         style={{
           height: responsiveHeightDeviceBox,
         }}
-        className={`absolute top-[55px] right-[10px] w-[300px] z-10`}
+        className={`absolute top-[40px] right-[10px] w-[300px] z-10`}
       >
         <DeviceBox />
       </div>
 
       {isDetailBoxShow && (
-        <div className="absolute top-[calc(48px+10px)] right-[calc(430px+10px)] z-10">
+        <div className="absolute top-[40px] right-[calc(300px+20px)] z-10">
           <DeviceDetails />
         </div>
       )}

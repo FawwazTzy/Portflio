@@ -24,16 +24,16 @@ const DropDownHeader = () => {
   };
   return (
     <div className="relative inline-block text-left">
-      <div>
+      <div className="flex items-center justify-center">
         <button
           type="button"
-          className="w-[200px] h-[30px] items-center justify-between inline-flex rounded bg-secondary px-3 py-2  "
+          className="w-[150px] h-[20px] items-center justify-between inline-flex rounded bg-secondary px-3 py-2  "
           id="menu-button"
           aria-expanded="true"
           aria-haspopup="true"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <p className="text-xs  text-white">{dashboardFilter}</p>
+          <p className="text-[10px]  text-white">{dashboardFilter}</p>
           <svg
             className="-mr-1 h-4 w-4 text-white"
             viewBox="0 0 20 20"
@@ -60,7 +60,7 @@ const DropDownHeader = () => {
             {dropDownValue.map((data) => (
               <button
                 key={data.key}
-                className="text-white text-xs"
+                className="text-white text-[10px]"
                 onClick={() => onClickHandle(data.title)}
               >
                 {data.title}

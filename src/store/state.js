@@ -28,6 +28,12 @@ export const useZustandState = create((set, get) => ({
       return { heightChartBox: value };
     });
   },
+  heightMinMaxBox: "300px",
+  setHeightMinMaxBox: (value) => {
+    set(() => {
+      return { heightMinMaxBox: value };
+    });
+  },
 
   dashboardFilter: "Show all sensors",
 

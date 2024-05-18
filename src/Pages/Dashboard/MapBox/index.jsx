@@ -134,17 +134,17 @@ const MapComponent = ({ topNavigator }) => {
       )}
       <div
         style={{ top: topNavigator }}
-        className="absolute right-[440px] z-10"
+        className="absolute right-[320px] z-10"
       >
-        <div className="w-[30px] h-[60px] flex flex-col space-y-2">
+        <div className="w-[25px] h-[60px] flex flex-col space-y-2 ">
           <button
-            className="w-full h-20px bg-secondary text-white rounded"
+            className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
             onClick={() => handleZoomIn()}
           >
             +
           </button>
           <button
-            className="w-full h-20px bg-secondary text-white rounded"
+            className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
             onClick={() => handleZoomOut()}
           >
             -

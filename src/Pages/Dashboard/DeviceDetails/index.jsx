@@ -6,10 +6,13 @@ import { useZustandState } from "../../../store/state";
 const DeviceDetails = () => {
   const { deviceDetail } = useZustandState((state) => state);
   return (
-    <div className="flex flex-col w-[300px] h-[300px] bg-third border-2 border-secondary rounded-xl p-[10px]">
-      <HeaderDetails title="12754 - T415" />
-      <div className="w-full h-[150px] bg-primary rounded-xl mb-[10px]"></div>
-      <div className="flex-1">
+    <div className="flex flex-col w-[200px] h-[230px] bg-third border-2 border-secondary rounded-xl p-[5px]">
+      <HeaderDetails
+        gateway={`${deviceDetail.nameGateway}`}
+        node={`${deviceDetail.nameNode}`}
+      />
+      <div className="flex flex-1 w-full bg-primary rounded-xl mb-[3px]"></div>
+      <div className="w-full h-[80px] ">
         <DetailValue
           lastUpdate={deviceDetail.createOn}
           a={deviceDetail.a}

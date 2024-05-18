@@ -38,10 +38,15 @@ const DeviceBox = () => {
     for (let i = 0; i < sensorBox.length; i++) {
       tempArray.push(false);
     }
+    let long = 0.0;
+    let lat = 0.0;
+
+    long = parseFloat(value.long);
+    lat = parseFloat(value.lat);
 
     const updateMap = {
-      longitude: value.long,
-      latitude: value.lat,
+      longitude: long + 0.015111111, //kanan kiri
+      latitude: lat - 0.010111111, //atas bawah
       zoom: 14,
     };
     setViewport(updateMap);

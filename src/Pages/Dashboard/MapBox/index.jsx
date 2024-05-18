@@ -64,11 +64,16 @@ const MapComponent = ({ topNavigator }) => {
 
   const onClickMarkerHandle = async (device) => {
     console.log(device);
-    // console.log(device.long);
+
+    let long = 0.0;
+    let lat = 0.0;
+
+    long = parseFloat(device.long);
+    lat = parseFloat(device.lat);
 
     const updateMap = {
-      longitude: device.long, // + 0.48,
-      latitude: device.lat, // + 0.97,
+      longitude: long + 0.015111111, //kanan kiri
+      latitude: lat - 0.010111111, //atas bawah
       zoom: 14,
     };
 

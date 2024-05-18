@@ -1,0 +1,254 @@
+import React, { useState, useCallback, useEffect } from "react";
+import {
+  GoogleMap,
+  LoadScript,
+  MarkerF,
+  useGoogleMap,
+  InfoWindowF,
+} from "@react-google-maps/api";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import FilledInput from "@mui/material/FilledInput";
+import iconRed from "./assets/red.png"; // Import your custom marker icons
+import iconBlue from "./assets/blue.png";
+import iconGreen from "./assets/green.png";
+
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Unstable_Grid2";
+
+import Sidebar from "./Sidebar";
+import CircleIcon from "./circleIcon";
+
+import "./App.css";
+import { SearchBar } from "./Search/SearchBar";
+import { SearchResultsList } from "./Search/SearchResultsList";
+import SideBoxDetail from "./SideBoxDetail";
+
+function App() {
+  const containerStyle = {
+    width: "100%",
+    height: "100%",
+  };
+
+  // const center = {
+  //   lat: -1.108410452207695,
+  //   lng: 114.51713726057521,
+  // };
+
+  const markers = [
+    {
+      id: 1,
+      lat: -4.093591569953415,
+      lng: 104.56937171966233,
+      title: "1231212",
+      value: 19,
+      info: "Beautiful city by the bay1",
+    },
+    {
+      id: 2,
+      lat: -6.919367225718348,
+      lng: 107.60066508191474,
+      title: "2222",
+      value: 50,
+      info: "Beautiful city by the bay2",
+    },
+    {
+      id: 3,
+      lat: -7.808542747857889,
+      lng: 112.63858926143287,
+      title: "3333",
+      value: 99,
+      info: "Beautiful city by the bay3",
+    },
+  ];
+
+  const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
+
+  const handleLoad = (map) => {
+    setGoogleMapsLoaded(true);
+    // Perform any other tasks after the Google Maps library is loaded and ready.
+  };
+
+  const handleSearchChange = (event) => {
+    // Implement your search logic here
+  };
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
+
+  const [receivedData, setReceivedData] = useState(false);
+  const [results, setResults] = useState([]);
+  const [activeMarker, setActiveMarker] = useState(null);
+  const [map, setMap] = useState(null);
+  const [center, setCenter] = useState({
+    lat: -1.108410452207695,
+    lng: 114.51713726057521,
+  });
+
+  const onLoad = useCallback((mapInstance) => {
+    setMap(mapInstance);
+  }, []);
+
+  const onMarkerHover = (marker) => {
+    setActiveMarker(marker);
+  };
+
+  const [currentZoom, setCurrentZoom] = useState(null);
+
+  const onZoomChanged = () => {
+    if (map) {
+      const newCenter = map.getCenter();
+      // console.log(newCenter.lat() + "," + newCenter.lng())
+
+      setCurrentZoom(map.getZoom());
+      setCenter({ lat: newCenter.lat(), lng: newCenter.lng() });
+      console.log(currentZoom);
+    }
+  };
+  const onMarkerLeave = () => {
+    setActiveMarker(null);
+  };
+
+  const onClick = (marker) => {
+    // setActiveMarker(marker);
+    // console.log("Ditekan");
+    // console.log(activeMarker);
+    // console.log("asli");
+    // console.log(marker);
+    setIsOpen(!isOpen);
+    console.log("dikilik");
+  };
+
+  // Define a callback function to receive data from the child component
+  const handleReceiveDataFromChild = (data) => {
+    setReceivedData(data);
+    setIsOpen(receivedData);
+    console.log("data diterima " + receivedData);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Box
+      sx={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        bgcolor: "#333",
+      }}
+    >
+      <Sidebar />
+      <LoadScript
+        googleMapsApiKey="AIzaSyDpen0xH11D018M9Y1RM67OTCiAqaWGrNA"
+        onLoad={handleLoad}
+      >
+        {googleMapsLoaded ? (
+          <Box
+            sx={{
+              height: "100%",
+              width: "100%",
+              bgcolor: "#333",
+            }}
+          >
+            <Box
+              sx={{
+                width: "300px",
+                position: "absolute",
+                top: "10px",
+                right: "30px",
+                zIndex: 99,
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  margin: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  minWidth: "200px",
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  zIndex: 99,
+                }}
+              >
+                <SearchBar setResults={setResults} />
+                {results && results.length > 0 && (
+                  <SearchResultsList results={results} />
+                )}
+              </Box>
+            </Box>
+
+            <SideBoxDetail
+              onSendDataToMain={handleReceiveDataFromChild}
+              dataFromMain={isOpen}
+            />
+
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={6}
+              onLoad={onLoad}
+              options={{
+                zoomControl: false,
+                streetViewControl: false,
+                fullscreenControl: false,
+                mapTypeControlOptions: {
+                  position: window.google.maps.ControlPosition.LEFT_BOTTOM,
+                },
+              }}
+              onZoomChanged={onZoomChanged}
+            >
+              {markers.map((marker) => (
+                <MarkerF
+                  key={marker.id}
+                  position={{ lat: marker.lat, lng: marker.lng }}
+                  title={marker.title}
+                  icon={{
+                    url:
+                      marker.value > 0 && marker.value < 30
+                        ? iconRed
+                        : marker.value > 30 && marker.value < 70
+                        ? iconGreen
+                        : iconBlue,
+                    scaledSize: new window.google.maps.Size(20, 20), // Adjust the size as needed default 30,30
+                  }}
+                  onMouseOver={() => onMarkerHover(marker)}
+                  onMouseOut={() => onMarkerLeave()}
+                  onClick={() => onClick()}
+                ></MarkerF>
+              ))}
+              {activeMarker == null ? (
+                <div></div>
+              ) : (
+                <InfoWindowF
+                  position={{ lat: activeMarker.lat, lng: activeMarker.lng }}
+                  options={{ pixelOffset: new window.google.maps.Size(0, -30) }}
+                >
+                  <div>
+                    <h3>{activeMarker.title}</h3>
+                    <p>{activeMarker.info}</p>
+                  </div>
+                </InfoWindowF>
+              )}
+            </GoogleMap>
+          </Box>
+        ) : (
+          <div>Loading Google Maps...</div>
+        )}
+      </LoadScript>
+    </Box>
+  );
+}
+
+export default App;

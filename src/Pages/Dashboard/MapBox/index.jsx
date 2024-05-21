@@ -3,7 +3,6 @@ import ReactMapGL, { Marker } from "react-map-gl";
 import MapPinBluePNG from "../../../assets/map_pin_blue.png";
 import { useZustandState } from "../../../store/state";
 import { findDeviceFromSensorBox, findIndexById } from "../function";
-import Loading from "../../../components/Loading";
 import "./CircleWave.css";
 
 const mapboxToken =

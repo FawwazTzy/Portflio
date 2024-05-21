@@ -70,6 +70,35 @@ export async function processDataToSensorBoxData(devices, sensorRealtime) {
   return tempData;
 }
 
+function convertToDataDevices(d) {
+  return {
+    _id: d._id,
+    idGateway: d.idGateway,
+    idNode: d.idNode,
+    nameGateway: d.nameGateway,
+    nameNode: d.nameNode,
+    lat: d.lat,
+    long: d.long,
+    offsetRoll: d.offsetRoll,
+    offsetPich: d.offsetPich,
+    fileImage: d.fileImage,
+    isClicked: false,
+  };
+}
+
+export function findIndexById(data, id) {
+  return data.findIndex((item) => item._id === id);
+}
+
+export async function processDataDevices(devices) {
+  let tempData = [];
+  devices.map((d) => {
+    const temp = convertToDataDevices(d);
+    tempData.push(temp);
+  });
+  return tempData;
+}
+
 function formatDateString(isoString) {
   const temp = isoString.split("T");
   const tempDate = temp[0].split("-");
@@ -306,10 +335,8 @@ export async function downloadMonthly(idGateway, idNode) {
   }
 }
 
-
-export async function findDeviceFromSensorBox(sensorBox,idGateway, idNode) { 
-    return sensorBox.find(
-      (sensor) => sensor.idGateway === idGateway && sensor.idNode === idNode
-    );
-
+export async function findDeviceFromSensorBox(sensorBox, idGateway, idNode) {
+  return sensorBox.find(
+    (sensor) => sensor.idGateway === idGateway && sensor.idNode === idNode
+  );
 }

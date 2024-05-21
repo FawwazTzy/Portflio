@@ -2,7 +2,9 @@ import { useState, useCallback } from "react";
 import ReactMapGL, { Marker } from "react-map-gl";
 import MapPinBluePNG from "../../../assets/map_pin_blue.png";
 import { useZustandState } from "../../../store/state";
-import { findDeviceFromSensorBox } from "../function";
+import { findDeviceFromSensorBox, findIndexById } from "../function";
+import Loading from "../../../components/Loading";
+import "./CircleWave.css";
 
 const mapboxToken =
   "pk.eyJ1IjoiemVyb2hhY2siLCJhIjoiY2t2MzR6NzYzOGUxcjJ2bnpydnYwM28yaSJ9._bUy8NIpXyzLkTELdT5qPA";
@@ -14,9 +16,12 @@ const MapComponent = ({ topNavigator }) => {
     setViewport,
     currentZoom,
     devices,
+    setDevices,
     setIsDetailBoxShow,
     sensorBox,
     setDeviceDetail,
+    setMarkerIndex,
+    markerIndex,
   } = useZustandState((state) => state);
 
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(true);
@@ -82,12 +87,28 @@ const MapComponent = ({ topNavigator }) => {
       device.idGateway,
       device.idNode
     );
+
+    //! data device lama isclicked di buat false semua
+    if (markerIndex != -1) {
+      devices[markerIndex].isClicked = false;
+    }
+
+    //! update data devices dengan isclicked baru
+    const index = findIndexById(devices, device._id);
+    devices[index].isClicked = true;
+    const devicesUpdate = devices;
+    setDevices(devicesUpdate);
+
     setDeviceDetail(temp);
     setViewport(updateMap);
     setIsDetailBoxShow(true);
+    setMarkerIndex(index);
+    console.log("index update ketika marker ditekan");
+    console.log(index);
 
     console.log("deviceDetail");
     console.log(temp);
+    console.log(index);
   };
 
   return (
@@ -110,8 +131,8 @@ const MapComponent = ({ topNavigator }) => {
                 longitude={device.long}
                 anchor="bottom"
               >
-                <div className="flex flex-col w-[50px]  justify-center items-center">
-                  <div>
+                <div className="flex flex-col w-[48px] items-center relative ">
+                  <div className="w-full flex-1 flex justify-center">
                     {currentZoom > 10 && (
                       <p className="text-[10px] text-white truncate">
                         {device.nameNode}
@@ -119,7 +140,7 @@ const MapComponent = ({ topNavigator }) => {
                     )}
                   </div>
                   <div
-                    className=" w-[25px] h-[35px] cursor-pointer"
+                    className=" flex w-[24px] h-[24px] cursor-pointer  "
                     onClick={() => onClickMarkerHandle(device)}
                   >
                     <img
@@ -128,7 +149,24 @@ const MapComponent = ({ topNavigator }) => {
                       className="w-8 h-8"
                     />
                   </div>
+                  {device.isClicked && (
+                    <div>
+                      <div
+                        style={{ bottom: currentZoom > 10 ? "-18px" : "-18px" }}
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-green-500 rounded-full -z-10 ripple"
+                      ></div>
+                      <div
+                        style={{ bottom: currentZoom > 10 ? "-18px" : "-18px" }}
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-green-500 rounded-full -z-10 ripple delay-200"
+                      ></div>
+                      <div
+                        style={{ bottom: currentZoom > 10 ? "-18px" : "-18px" }}
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-green-500 rounded-full -z-10 ripple delay-400"
+                      ></div>
+                    </div>
+                  )}
                 </div>
+                {/* <div className="bg-red-500 w-[50px] h-[50px]"></div> */}
               </Marker>
             ))}
         </ReactMapGL>

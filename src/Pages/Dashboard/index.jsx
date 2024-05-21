@@ -9,7 +9,7 @@ import DeviceBox from "./DeviceBox";
 import DeviceDetails from "./DeviceDetails";
 import Menu from "./Menu";
 import { useZustandState } from "../../store/state";
-import { processDataToSensorBoxData } from "./function";
+import { processDataToSensorBoxData, processDataDevices } from "./function";
 
 const Dashboard = () => {
   const [isMenuActive, setIsMenuActive] = useState(false);
@@ -19,12 +19,14 @@ const Dashboard = () => {
   const [responsiveHeightDeviceBox, setResponsiveHeightDeviceBox] =
     useState("300px");
   const [topChartBox, setTopChartBox] = useState("350px");
+  const [time, setTime] = useState(new Date());
 
   const {
     setDevices,
     setSensorBox,
     windowSize,
     isDetailBoxShow,
+    markerIndex,
     responsiveHeightSensorBox,
     setResponsiveHeightSensorBox,
     constrainHeightScreen,
@@ -39,8 +41,15 @@ const Dashboard = () => {
         const res = await axios.get(
           "http://venom-uitjbb.id/api/test/getDevices"
         );
-        setDevices(res.data.data);
-        return res.data.data;
+        const convDevice = await processDataDevices(res.data.data);
+
+        console.log("markerIndex");
+        console.log(markerIndex);
+        if (markerIndex != -1 && isDetailBoxShow) {
+          convDevice[markerIndex].isClicked = true;
+        }
+        setDevices(convDevice);
+        return convDevice;
       }
 
       // eslint-disable-next-line no-inner-declarations
@@ -62,20 +71,24 @@ const Dashboard = () => {
         );
         setSensorBox(tempSensorBoxData);
         console.log("parsing data");
-        // console.log(tempSensorBoxData);
+        // console.log(devices);
       }
+
+      const update = () => {
+        setTime(new Date());
+      };
 
       //! call function
       processData();
       //! Fetch data every 1 minute
-      const intervalId = setInterval(processData, 60000);
+      const intervalId = setTimeout(update, 60000);
       //! Clean up interval on component unmount
       return () => clearInterval(intervalId);
     } catch (error) {
       console.log(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [time]);
 
   useEffect(() => {
     if (windowSize.height < constrainHeightScreen) {

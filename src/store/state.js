@@ -65,7 +65,18 @@ export const useZustandState = create((set, get) => ({
   isDetailBoxShow: false,
   setIsDetailBoxShow: (value) => {
     set(() => {
-      return { isDetailBoxShow: value };
+      return {
+        isDetailBoxShow: value,
+      };
+    });
+  },
+
+  markerIndex: -1,
+  setMarkerIndex: (value) => {
+    set(() => {
+      return {
+        markerIndex: value,
+      };
     });
   },
 
@@ -87,6 +98,13 @@ export const useZustandState = create((set, get) => ({
   setIsSensorSelect: (value) => {
     set(() => {
       return { isSensorSelect: value };
+    });
+  },
+
+  isMarkerShowRipple: false,
+  setIsMarkerShowRipple: (value) => {
+    set(() => {
+      return { isMarkerShowRipple: value };
     });
   },
 

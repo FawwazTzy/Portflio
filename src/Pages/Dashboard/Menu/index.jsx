@@ -16,6 +16,7 @@ import AdminIconSVG from "../../../assets/admin.svg";
 import AnalyticIconSVG from "../../../assets/analytic.svg";
 import SensorSVG from "../../../assets/sensor.svg";
 import UserIconSVG from "../../../assets/user.svg";
+import Logout from "../../../assets/logout.svg";
 
 import MenuItem from "./MenuItem";
 
@@ -84,9 +85,14 @@ const Menu = ({ className, profile_name, profile_email }) => {
             <img src={avatarPNG} alt="" className="" />
           </div>
         </div>
-        <div className="ml-[15px] flex-1 flex flex-col truncate text-white text-[12px] justify-center">
+        <div className="ml-[5px] flex-1 flex flex-col truncate text-white text-[12px] justify-center">
           <p>{profile_name}</p>
           <p>{profile_email}</p>
+        </div>
+        <div className="  w-[36px] h-full flex justify-center items-center">
+          <div className="h-[48px] w-[486px] flex items-center ">
+            <Logout />
+          </div>
         </div>
       </div>
     </div>

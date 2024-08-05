@@ -79,7 +79,7 @@ const SensorBox = () => {
   return (
     <div className="w-full h-full bg-third rounded-xl border-secondary border-2 p-[5px] flex">
       <div className="flex flex-col w-[calc(75%)] h-full mr-[10px] rounded-xl bg-fourth p-[10px]">
-        <div className="h-[35x]">
+        <div className="h-[35px]">
           <HeaderGraph
             title={
               isSensorSelect && dataSensorSelect.createOn != "-"
@@ -105,7 +105,12 @@ const SensorBox = () => {
         </div>
       </div>
       <div className="flex flex-col flex-1 bg-fourth rounded-xl p-[10px]">
-        <div className="h-[35x] w-full">
+        <div
+          className={` w-full`}
+          // className={`${
+          //   isOtherSelected ? "h-[65px]" : "h-[25px]"
+          // } w-full bg-green-500`}
+        >
           <HeaderTable />
         </div>
         <div

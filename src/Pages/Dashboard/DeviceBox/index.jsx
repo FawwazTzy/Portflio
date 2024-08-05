@@ -23,6 +23,7 @@ const DeviceBox = () => {
     setDataChartAllSensor,
     clearSelectMenu,
     setTimeFilter,
+    setIsOtherSelected,
   } = useZustandState((state) => state);
   const [isSelectDevice, setSelectDevice] = useState([]);
 
@@ -31,6 +32,7 @@ const DeviceBox = () => {
     setDataSensorSelect(value);
     setIsSensorSelect(true);
     setTimeFilter("Daily");
+    setIsOtherSelected(false);
 
     //!==========================================================================
     //! set bg table, viewport, clear leftMenu

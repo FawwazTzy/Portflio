@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 // import Login from "./Pages/Login";
-import AdminSetting from "./Pages/AdminSetting";
-import UserSetting from "./Pages/UserSetting";
-import SensorSetting from "./Pages/Sensor Setting";
+// import AdminSetting from "./Pages/AdminSetting";
+// import UserSetting from "./Pages/UserSetting";
+// import SensorSetting from "./Pages/Sensor Setting";
 import Dashboard from "./Pages/Dashboard";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useZustandState } from "./store/state";
@@ -28,7 +28,7 @@ const App = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  return <SensorSetting />;
+  return <Dashboard />;
 };
 
 export default App;

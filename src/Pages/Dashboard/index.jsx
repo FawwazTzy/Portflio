@@ -9,7 +9,15 @@ import DeviceBox from "./DeviceBox";
 import DeviceDetails from "./DeviceDetails";
 import Menu from "./Menu";
 import { useZustandState } from "../../store/state";
-import { processDataToSensorBoxData, processDataDevices } from "./function";
+import {
+  processDataToSensorBoxData,
+  processDataDevices,
+  convertToDataChart,
+  fetchChartDataOther,
+} from "./function";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Dashboard = () => {
   const [isMenuActive, setIsMenuActive] = useState(false);
@@ -21,7 +29,59 @@ const Dashboard = () => {
   const [topChartBox, setTopChartBox] = useState("350px");
   const [time, setTime] = useState(new Date());
 
+  const handleDateChange = async (date) => {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    if (isCalenderStartOpen) {
+      console.log(`${day}-${month}-${year}`);
+      setIsCalenderStartOpen(false);
+      setIsCalenderEndOpen(false);
+      setStartDate(`${day}-${month}-${year}`);
+      setEndDate("End");
+    } else {
+      let start_date = "";
+      let end_date = "";
+      const temp = startDate.split("-");
+      const startYear = temp[2].split("");
+      let y = "29999";
+      y = year.toString();
+      const endYear = y.split("");
+
+      console.log(`${day}-${month}-${year}`);
+      setIsCalenderStartOpen(false);
+      setIsCalenderEndOpen(false);
+      setEndDate(`${day}-${month}-${year}`);
+
+      start_date = `${temp[0]}${temp[1]}${startYear[2]}${startYear[3]}`;
+      end_date = `${day}${month}${endYear[2]}${endYear[3]}`;
+      //!! Get data by startDate and endDate
+      const idGateway = dataSensorSelect.idGateway;
+      const idNode = dataSensorSelect.idNode;
+      console.log(
+        `${start_date} - ${end_date} - idgateway ${idGateway} idnode ${idNode}`
+      );
+      if (isSensorSelect) {
+        const other = await fetchChartDataOther(
+          idGateway,
+          idNode,
+          start_date,
+          end_date
+        );
+        setDataChartAllSensor(other);
+        const d = convertToDataChart(other.timeOn, other.pitch);
+        setDataChartXY(d[0]);
+        setMaxY_Axis(d[1]);
+        setMinY_Axis(d[2]);
+      }
+    }
+  };
+
   const {
+    setDataChartAllSensor,
+    setDataChartXY,
+    setMaxY_Axis,
+    setMinY_Axis,
     setDevices,
     setSensorBox,
     windowSize,
@@ -32,6 +92,15 @@ const Dashboard = () => {
     constrainHeightScreen,
     setHeightChartBox,
     setHeightMinMaxBox,
+    isCalenderStartOpen,
+    isCalenderEndOpen,
+    setIsCalenderStartOpen,
+    setIsCalenderEndOpen,
+    setStartDate,
+    setEndDate,
+    dataSensorSelect,
+    startDate,
+    isSensorSelect,
   } = useZustandState((state) => state);
 
   useEffect(() => {
@@ -179,9 +248,33 @@ const Dashboard = () => {
       >
         <SensorBox />
       </div>
-      {/* <div className="absolute bottom-[calc(40%+20px)] right-[580px] z-10">
+      {/* <div className="absolute bottom-[calc(40%+20px)] right-[580px]  z-10">
         <NavigatorMap />
       </div> */}
+      {isCalenderStartOpen && (
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <p>Pilih Tanggal Mulai</p>
+            <DatePicker
+              // selected={startDate}
+              onChange={handleDateChange}
+              inline
+            />
+          </div>
+        </div>
+      )}
+      {isCalenderEndOpen && (
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <p>Pilih Tanggal Akhir</p>
+            <DatePicker
+              // selected={startDate}
+              onChange={handleDateChange}
+              inline
+            />
+          </div>
+        </div>
+      )}
     </div>
     // </div>
   );

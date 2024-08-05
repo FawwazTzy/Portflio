@@ -218,6 +218,37 @@ export async function fetchChartDataMonthly(idGateway, idNode) {
   }
 }
 
+export async function fetchChartDataOther(
+  idGateway,
+  idNode,
+  startDate,
+  endDate
+) {
+  try {
+    console.log("chart Other");
+    const res = await axios.get(
+      `http://venom-uitjbb.id/api/v2/get/other?idGateway=${idGateway}&idNode=${idNode}&start=${startDate}&end=${endDate}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log("request error");
+    return {
+      idGateway: "error",
+      idNode: "error",
+      roll: [],
+      pitch: [],
+      temp: [],
+      rh: [],
+      voltage: [],
+      current: [],
+      lat: [],
+      long: [],
+      dateOn: [],
+      timeOn: [],
+    };
+  }
+}
+
 export async function downloadDaily(idGateway, idNode) {
   try {
     console.log(`download daily G ${idGateway} N ${idNode}`);
@@ -311,6 +342,45 @@ export async function downloadMonthly(idGateway, idNode) {
     //! Extracting filename from response headers
     const contentDisposition = response.headers["Content-Disposition"];
     let fileName = "download-monthly.xlsx"; // Default filename
+    // console.log("contentDisposition");
+    // console.log(response.headers);
+    if (contentDisposition) {
+      const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+      if (fileNameMatch.length === 2) {
+        fileName = fileNameMatch[1];
+      }
+    }
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", fileName); // Replace with the desired file name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    return true;
+  } catch (error) {
+    console.log("request error");
+    return false;
+  }
+}
+
+export async function downloadOther(idGateway, idNode, startDate, endDate) {
+  try {
+    console.log(`download monthly G ${idGateway} N ${idNode}`);
+    // eslint-disable-next-line no-unused-vars
+    const response = await axios.get(
+      `http://venom-uitjbb.id/api/v2/download/other?idGateway=${idGateway}&idNode=${idNode}&start=${startDate}&end=${endDate}`,
+      {
+        responseType: "blob", // Important to handle binary data
+      }
+    );
+
+    //! get filename from response headers
+    //! Extracting filename from response headers
+    const contentDisposition = response.headers["Content-Disposition"];
+    let fileName = `download-other-${startDate}-${endDate}.xlsx`; // Default filename
     // console.log("contentDisposition");
     // console.log(response.headers);
     if (contentDisposition) {

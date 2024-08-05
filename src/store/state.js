@@ -51,6 +51,44 @@ export const useZustandState = create((set, get) => ({
     });
   },
 
+  isOtherSelected: false,
+  setIsOtherSelected: (value) => {
+    set(() => {
+      return { isOtherSelected: value };
+    });
+  },
+
+  isCalenderStartOpen: false,
+  setIsCalenderStartOpen: (value) => {
+    set(() => {
+      return { isCalenderStartOpen: value };
+    });
+  },
+
+  isCalenderEndOpen: false,
+  setIsCalenderEndOpen: (value) => {
+    set(() => {
+      return { isCalenderEndOpen: value };
+    });
+  },
+
+  startDate: "Start",
+  setStartDate: (value) => {
+    set(() => {
+      return { startDate: value };
+    });
+  },
+
+  endDate: "End",
+  setEndDate: (value) => {
+    set(() => {
+      return { endDate: value };
+    });
+  },
+
+  // isOtherDateFillComplete: false,
+  
+
   viewport: {
     longitude: 115.58724216408724,
     latitude: -7.824328708769684,

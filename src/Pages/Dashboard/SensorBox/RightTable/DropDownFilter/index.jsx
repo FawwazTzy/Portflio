@@ -17,6 +17,9 @@ const DropDownFilter = () => {
     setDataChartXY,
     setMaxY_Axis,
     setMinY_Axis,
+    setIsOtherSelected,
+    setStartDate,
+    setEndDate,
   } = useZustandState((state) => state);
   const [isOpen, setIsOpen] = useState(false);
   const dropDownValue = [
@@ -43,6 +46,14 @@ const DropDownFilter = () => {
     setIsOpen(false);
     console.log("value");
     console.log(value);
+    if (value === "Other") {
+      setIsOtherSelected(true);
+      setStartDate("Start");
+      setEndDate("End");
+      console.log("Other diklik");
+    } else {
+      setIsOtherSelected(false);
+    }
     if (isSensorSelect) {
       const idGateway = dataSensorSelect.idGateway;
       const idNode = dataSensorSelect.idNode;
@@ -68,8 +79,8 @@ const DropDownFilter = () => {
         setMaxY_Axis(d[1]);
         setMinY_Axis(d[2]);
       } else {
-        // const other = await fetchChartDataDay(3, 1);
-        // setDataChartSelect(other);
+        // const other = await fetchChartDataOther(idGateway, idNode);
+        // setDataChartAllSensor(other);
       }
     }
   };

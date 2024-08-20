@@ -87,7 +87,6 @@ export const useZustandState = create((set, get) => ({
   },
 
   // isOtherDateFillComplete: false,
-  
 
   viewport: {
     longitude: 115.58724216408724,
@@ -206,6 +205,15 @@ export const useZustandState = create((set, get) => ({
     set(() => {
       return {
         isSelectMenu: [true, false, false, false, false, false],
+      };
+    });
+  },
+
+  adminToken: "",
+  setAdminToken: (value) => {
+    set(() => {
+      return {
+        adminToken: value,
       };
     });
   },

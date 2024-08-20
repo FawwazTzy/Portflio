@@ -15,11 +15,24 @@ import {
   convertToDataChart,
   fetchChartDataOther,
 } from "./function";
+import { fetchProfile } from "./function2";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { cekCookie } from "../../globalFunction";
+import { useNavigate } from "react-router-dom";
+
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const [userProfile, setUserProfile] = useState({
+    username: "-",
+    id: "-",
+    email: "-",
+    phone: "-",
+    unit: "-",
+    nodes_id: [],
+  });
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("500px");
   const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("1024px");
@@ -28,6 +41,33 @@ const Dashboard = () => {
     useState("300px");
   const [topChartBox, setTopChartBox] = useState("350px");
   const [time, setTime] = useState(new Date());
+
+  const {
+    setDataChartAllSensor,
+    setDataChartXY,
+    setMaxY_Axis,
+    setMinY_Axis,
+    setDevices,
+    setSensorBox,
+    windowSize,
+    isDetailBoxShow,
+    markerIndex,
+    responsiveHeightSensorBox,
+    setResponsiveHeightSensorBox,
+    constrainHeightScreen,
+    setHeightChartBox,
+    setHeightMinMaxBox,
+    isCalenderStartOpen,
+    isCalenderEndOpen,
+    setIsCalenderStartOpen,
+    setIsCalenderEndOpen,
+    setStartDate,
+    setEndDate,
+    dataSensorSelect,
+    startDate,
+    isSensorSelect,
+    authToken,
+  } = useZustandState((state) => state);
 
   const handleDateChange = async (date) => {
     const day = String(date.getDate()).padStart(2, "0");
@@ -77,87 +117,84 @@ const Dashboard = () => {
     }
   };
 
-  const {
-    setDataChartAllSensor,
-    setDataChartXY,
-    setMaxY_Axis,
-    setMinY_Axis,
-    setDevices,
-    setSensorBox,
-    windowSize,
-    isDetailBoxShow,
-    markerIndex,
-    responsiveHeightSensorBox,
-    setResponsiveHeightSensorBox,
-    constrainHeightScreen,
-    setHeightChartBox,
-    setHeightMinMaxBox,
-    isCalenderStartOpen,
-    isCalenderEndOpen,
-    setIsCalenderStartOpen,
-    setIsCalenderEndOpen,
-    setStartDate,
-    setEndDate,
-    dataSensorSelect,
-    startDate,
-    isSensorSelect,
-  } = useZustandState((state) => state);
-
   useEffect(() => {
-    try {
-      // eslint-disable-next-line no-inner-declarations
-      async function fetchDevices() {
-        const res = await axios.get(
-          "http://venom-uitjbb.id/api/test/getDevices"
-        );
-        const convDevice = await processDataDevices(res.data.data);
-
-        console.log("markerIndex");
-        console.log(markerIndex);
-        if (markerIndex != -1 && isDetailBoxShow) {
-          convDevice[markerIndex].isClicked = true;
-        }
-        setDevices(convDevice);
-        return convDevice;
+    async function getDataProfile() {
+      //! cek ada token di cookie ada atau tidak
+      const statusCookie = await cekCookie();
+      //! jika tidak direct ke error page
+      if (!statusCookie) {
+        navigate("/error", { replace: true });
       }
-
-      // eslint-disable-next-line no-inner-declarations
-      async function fetchSensorBox() {
-        const res = await axios.get(
-          "http://venom-uitjbb.id/api/test//getRealtime"
-        );
-        // setSensorRealtime(res.data.data);
-        return res.data.data;
+      //! jika ada get profile
+      const result = await fetchProfile(authToken);
+      if (!result) {
+        navigate("/error", { replace: true });
       }
-
-      // eslint-disable-next-line no-inner-declarations
-      async function processData() {
-        const devices = await fetchDevices();
-        const sensorRealtime = await fetchSensorBox();
-        const tempSensorBoxData = await processDataToSensorBoxData(
-          devices,
-          sensorRealtime
-        );
-        setSensorBox(tempSensorBoxData);
-        console.log("parsing data");
-        // console.log(devices);
-      }
-
-      const update = () => {
-        setTime(new Date());
-      };
-
-      //! call function
-      processData();
-      //! Fetch data every 1 minute
-      const intervalId = setTimeout(update, 60000);
-      //! Clean up interval on component unmount
-      return () => clearInterval(intervalId);
-    } catch (error) {
-      console.log(error);
+      const message = result["message"];
+      console.log("message", message);
+      setUserProfile(message);
     }
+
+    getDataProfile();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time]);
+  }, []);
+
+  // useEffect(() => {
+  //   try {
+  //     // eslint-disable-next-line no-inner-declarations
+  //     async function fetchDevices() {
+  //       const res = await axios.get(
+  //         "http://venom-uitjbb.id/api/test/getDevices"
+  //       );
+  //       const convDevice = await processDataDevices(res.data.data);
+
+  //       console.log("markerIndex");
+  //       console.log(markerIndex);
+  //       if (markerIndex != -1 && isDetailBoxShow) {
+  //         convDevice[markerIndex].isClicked = true;
+  //       }
+  //       setDevices(convDevice);
+  //       return convDevice;
+  //     }
+
+  //     // eslint-disable-next-line no-inner-declarations
+  //     async function fetchSensorBox() {
+  //       const res = await axios.get(
+  //         "http://venom-uitjbb.id/api/test//getRealtime"
+  //       );
+  //       // setSensorRealtime(res.data.data);
+  //       return res.data.data;
+  //     }
+
+  //     // eslint-disable-next-line no-inner-declarations
+  //     async function processData() {
+  //       const devices = await fetchDevices();
+  //       const sensorRealtime = await fetchSensorBox();
+  //       const tempSensorBoxData = await processDataToSensorBoxData(
+  //         devices,
+  //         sensorRealtime
+  //       );
+  //       setSensorBox(tempSensorBoxData);
+  //       console.log("parsing data");
+  //       // console.log(devices);
+  //     }
+
+  //     const update = () => {
+  //       setTime(new Date());
+  //     };
+
+  //     //! call function
+  //     processData();
+  //     //! Fetch data every 1 minute
+  //     const intervalId = setTimeout(update, 60000);
+  //     //! Clean up interval on component unmount
+  //     return () => clearInterval(intervalId);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [time]);
 
   useEffect(() => {
     if (windowSize.height < constrainHeightScreen) {
@@ -212,8 +249,8 @@ const Dashboard = () => {
         className={`${
           isMenuActive ? "left-0 " : "-left-[500px]"
         } fixed top-0  z-30  w-[240px] h-full bg-primary transition-all duration-300 flex flex-col p-[15px]`}
-        profile_email="zerohack61@gmail.com"
-        profile_name="budi santoso"
+        profile_email={`${userProfile.email}`}
+        profile_name={`${userProfile.username}`}
       />
       {/* =========== */}
       <div

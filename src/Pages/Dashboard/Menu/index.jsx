@@ -19,6 +19,8 @@ import UserIconSVG from "../../../assets/user.svg";
 import Logout from "../../../assets/logout.svg";
 
 import MenuItem from "./MenuItem";
+import { logout } from "../function2";
+import { useNavigate } from "react-router-dom";
 
 const data = [
   {
@@ -51,6 +53,14 @@ const data = [
 
 // eslint-disable-next-line react/prop-types
 const Menu = ({ className, profile_name, profile_email }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const result = await logout();
+    if (result) {
+      navigate("/login", { replace: true });
+    }
+  };
   return (
     <div className={className}>
       <div className="flex flex-col w-full h-[200px] ">
@@ -87,10 +97,13 @@ const Menu = ({ className, profile_name, profile_email }) => {
         </div>
         <div className="ml-[5px] flex-1 flex flex-col truncate text-white text-[12px] justify-center">
           <p>{profile_name}</p>
-          <p>{profile_email}</p>
+          <p className="text-[9px]">{profile_email}</p>
         </div>
         <div className="  w-[36px] h-full flex justify-center items-center">
-          <div className="h-[48px] w-[486px] flex items-center ">
+          <div
+            className="h-[48px] w-[486px] flex items-center"
+            onClick={handleLogout}
+          >
             <Logout />
           </div>
         </div>

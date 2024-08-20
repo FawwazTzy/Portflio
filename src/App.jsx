@@ -1,11 +1,19 @@
 import { useEffect } from "react";
-// import Login from "./Pages/Login";
+import Login from "./Pages/Login";
 // import AdminSetting from "./Pages/AdminSetting";
 // import UserSetting from "./Pages/UserSetting";
 // import SensorSetting from "./Pages/Sensor Setting";
 import Dashboard from "./Pages/Dashboard";
-import "mapbox-gl/dist/mapbox-gl.css";
+import Status404 from "./Pages/404";
+// import "mapbox-gl/dist/mapbox-gl.css";
 import { useZustandState } from "./store/state";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 
 const App = () => {
   const { setWindowSize, initialWindowsSize } = useZustandState(
@@ -28,7 +36,20 @@ const App = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  return <Dashboard />;
+  // return <Dashboard />;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/dashboard" element={<Login />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/error" element={<Status404 />} />
+        {/* Catch all unmatched routes and redirect to /error */}
+        <Route path="*" element={<Navigate to="/error" />} />
+      </Routes>
+    </Router>
+  );
 };
 
 export default App;

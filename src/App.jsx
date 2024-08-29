@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Login from "./Pages/Login";
-// import AdminSetting from "./Pages/AdminSetting";
+import AdminSetting from "./Pages/AdminSetting";
+import AddAdmin from "./Pages/AddAdmin";
 // import UserSetting from "./Pages/UserSetting";
 // import SensorSetting from "./Pages/Sensor Setting";
 import Dashboard from "./Pages/Dashboard";
@@ -44,6 +45,11 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         {/* <Route path="/dashboard" element={<Login />} /> */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/setting/admin" element={<AdminSetting />} />
+        <Route path="/setting/admin/add" element={<AddAdmin />} />
+        {/* <Route path="/setting/user" element={<Dashboard />} /> */}
+        {/* <Route path="/analytics" element={<Dashboard />} /> */}
+        {/* <Route path="/setting/sensor" element={<Dashboard />} /> */}
         <Route path="/error" element={<Status404 />} />
         {/* Catch all unmatched routes and redirect to /error */}
         <Route path="*" element={<Navigate to="/error" />} />

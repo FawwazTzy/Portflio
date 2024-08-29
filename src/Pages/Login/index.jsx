@@ -3,14 +3,14 @@ import carPng from "../../assets/Logo_PLN.png";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-import { useZustandState } from "../../store/state";
+// import { useZustandState } from "../../store/state";
 import { useNavigate } from "react-router-dom";
 
-import { generateKey } from "../../globalFunction";
+import { generateKey, host } from "../../globalFunction";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setAdminToken } = useZustandState((state) => state);
+  // const { setAdminToken } = useZustandState((state) => state);
 
   // const [response, setResponse] = useState(null);
   const [data, setData] = useState({
@@ -31,7 +31,7 @@ const Login = () => {
     e.preventDefault();
 
     axios
-      .post("http://127.0.0.1:1945/api/1/login", data, {
+      .post(`${host}/api/1/login`, data, {
         withCredentials: true,
       })
       .then((res) => {
@@ -53,7 +53,6 @@ const Login = () => {
                 role: "admin",
                 token: token,
               };
-              setAdminToken(token);
               // Konversi objek ke string dan simpan di Local Storage
               localStorage.setItem("user", JSON.stringify(user));
             } else {

@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-
 import MapComponent from "./MapBox";
 import HeaderDashboard from "./Header";
 import SensorBox from "./SensorBox";
@@ -15,12 +13,11 @@ import {
   convertToDataChart,
   fetchChartDataOther,
 } from "./function";
-import { fetchProfile } from "./function2";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { cekCookie } from "../../globalFunction";
+import { cekCookie, cekTokenAdmin, fetchProfile } from "../../globalFunction";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -33,14 +30,14 @@ const Dashboard = () => {
     unit: "-",
     nodes_id: [],
   });
-  const [isMenuActive, setIsMenuActive] = useState(false);
+
   const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("500px");
   const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("1024px");
   const [topNavigator, setTopNavigator] = useState("250px");
   const [responsiveHeightDeviceBox, setResponsiveHeightDeviceBox] =
     useState("300px");
   const [topChartBox, setTopChartBox] = useState("350px");
-  const [time, setTime] = useState(new Date());
+  // const [time, setTime] = useState(new Date());
 
   const {
     setDataChartAllSensor,
@@ -66,7 +63,8 @@ const Dashboard = () => {
     dataSensorSelect,
     startDate,
     isSensorSelect,
-    authToken,
+    isMenuActive,
+    setIsMenuActive,
   } = useZustandState((state) => state);
 
   const handleDateChange = async (date) => {
@@ -117,22 +115,33 @@ const Dashboard = () => {
     }
   };
 
+  const [localStorageUserToken, setLocalStorageUserToken] = useState("");
+
   useEffect(() => {
     async function getDataProfile() {
       //! cek ada token di cookie ada atau tidak
+      setIsMenuActive(false);
       const statusCookie = await cekCookie();
-      //! jika tidak direct ke error page
+
+      //! jika tidak ada direct ke error page
+      // console.log("statusCookie ", statusCookie);
       if (!statusCookie) {
-        navigate("/error", { replace: true });
+        // Hapus data dari Local Storage dan update state
+        localStorage.removeItem("user");
+        navigate("/login", { replace: true });
+      } else {
+        //! jika ada get profile
+        const result = await fetchProfile();
+        if (!result) {
+          localStorage.removeItem("user");
+          navigate("/login", { replace: true });
+        }
+        const user = await JSON.parse(localStorage.getItem("user"));
+        setLocalStorageUserToken(user.token);
+        const message = result["message"];
+        console.log("message", message);
+        setUserProfile(message);
       }
-      //! jika ada get profile
-      const result = await fetchProfile(authToken);
-      if (!result) {
-        navigate("/error", { replace: true });
-      }
-      const message = result["message"];
-      console.log("message", message);
-      setUserProfile(message);
     }
 
     getDataProfile();
@@ -251,6 +260,8 @@ const Dashboard = () => {
         } fixed top-0  z-30  w-[240px] h-full bg-primary transition-all duration-300 flex flex-col p-[15px]`}
         profile_email={`${userProfile.email}`}
         profile_name={`${userProfile.username}`}
+        token={`${localStorageUserToken}`}
+        cekTokenAdmin={`${cekTokenAdmin}`}
       />
       {/* =========== */}
       <div

@@ -19,8 +19,9 @@ import UserIconSVG from "../../../assets/user.svg";
 import Logout from "../../../assets/logout.svg";
 
 import MenuItem from "./MenuItem";
-import { logout } from "../function2";
+import { logout } from "../../../globalFunction";
 import { useNavigate } from "react-router-dom";
+import { useZustandState } from "../../../store/state";
 
 const data = [
   {
@@ -52,8 +53,20 @@ const data = [
 ];
 
 // eslint-disable-next-line react/prop-types
-const Menu = ({ className, profile_name, profile_email }) => {
+const Menu = ({
+  // eslint-disable-next-line react/prop-types
+  className,
+  // eslint-disable-next-line react/prop-types
+  profile_name,
+  // eslint-disable-next-line react/prop-types
+  profile_email,
+  // eslint-disable-next-line react/prop-types
+  token,
+  // eslint-disable-next-line react/prop-types
+  cekTokenAdmin,
+}) => {
   const navigate = useNavigate();
+  const { setIsMenuActive } = useZustandState((state) => state);
 
   const handleLogout = async () => {
     const result = await logout();
@@ -61,6 +74,31 @@ const Menu = ({ className, profile_name, profile_email }) => {
       navigate("/login", { replace: true });
     }
   };
+
+  const handleOnClick = async (title) => {
+    if (title == "Dashboard") {
+      setIsMenuActive(false);
+      navigate("/dashboard");
+    } else if (title == "Admin Setting") {
+      setIsMenuActive(false);
+      navigate("/setting/admin");
+    } else if (title == "User Setting") {
+      setIsMenuActive(false);
+      navigate("/setting/user");
+    } else if (title == "Analytics") {
+      setIsMenuActive(false);
+      navigate("/analytics");
+    } else if (title == "Sensor Setting") {
+      setIsMenuActive(false);
+      navigate("/setting/sensor");
+    } else {
+      const pathname = window.location.pathname;
+      navigate(pathname);
+    }
+
+    console.log("title ", title);
+  };
+
   return (
     <div className={className}>
       <div className="flex flex-col w-full h-[200px] ">
@@ -76,18 +114,35 @@ const Menu = ({ className, profile_name, profile_email }) => {
       </div>
       <div className="bg-secondary w-full h-[2px]"></div>
       <div className="flex-1 px-[15px]">
-        {data.map((item) => (
-          <MenuItem
-            key={item.key}
-            textColor="text-white"
-            iconColor="stroke-white"
-            title={item.title}
-            Icon={item.icon}
-          />
+        {data.map(
+          (item) =>
+            item.title === "Admin Setting" ? (
+              token === cekTokenAdmin && (
+                <div key={item.key} onClick={() => handleOnClick(item.title)}>
+                  <MenuItem
+                    key={item.key}
+                    textColor="text-white"
+                    iconColor="stroke-white"
+                    title={item.title}
+                    Icon={item.icon}
+                  />
+                </div>
+              )
+            ) : (
+              <div key={item.key} onClick={() => handleOnClick(item.title)}>
+                <MenuItem
+                  key={item.key}
+                  textColor="text-white"
+                  iconColor="stroke-white"
+                  title={item.title}
+                  Icon={item.icon}
+                />
+              </div>
+            )
           // <div key={item.key} className="stroke-white">
           //   <UserIconSVG />
           // </div>
-        ))}
+        )}
       </div>
       <div className="flex h-[60px] w-full">
         <div className=" h-full w-[48px] flex justify-center items-center ">

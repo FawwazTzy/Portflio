@@ -209,11 +209,20 @@ export const useZustandState = create((set, get) => ({
     });
   },
 
-  adminToken: "",
-  setAdminToken: (value) => {
+  isMenuActive: false,
+  setIsMenuActive: (value) => {
     set(() => {
       return {
-        adminToken: value,
+        isMenuActive: value,
+      };
+    });
+  },
+
+  dataUsers: [],
+  setDataUsers: (value) => {
+    set(() => {
+      return {
+        dataUsers: value,
       };
     });
   },

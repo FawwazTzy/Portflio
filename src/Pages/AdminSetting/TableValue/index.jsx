@@ -1,8 +1,34 @@
 import {} from "react";
 import DeleteSVG from "../../../assets/delete.svg";
+import { fetchDeleteAdmin } from "../function";
+import { useZustandState } from "../../../store/state";
 
 // eslint-disable-next-line react/prop-types
-const TableValue = ({ no, username, email, phone, unit, action }) => {
+const TableValue = ({ no, username, email, phone, unit, action, id }) => {
+  const { setIsPopDeleteVisible } = useZustandState((state) => state);
+
+  const handleDelete = async (id) => {
+    const data = {
+      status: true,
+      message: {
+        id: id,
+        username: username,
+      },
+    };
+    setIsPopDeleteVisible(data);
+    // console.log("handle ", id);
+    // const res = await fetchDeleteAdmin(id);
+    // console.log(res);
+    // if (res.status == 200) {
+    //   const message = res.data.message;
+    //   if (message.status) {
+    //     const data = {
+    //       status: true,
+    //       message : "Berhasil "
+    //     }
+    //   }
+    // }
+  };
   return (
     <div className="w-full flex flex-col">
       <div className="grid grid-cols-6 h-[36px] text-[10px] w-full bg-third">
@@ -21,7 +47,10 @@ const TableValue = ({ no, username, email, phone, unit, action }) => {
         <div className="flex justify-center items-center  ">
           <p className="text-white ">{unit}</p>
         </div>
-        <div className="flex justify-center items-center  ">
+        <div
+          className="flex justify-center items-center"
+          onClick={() => handleDelete(id)}
+        >
           {!action && <DeleteSVG />}
         </div>
       </div>

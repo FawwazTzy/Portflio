@@ -227,5 +227,29 @@ export const useZustandState = create((set, get) => ({
     });
   },
 
+  isPopDeleteVisible: {
+    status: false,
+    message: {
+      id: "",
+      username: "",
+    },
+  },
+  setIsPopDeleteVisible: (value) => {
+    set(() => {
+      return {
+        isPopDeleteVisible: value,
+      };
+    });
+  },
+
+  // isNotificationVisible: {},
+  // setIsNotificationVisible: (value) => {
+  //   set(() => {
+  //     return {
+  //       isNotificationVisible: value,
+  //     };
+  //   });
+  // },
+
   //
 }));

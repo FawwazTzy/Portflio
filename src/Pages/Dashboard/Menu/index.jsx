@@ -78,19 +78,19 @@ const Menu = ({
   const handleOnClick = async (title) => {
     if (title == "Dashboard") {
       setIsMenuActive(false);
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } else if (title == "Admin Setting") {
       setIsMenuActive(false);
-      navigate("/setting/admin");
+      navigate("/setting/admin", { replace: true });
     } else if (title == "User Setting") {
       setIsMenuActive(false);
-      navigate("/setting/user");
+      navigate("/setting/user", { replace: true });
     } else if (title == "Analytics") {
       setIsMenuActive(false);
-      navigate("/analytics");
+      navigate("/analytics", { replace: true });
     } else if (title == "Sensor Setting") {
       setIsMenuActive(false);
-      navigate("/setting/sensor");
+      navigate("/setting/sensor", { replace: true });
     } else {
       const pathname = window.location.pathname;
       navigate(pathname);

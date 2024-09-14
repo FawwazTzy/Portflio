@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import NextSVG from "../../../assets/next.svg";
 import PreviewSVG from "../../../assets/preview.svg";
+import { useZustandState } from "../../../store/state";
 
+// eslint-disable-next-line react/prop-types
 const Pagination = ({ maxPagination }) => {
+  const { setPaginationSelected } = useZustandState((state) => state);
   const [paginationValue, setPaginationValue] = useState([]);
 
   useEffect(() => {
@@ -17,6 +20,11 @@ const Pagination = ({ maxPagination }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxPagination]);
+
+  const handlePagination = (value) => {
+    setPaginationSelected(value);
+  };
+
   return (
     <div className="flex items-center gap-4">
       <button
@@ -32,6 +40,7 @@ const Pagination = ({ maxPagination }) => {
             key={index}
             className="relative h-[24px] max-h-[24px] w-[24px] max-w-[24px] select-none rounded-lg bg-secondary text-center align-middle font-sans text-xs font-medium uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
+            onClick={() => handlePagination(p)}
           >
             <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-[10px]">
               {p}

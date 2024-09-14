@@ -242,6 +242,15 @@ export const useZustandState = create((set, get) => ({
     });
   },
 
+  paginationSelected: 1,
+  setPaginationSelected: (value) => {
+    set(() => {
+      return {
+        paginationSelected: value,
+      };
+    });
+  },
+
   // isNotificationVisible: {},
   // setIsNotificationVisible: (value) => {
   //   set(() => {

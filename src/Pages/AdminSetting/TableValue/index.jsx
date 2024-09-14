@@ -1,6 +1,6 @@
 import {} from "react";
 import DeleteSVG from "../../../assets/delete.svg";
-import { fetchDeleteAdmin } from "../function";
+// import { fetchDeleteAdmin } from "../function";
 import { useZustandState } from "../../../store/state";
 
 // eslint-disable-next-line react/prop-types
@@ -16,18 +16,6 @@ const TableValue = ({ no, username, email, phone, unit, action, id }) => {
       },
     };
     setIsPopDeleteVisible(data);
-    // console.log("handle ", id);
-    // const res = await fetchDeleteAdmin(id);
-    // console.log(res);
-    // if (res.status == 200) {
-    //   const message = res.data.message;
-    //   if (message.status) {
-    //     const data = {
-    //       status: true,
-    //       message : "Berhasil "
-    //     }
-    //   }
-    // }
   };
   return (
     <div className="w-full flex flex-col">

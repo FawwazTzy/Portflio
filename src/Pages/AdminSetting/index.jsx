@@ -9,7 +9,7 @@ import { useZustandState } from "../../store/state";
 import Menu from "../Dashboard/Menu";
 import { cekCookie, cekTokenAdmin, fetchProfile } from "../../globalFunction";
 import { useNavigate } from "react-router-dom";
-import { fetchAdmins, searchInData } from "./function";
+import { fetchAdmins, searchInData, fetchDeleteAdmin } from "./function";
 
 const AdminSetting = () => {
   const navigate = useNavigate();
@@ -19,6 +19,8 @@ const AdminSetting = () => {
     setIsMenuActive,
     isPopDeleteVisible,
     setIsPopDeleteVisible,
+    paginationSelected,
+    setPaginationSelected,
   } = useZustandState((state) => state);
   const [localStorageUserToken, setLocalStorageUserToken] = useState("");
 
@@ -34,6 +36,10 @@ const AdminSetting = () => {
   const [dataAdmins, setDataAdmins] = useState([]);
   const [adminsFromServer, setAdminsFromServer] = useState([]);
   const [maxPagination, setMaxPagination] = useState(1);
+  const [addingNo, setAddingNo] = useState(0);
+  const [isNotifikasiVisible, setIsNotifikasiVisible] = useState(false);
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     async function getDataProfile() {
@@ -84,10 +90,20 @@ const AdminSetting = () => {
     }
     getDataProfile();
     getDataUsers();
-    // setMaxPagination(3);
-
+    setPaginationSelected(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const maxDataView = 8;
+    let lastData = paginationSelected * maxDataView;
+    let startData = lastData - maxDataView;
+
+    let slicedArray = adminsFromServer.slice(startData, lastData);
+    setDataAdmins(slicedArray);
+    setAddingNo((paginationSelected - 1) * maxDataView);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paginationSelected]);
 
   const handleAddNew = () => {
     console.log("tekan");
@@ -116,7 +132,15 @@ const AdminSetting = () => {
     setIsPopDeleteVisible(data);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
+    console.log(id);
+    const res = await fetchDeleteAdmin(id);
+    console.log(res);
+    if (res.status == 200) {
+      MessageNotification("User Admin berhasil di Hapus", true);
+    } else {
+      MessageNotification("User Admin gagal di Hapus", false);
+    }
     const data = {
       status: false,
       message: {
@@ -125,6 +149,15 @@ const AdminSetting = () => {
       },
     };
     setIsPopDeleteVisible(data);
+  };
+
+  const MessageNotification = (value, isSuccess) => {
+    setErrorMessage(value);
+    setIsDeleteSuccess(isSuccess);
+    setIsNotifikasiVisible(true);
+    setTimeout(() => {
+      setIsNotifikasiVisible(false);
+    }, 2000);
   };
 
   return (
@@ -167,7 +200,7 @@ const AdminSetting = () => {
               <button
                 type="button"
                 className="text-white bg-[#444d59] w-[80px] h-[30px] rounded-md mr-[20px] hover:bg-secondary"
-                onClick={handleDelete}
+                onClick={() => handleDelete(isPopDeleteVisible.message.id)}
               >
                 Yes
               </button>
@@ -179,6 +212,18 @@ const AdminSetting = () => {
                 No
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {isNotifikasiVisible && (
+        <div className="fixed z-50 top-0 left-0 w-full flex justify-center">
+          <div
+            className={`${
+              isDeleteSuccess ? "bg-green-500" : "bg-red-500"
+            }  text-white text-center p-4 rounded-lg shadow-lg m-4`}
+          >
+            {errorMessage}
           </div>
         </div>
       )}
@@ -215,7 +260,7 @@ const AdminSetting = () => {
               <TableValue
                 key={d.id}
                 id={d.id}
-                no={index + 1}
+                no={addingNo + index + 1}
                 username={d.username}
                 email={d.email}
                 phone={d.phone}

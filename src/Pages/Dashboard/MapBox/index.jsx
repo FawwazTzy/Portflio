@@ -1,33 +1,41 @@
-import { useState, useCallback } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import ReactMapGL, { Marker } from "react-map-gl";
-import MapPinBluePNG from "../../../assets/map_pin_blue.png";
+import MapMarkerRed from "../../../assets/mapMarker_red.png";
+import MapMarkerGreen from "../../../assets/mapMarker_green.png";
+import MapMarkerYellow from "../../../assets/mapMarker_yellow.png";
+import MapMarkerGray from "../../../assets/mapMarker_gray.png";
 import { useZustandState } from "../../../store/state";
-import { findDeviceFromSensorBox, findIndexById } from "../function";
+// import { findDeviceFromSensorBox, findIndexById } from "../function";
 import "./CircleWave.css";
+import { updateMap, convertToDataChart } from "../function";
 
 const mapboxToken =
   "pk.eyJ1IjoiemVyb2hhY2siLCJhIjoiY2t2MzR6NzYzOGUxcjJ2bnpydnYwM28yaSJ9._bUy8NIpXyzLkTELdT5qPA";
 
-// eslint-disable-next-line react/prop-types
-const MapComponent = ({ topNavigator }) => {
+const MapComponent = () => {
   const {
     viewport,
     setViewport,
     currentZoom,
-    devices,
-    setDevices,
-    setIsDetailBoxShow,
-    sensorBox,
-    setDeviceDetail,
-    setMarkerIndex,
-    markerIndex,
+    setISensorImageVisible,
+    dataSensor,
+    setDataSensor,
+    setSensorClicked,
+    setDataChartXY,
+    setMaxY_Axis,
+    setMinY_Axis,
   } = useZustandState((state) => state);
 
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(true);
-
+  const [time, setTime] = useState(new Date());
+  const mapRef = useRef(null);
   const handleMapLoad = () => {
     // console.log("data handle map " + map);
+    if (mapRef.current) {
+      mapRef.current.resize();
+    }
     setGoogleMapsLoaded(true);
+
     // Perform any other tasks after the Google Maps library is loaded and ready.
   };
 
@@ -39,6 +47,10 @@ const MapComponent = ({ topNavigator }) => {
       latitude: viewport.latitude,
       zoom: viewport.zoom + 1,
     };
+
+    // if (mapRef.current) {
+    //   mapRef.current.resize();
+    // }
 
     setViewport(updateMap);
   };
@@ -66,84 +78,122 @@ const MapComponent = ({ topNavigator }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClickMarkerHandle = async (device) => {
-    console.log(device);
+  const onClickMarkerHandle = async ({ device, index }) => {
+    //! update position map dan zoom
+    setViewport(updateMap(device));
 
-    let long = 0.0;
-    let lat = 0.0;
-
-    long = parseFloat(device.long);
-    lat = parseFloat(device.lat);
-
-    const updateMap = {
-      longitude: long + 0.015111111, //kanan kiri
-      latitude: lat - 0.010111111, //atas bawah
-      zoom: 14,
-    };
-
-    const temp = await findDeviceFromSensorBox(
-      sensorBox,
-      device.idGateway,
-      device.idNode
+    //! Mengubah semua isClicked menjadi false
+    const tempDataSensor = dataSensor.map((item) => ({
+      ...item,
+      isClicked: false,
+    }));
+    //! update flag isClicked
+    tempDataSensor[index].isClicked = true;
+    setDataSensor(tempDataSensor);
+    //! update flag ke variable backup ketika fetch data server
+    setSensorClicked(tempDataSensor[index]);
+    // console.log(tempDataSensor[index]);
+    //! flag untuk menampilkan sensor image
+    setISensorImageVisible(true);
+    //! get data chart
+    const d = convertToDataChart(
+      dataSensor[index].Date_time,
+      dataSensor[index].Pressure
     );
+    setDataChartXY(d[0]);
+    setMaxY_Axis(d[1]);
+    setMinY_Axis(d[2]);
+
+    // const temp = await findDeviceFromSensorBox(
+    //   sensorBox,
+    //   device.idGateway,
+    //   device.idNode
+    // );
 
     //! data device lama isclicked di buat false semua
-    if (markerIndex != -1) {
-      devices[markerIndex].isClicked = false;
-    }
+    // if (markerIndex != -1) {
+    //   devices[markerIndex].isClicked = false;
+    // }
 
     //! update data devices dengan isclicked baru
-    const index = findIndexById(devices, device._id);
-    devices[index].isClicked = true;
-    const devicesUpdate = devices;
-    setDevices(devicesUpdate);
+    // const index = findIndexById(devices, device._id);
+    // devices[index].isClicked = true;
+    // const devicesUpdate = devices;
+    // setDevices(devicesUpdate);
 
-    setDeviceDetail(temp);
-    setViewport(updateMap);
-    setIsDetailBoxShow(true);
-    setMarkerIndex(index);
-    console.log("index update ketika marker ditekan");
-    console.log(index);
+    // // setDeviceDetail(temp);
+    // setViewport(updateMap);
+    // setIsDetailBoxShow(true);
+    // // setMarkerIndex(index);
+    // console.log("index update ketika marker ditekan");
+    // // console.log(index);
 
-    console.log("deviceDetail");
-    console.log(temp);
-    console.log(index);
+    // console.log("deviceDetail");
+    // console.log(temp);
+    // console.log(index);
   };
 
+  useEffect(() => {
+    const update = () => {
+      setTime(new Date());
+      if (mapRef.current) {
+        mapRef.current.resize();
+      }
+    };
+
+    const intervalId = setTimeout(update, 500);
+    //   //! Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [time]);
+
   return (
-    <div className="flex w-full h-full">
+    // <div className=" flex w-full h-full bg-red-500">
+    <div className="w-full h-full">
       {googleMapsLoaded ? (
         <ReactMapGL
           {...viewport}
-          mapStyle="mapbox://styles/zerohack/clvkahf6u006x01pcbjhm5ry9"
+          ref={mapRef}
+          style={{ width: "100%", height: "100%" }}
+          mapStyle="mapbox://styles/zerohack/ckxk54u6d22p315le1o00q03r"
           // mapStyle="mapbox://styles/zerohack/ckytsd4jm000a15quoewi5nns"
           mapboxAccessToken={mapboxToken}
           // onViewportChange={(viewport) => setViewport(viewport)}
           onMove={onMove}
           onLoad={() => handleMapLoad}
         >
-          {devices.length >= 1 &&
-            devices.map((device) => (
+          {dataSensor.length >= 1 &&
+            dataSensor.map((device, index) => (
               <Marker
-                key={device._id}
-                latitude={device.lat}
-                longitude={device.long}
+                key={index}
+                latitude={device.GPS_Koordinat[0]}
+                longitude={device.GPS_Koordinat[1]}
                 anchor="bottom"
               >
                 <div className="flex flex-col w-[48px] items-center relative ">
                   <div className="w-full flex-1 flex justify-center">
                     {currentZoom > 10 && (
                       <p className="text-[10px] text-white truncate">
-                        {device.nameNode}
+                        {device.node_id}
                       </p>
                     )}
                   </div>
                   <div
                     className=" flex w-[24px] h-[24px] cursor-pointer  "
-                    onClick={() => onClickMarkerHandle(device)}
+                    onClick={() => onClickMarkerHandle({ device, index })}
                   >
                     <img
-                      src={MapPinBluePNG}
+                      src={
+                        device.Status_cam.at(-1) === "on" &&
+                        device.Status_gauge.at(-1) === "aman"
+                          ? MapMarkerGreen
+                          : device.Status_cam.at(-1) === "on" &&
+                            device.Status_gauge.at(-1) === "waspada"
+                          ? MapMarkerYellow
+                          : device.Status_cam.at(-1) === "on" &&
+                            device.Status_gauge.at(-1) === "bahaya"
+                          ? MapMarkerRed
+                          : MapMarkerGray
+                      }
                       alt={`Marker x`}
                       className="w-8 h-8"
                     />
@@ -151,16 +201,22 @@ const MapComponent = ({ topNavigator }) => {
                   {device.isClicked && (
                     <div>
                       <div
-                        style={{ bottom: currentZoom > 10 ? "-18px" : "-18px" }}
-                        className="absolute  left-[12px] w-[24px] h-[24px] bg-green-500 rounded-full -z-10 ripple"
+                        style={{
+                          bottom: currentZoom > 10 ? "-18px" : "-18px",
+                        }}
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-white rounded-full -z-10 ripple"
                       ></div>
                       <div
-                        style={{ bottom: currentZoom > 10 ? "-18px" : "-18px" }}
-                        className="absolute  left-[12px] w-[24px] h-[24px] bg-green-500 rounded-full -z-10 ripple delay-200"
+                        style={{
+                          bottom: currentZoom > 10 ? "-18px" : "-18px",
+                        }}
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-white rounded-full -z-10 ripple delay-200"
                       ></div>
                       <div
-                        style={{ bottom: currentZoom > 10 ? "-18px" : "-18px" }}
-                        className="absolute  left-[12px] w-[24px] h-[24px] bg-green-500 rounded-full -z-10 ripple delay-400"
+                        style={{
+                          bottom: currentZoom > 10 ? "-18px" : "-18px",
+                        }}
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-white rounded-full -z-10 ripple delay-400"
                       ></div>
                     </div>
                   )}
@@ -174,10 +230,7 @@ const MapComponent = ({ topNavigator }) => {
           <p className="text-white">...Loading Maps</p>
         </div>
       )}
-      <div
-        style={{ top: topNavigator }}
-        className="absolute right-[320px] z-10"
-      >
+      <div style={{ top: "150px" }} className="absolute right-[220px] z-40">
         <div className="w-[25px] h-[60px] flex flex-col space-y-2 ">
           <button
             className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
@@ -194,6 +247,7 @@ const MapComponent = ({ topNavigator }) => {
         </div>
       </div>
     </div>
+    // </div>
   );
 };
 

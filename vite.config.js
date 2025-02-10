@@ -33,4 +33,17 @@ export default defineConfig({
   define: {
     "process.env": {},
   },
+  //! sementara untuk mengatasi CORS
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://fairuz90.pythonanywhere.com",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+    //! Mengizinkan semua subdomain ngrok
+    allowedHosts: [".ngrok-free.app"],
+  },
 });

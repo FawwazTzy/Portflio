@@ -41,17 +41,25 @@ function DetailSensorBox() {
             <Detail title={"Tekanan"} value={5.8} isWithSatuan={true} />
             <Detail
               title={"Lokasi"}
-              value={sensorClicked.node_id === "err" ? "-" : "WIKA GDM-100"}
+              value={
+                sensorClicked.node_id === "err"
+                  ? "-"
+                  : `${sensorClicked.Merk} ${sensorClicked.type}`
+              }
               isWithSatuan={false}
             />
             <Detail
               title={"Merk"}
-              value={sensorClicked.node_id === "err" ? "-" : "Indor"}
+              value={sensorClicked.node_id === "err" ? "-" : sensorClicked.Merk}
               isWithSatuan={false}
             />
             <Detail
               title={"Zona"}
-              value={sensorClicked.node_id === "err" ? "-" : "Gas"}
+              value={
+                sensorClicked.node_id === "err"
+                  ? "-"
+                  : sensorClicked.zona_instalasi
+              }
               isWithSatuan={false}
             />
             <Detail

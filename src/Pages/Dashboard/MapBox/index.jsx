@@ -230,7 +230,7 @@ const MapComponent = () => {
           <p className="text-white">...Loading Maps</p>
         </div>
       )}
-      <div style={{ top: "150px" }} className="absolute right-[220px] z-40">
+      {/* <div style={{ top: "150px" }} className="absolute right-[220px] z-40">
         <div className="w-[25px] h-[60px] flex flex-col space-y-2 ">
           <button
             className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
@@ -245,7 +245,7 @@ const MapComponent = () => {
             -
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
     // </div>
   );

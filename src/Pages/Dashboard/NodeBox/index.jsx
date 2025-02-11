@@ -61,69 +61,6 @@ function NodeBox() {
               statusCam={device.Status_cam.at(-1)}
               statusGauge={device.Status_gauge.at(-1)}
             />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
-            <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
-              isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
-            />
           </div>
         ))}
       </div>

@@ -72,7 +72,7 @@ export const useZustandState = create((set, get) => ({
       };
     });
   },
-  
+
   dataChartXY: [],
   setDataChartXY: (value) => {
     set(() => {
@@ -81,6 +81,13 @@ export const useZustandState = create((set, get) => ({
       };
     });
   },
-  //!=========================================================
-  
+  //!===========================variable side menu ===========================
+  indexOfMenuActivate: -1,
+  setIndexOfMenuActivate: (value) => {
+    set(() => {
+      return {
+        indexOfMenuActivate: value,
+      };
+    });
+  },
 }));

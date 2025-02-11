@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Dashboard from "./Pages/Dashboard";
+import Home from "./Pages/Home";
 import Status404 from "./Pages/404";
 // import "mapbox-gl/dist/mapbox-gl.css";
 import { useZustandState } from "./store/state";
@@ -36,10 +37,11 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/" element={<Navigate to="/map" />} />
         {/* <Route path="/login" element={<Login />} /> */}
         {/* <Route path="/dashboard" element={<Login />} /> */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/map" element={<Dashboard />} />
+        <Route path="/home" element={<Home />} />
         {/* <Route path="/setting/admin" element={<AdminSetting />} /> */}
         {/* <Route path="/setting/admin/add" element={<AddAdmin />} /> */}
         {/* <Route path="/setting/user" element={<UserSetting />} /> */}

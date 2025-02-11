@@ -42,6 +42,10 @@ const processData = (data) => {
 
     return {
       node_id: node.node_id,
+      Merk: node.Merk,
+      type: node.type,
+      zona_instalasi: node.zona_instalasi,
+      isolasi: node.isolasi,
       GPS_Koordinat,
       Pressure,
       Date_time,

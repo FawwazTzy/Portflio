@@ -275,7 +275,7 @@ const Dashboard = () => {
         <SideMenu />
       </div>
       <div className="flex-1 flex flex-col h-full w-full ml-[20px] pr-[10px]">
-        <div className="flex bg-[#34495c]  h-[100px] mt-[10px]  rounded-xl">
+        <div className="flex bg-[#34495c]  min-h-[100px] mt-[10px]  rounded-xl">
           <HeaderDashboard />
         </div>
         <div

@@ -4,6 +4,10 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Roboto", "sans-serif"], // Roboto sebagai default sans-serif
+        norwester: ["Norwester", "sans-serif"], // Norwester sebagai opsi tambahan
+      },
       colors: {
         primary: "#15202f",
         secondary: "#ffffff",

@@ -13,8 +13,8 @@ const CircleChart = ({ COLORS, data }) => {
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius="40%"
-            outerRadius="80%"
+            innerRadius="50%"
+            outerRadius="100%"
             dataKey="value"
             startAngle={90} // Mulai dari atas (jam 12:00)
             endAngle={-270} // Putar searah jarum jam

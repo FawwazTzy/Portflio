@@ -5,7 +5,7 @@ import DocumentPNG from "../../../assets/document.png";
 import MapPNG from "../../../assets/map.png";
 import SettingPNG from "../../../assets/setting.png";
 import LogoutPNG from "../../../assets/logout.png";
-import Logo from "../../../assets/iconProduct.png";
+import Logo from "../../../assets/govision_circle.png";
 import { useZustandState } from "../../../store/state";
 
 import { useNavigate } from "react-router-dom";

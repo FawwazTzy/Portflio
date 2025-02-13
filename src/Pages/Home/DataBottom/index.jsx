@@ -1,8 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import CircleChart from "../CircleChart";
+import { useZustandStateHome } from "../../../store/stateHome";
+import { formatNumber } from "../function";
 
 const DataBottom = () => {
+  const {
+    fetchDataError,
+    percentageGaugeNormal,
+    percentageGaugeAnomali,
+    dataSensorGaugeNormal,
+    dataSensorGaugeAnomali,
+    setIsBoxClick,
+  } = useZustandStateHome((state) => state);
+
   const data1 = [
     { name: "A", value: 25 },
     { name: "B", value: 25 },
@@ -23,18 +34,32 @@ const DataBottom = () => {
     { name: "A", value: 50 },
     { name: "B", value: 50 },
   ];
+
+  const onClickHandleGaugeNormal = () => {
+    setIsBoxClick("gaugeNormal");
+  };
+
+  const onClickHandleGaugeAnomali = () => {
+    setIsBoxClick("gaugeAnomali");
+  };
+
   return (
     <div className="flex flex-col w-full h-full  ">
       <div className="flex w-full h-[50%] pb-[10px] ">
-        <div className="flex flex-col w-[25%] h-full bg-[#314a60] rounded-xl text-white px-[10px] mr-[10px] pb-[10px]">
+        <div
+          className="flex flex-col w-[25%] h-full bg-[#314a60] rounded-xl text-white px-[10px] mr-[10px] pb-[10px] cursor-pointer"
+          onClick={() => onClickHandleGaugeNormal()}
+        >
           <div className="flex w-full h-[40px]  text-[24px]">
             <p>Gauge Normal</p>
           </div>
-          <div className="flex flex-1 w-full h-full  text-[86px] font-bold justify-start items-center font-norwester">
-            <p>018</p>
+          <div className="flex flex-1 w-full h-full  text-[72px] font-bold justify-start items-center font-norwester">
+            <p>
+              {!fetchDataError ? formatNumber(dataSensorGaugeNormal.length) : 0}
+            </p>
           </div>
           <div className="flex w-full h-[40px]  text-[24px] ">
-            <p>90 %</p>
+            <p>{!fetchDataError ? percentageGaugeNormal : 0} %</p>
           </div>
         </div>
         <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px] mr-[10px]">
@@ -69,15 +94,22 @@ const DataBottom = () => {
         </div>
       </div>
       <div className="flex h-[50%] w-full  ">
-        <div className="flex flex-col w-[25%] h-full bg-[#314a60] rounded-xl text-white px-[10px] mr-[10px]">
+        <div
+          className="flex flex-col w-[25%] h-full bg-[#314a60] rounded-xl text-white px-[10px] mr-[10px] cursor-pointer"
+          onClick={() => onClickHandleGaugeAnomali()}
+        >
           <div className="flex w-full h-[40px] text-[24px]">
             <p>Gauge Anomali</p>
           </div>
-          <div className="flex  w-full h-full  text-[86px] font-bold justify-start items-center font-norwester ">
-            <p>002</p>
+          <div className="flex  w-full h-full  text-[72px] font-bold justify-start items-center font-norwester ">
+            <p>
+              {!fetchDataError
+                ? formatNumber(dataSensorGaugeAnomali.length)
+                : 0}
+            </p>
           </div>
           <div className="flex w-full   text-[24px] ">
-            <p>10 %</p>
+            <p>{!fetchDataError ? percentageGaugeAnomali : 0} %</p>
           </div>
         </div>
         <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px] mr-[10px] ">

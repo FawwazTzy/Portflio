@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import CustomRow from "./CustomRow";
 import { useZustandStateHome } from "../../../store/stateHome";
@@ -13,7 +14,7 @@ const TableRight = () => {
 
   return (
     <div className="flex flex-col w-full h-full p-[10px]">
-      <div className="flex w-full h-[40px] text-white">
+      <div className="flex w-full h-[40px] text-textColor">
         <p>
           Data :{" "}
           {isBoxClick === "kameraOff"
@@ -36,7 +37,7 @@ const TableRight = () => {
           nilai={"Nilai"}
           status={"Status"}
           zona={"Zona"}
-          bgColor={"bg-[#314a60]"}
+          bgColor={"bg-backgorundFirst"}
           isTitle={true}
         />
       </div>
@@ -53,7 +54,7 @@ const TableRight = () => {
                   nilai={device.LastPressure}
                   status={device.LastStatus_cam}
                   zona={device.zona_instalasi}
-                  bgColor={"bg-[#91c6f0]"}
+                  bgColor={"bg-backgorundThird"}
                   isTitle={false}
                 />
               </div>
@@ -70,7 +71,7 @@ const TableRight = () => {
                 nilai={device.LastPressure}
                 status={device.LastStatus_cam}
                 zona={device.zona_instalasi}
-                bgColor={"bg-[#91c6f0]"}
+                bgColor={"bg-backgorundThird"}
                 isTitle={false}
               />
             </div>
@@ -86,7 +87,7 @@ const TableRight = () => {
                 nilai={device.LastPressure}
                 status={device.LastStatus_cam}
                 zona={device.zona_instalasi}
-                bgColor={"bg-[#91c6f0]"}
+                bgColor={"bg-backgorundThird"}
                 isTitle={false}
               />
             </div>
@@ -102,7 +103,7 @@ const TableRight = () => {
                 nilai={device.LastPressure}
                 status={device.LastStatus_cam}
                 zona={device.zona_instalasi}
-                bgColor={"bg-[#91c6f0]"}
+                bgColor={"bg-backgorundThird"}
                 isTitle={false}
               />
             </div>

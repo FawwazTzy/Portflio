@@ -23,23 +23,23 @@ const ChartBox = () => {
   return (
     <div className="flex flex-col w-full h-full px-[20px] py-[5px]">
       <div className="flex w-full h-[35px]  items-center justify-start">
-        <p className="text-white text-[16px]">Node Data</p>
+        <p className="text-textColor text-[16px]">Node Data</p>
         <div className="relative w-[120px] h-[20px] ml-[20px]">
           {" "}
           {/* Tambahkan relative */}
           {/* <div className="w-64"> */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full flex justify-between items-center bg-white text-black h-full rounded-md shadow-md 0"
+            className="w-full flex justify-between items-center bg-textColor text-black h-full rounded-md shadow-md 0"
           >
             <span className="px-4 py-[8px]">Daily</span>
             {isOpen ? (
-              <div className="bg-[#a6a7a8] h-[20px] w-[20px] justify-center items-center flex rounded-md">
-                <ChevronUp size={20} className="text-white" />
+              <div className="bg-dropDownArrow h-[20px] w-[20px] justify-center items-center flex rounded-md">
+                <ChevronUp size={20} className="text-textColor" />
               </div>
             ) : (
-              <div className="bg-[#a6a7a8] h-[20px] w-[20px] justify-center items-center flex rounded-md">
-                <ChevronDown size={20} className="text-white" />
+              <div className="bg-dropDownArrow h-[20px] w-[20px] justify-center items-center flex rounded-md">
+                <ChevronDown size={20} className="text-textColor" />
               </div>
             )}
           </button>
@@ -48,7 +48,7 @@ const ChartBox = () => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute left-0 top-full z-50 w-full bg-white border border-gray-200 rounded-sm shadow-md overflow-hidden"
+            className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-sm shadow-md overflow-hidden"
           >
             {dropdownData.map((item) => (
               <li

@@ -164,7 +164,7 @@ const Header = () => {
         <div className="w-[80px] h-[80px] ml-[10px]">
           <img src={UserPNG} alt="" />
         </div>
-        <div className="flex-1 flex-col text-white ml-[10px]">
+        <div className="flex-1 flex-col text-textColor ml-[10px]">
           <p className="text-[20px] font-bold">Name</p>
           <p className="text-[16px]">ID</p>
           <p className="text-[16px]">Wilayah Kerja</p>
@@ -179,16 +179,16 @@ const Header = () => {
           {/* <div className="w-64"> */}
           <button
             onClick={() => setIsOpenULTG(!isOpenULTG)}
-            className="w-full flex justify-between items-center bg-white text-black  rounded-lg shadow-md"
+            className="w-full flex justify-between items-center bg-textColor text-black  rounded-lg shadow-md"
           >
             <span className="px-4 py-[8px]">{ULTGName}</span>
             {isOpenULTG ? (
-              <div className="bg-[#a6a7a8] h-[40px] w-[20px] justify-center items-center flex rounded-lg">
-                <ChevronUp size={20} className="text-white" />
+              <div className="bg-dropDownArrow h-[40px] w-[20px] justify-center items-center flex rounded-lg">
+                <ChevronUp size={20} className="text-textColor" />
               </div>
             ) : (
-              <div className="bg-[#a6a7a8] h-[40px] w-[20px] justify-center items-center flex rounded-lg">
-                <ChevronDown size={20} className="text-white" />
+              <div className="bg-dropDownArrow h-[40px] w-[20px] justify-center items-center flex rounded-lg">
+                <ChevronDown size={20} className="text-textColor" />
               </div>
             )}
           </button>
@@ -200,7 +200,7 @@ const Header = () => {
               opacity: isOpenULTG ? 1 : 0,
             }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute left-0 top-full z-50 w-full bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden"
+            className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md overflow-hidden"
           >
             {dropdownDataULTG.map((item) => (
               <li
@@ -217,10 +217,10 @@ const Header = () => {
       </div>
       <div className="flex-col min-w-[300px] h-full pr-[10px]">
         <div className="flex w-full h-[50%] pb-[10px] pt-[10px]">
-          <div className="flex bg-white w-[70%] rounded-lg mr-[10px] items-center justify-center">
+          <div className="flex bg-textColor w-[70%] rounded-lg mr-[10px] items-center justify-center">
             <p className="text-[16px]"> {currentDate}</p>
           </div>
-          <div className="flex-1 bg-white w-[70%] rounded-lg place-content-center place-items-center">
+          <div className="flex-1 bg-textColor w-[70%] rounded-lg place-content-center place-items-center">
             <p className="text-[16px]"> {currentTime}</p>
           </div>
         </div>
@@ -230,16 +230,16 @@ const Header = () => {
           {/* <div className="w-64"> */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full flex justify-between items-center bg-white text-black h-full rounded-lg shadow-md 0"
+            className="w-full flex justify-between items-center bg-textColor text-black h-full rounded-lg shadow-md 0"
           >
             <span className="px-4 py-[8px]">{GIName}</span>
             {isOpen ? (
-              <div className="bg-[#a6a7a8] h-[40px] w-[20px] justify-center items-center flex rounded-lg">
-                <ChevronUp size={20} className="text-white" />
+              <div className="bg-dropDownArrow h-[40px] w-[20px] justify-center items-center flex rounded-lg">
+                <ChevronUp size={20} className="text-textColor" />
               </div>
             ) : (
-              <div className="bg-[#a6a7a8] h-[40px] w-[20px] justify-center items-center flex rounded-lg">
-                <ChevronDown size={20} className="text-white" />
+              <div className="bg-dropDownArrow h-[40px] w-[20px] justify-center items-center flex rounded-lg">
+                <ChevronDown size={20} className="text-textColor" />
               </div>
             )}
           </button>
@@ -248,7 +248,7 @@ const Header = () => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute left-0 top-full z-50 w-full bg-white border border-gray-200 rounded-lg shadow-md 
+            className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md 
              max-h-[300px] overflow-y-auto"
           >
             {stepULTG != 0 &&

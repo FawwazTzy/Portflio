@@ -24,7 +24,7 @@ const ChartView = ({ data }) => {
       // eslint-disable-next-line react/prop-types
       const dataItem = payload[0].payload; // Assuming single data item in tooltip
       return (
-        <div className="custom-tooltip text-white text-[12px] rounded bg-[#6ab782] p-[5px]">
+        <div className="custom-tooltip text-textColor text-[12px] rounded bg-[#6ab782] p-[5px]">
           {/* eslint-disable-next-line react/prop-types */}
           <p>{`value: ${dataItem.value}`}</p>
           {/* eslint-disable-next-line react/prop-types */}

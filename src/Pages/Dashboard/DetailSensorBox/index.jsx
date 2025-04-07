@@ -13,7 +13,7 @@ function DetailSensorBox() {
         <ChartBox />
       </div>
       <div className="flex w-[250px] h-full bg-[#314a60] ml-[10px] rounded-xl p-[10px]">
-        <div className="flex flex-col w-full h-full bg-[#507fa3] rounded-xl p-[10px]">
+        <div className="flex flex-col w-full h-full bg-backgorundSecond rounded-xl p-[10px]">
           <div className="flex w-full h-[20px]  justify-center items-center">
             <div
               className={`flex w-[50%] h-[8px] rounded-xl ${
@@ -21,7 +21,7 @@ function DetailSensorBox() {
                   ? "bg-[#808080]"
                   : sensorClicked.Status_cam.at(-1) &&
                     sensorClicked.Status_gauge.at(-1) === "aman"
-                  ? "bg-[#3AB35C]"
+                  ? "bg-primary"
                   : sensorClicked.Status_cam.at(-1) &&
                     sensorClicked.Status_gauge.at(-1) === "waspada"
                   ? "bg-[#FFDE59]"
@@ -31,7 +31,7 @@ function DetailSensorBox() {
                   : "bg-[#808080]"
               } `}
             ></div>
-            <div className="flex flex-1 w-full h-full justify-start items-center ml-[10px] text-white">
+            <div className="flex flex-1 w-full h-full justify-start items-center ml-[10px] text-textColor">
               <p>
                 {sensorClicked.node_id === "err" ? "-" : sensorClicked.node_id}
               </p>
@@ -41,6 +41,11 @@ function DetailSensorBox() {
             <Detail title={"Tekanan"} value={5.8} isWithSatuan={true} />
             <Detail
               title={"Lokasi"}
+              value={sensorClicked.node_id === "err" ? "-" : `GI Pulogadung`}
+              isWithSatuan={false}
+            />
+            <Detail
+              title={"Merk"}
               value={
                 sensorClicked.node_id === "err"
                   ? "-"
@@ -49,16 +54,18 @@ function DetailSensorBox() {
               isWithSatuan={false}
             />
             <Detail
-              title={"Merk"}
-              value={sensorClicked.node_id === "err" ? "-" : sensorClicked.Merk}
-              isWithSatuan={false}
-            />
-            <Detail
               title={"Zona"}
               value={
                 sensorClicked.node_id === "err"
                   ? "-"
                   : sensorClicked.zona_instalasi
+              }
+              isWithSatuan={false}
+            />
+            <Detail
+              title={"Isolasi"}
+              value={
+                sensorClicked.node_id === "err" ? "-" : sensorClicked.isolasi
               }
               isWithSatuan={false}
             />

@@ -45,7 +45,7 @@ function NodeBox() {
   return (
     <div className="flex w-full h-full flex-col p-[10my] ">
       <div className="w-full flex items-center justify-center h-[30px] ">
-        <p className="text-[18px] text-white ">Node Island</p>
+        <p className="text-[18px] text-textColor ">Node Island</p>
       </div>
       <div className="flex-1 overflow-y-auto w-full h-full mt-[10px] pl-[10px] pr-[10px]">
         {dataSensor.map((device, index) => (

@@ -31,8 +31,8 @@ const Dashboard = () => {
   //   nodes_id: [],
   // });
 
-  const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("500px");
-  const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("1024px");
+  const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("100%");
+  const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("100%");
 
   // const [responsiveHeightDeviceBox, setResponsiveHeightDeviceBox] =
   //   useState("300px");
@@ -41,86 +41,13 @@ const Dashboard = () => {
   const [isFirstFetch, setIsFirstFetch] = useState(true);
 
   const {
-    // setDataChartAllSensor,
-    // setDataChartXY,
-    // setMaxY_Axis,
-    // setMinY_Axis,
-    // setDevices,
-    // setSensorBox,
     windowSize,
-    // isDetailBoxShow,
-    // markerIndex,
-    // responsiveHeightSensorBox,
-    // setResponsiveHeightSensorBox,
     constrainHeightScreen,
-    // setHeightChartBox,
-    // setHeightMinMaxBox,
-    // isCalenderStartOpen,
-    // isCalenderEndOpen,
-    // setIsCalenderStartOpen,
-    // setIsCalenderEndOpen,
-    // setStartDate,
-    // setEndDate,
-    // dataSensorSelect,
-    // startDate,
-    // isSensorSelect,
-    // isMenuActive,
-    // setIsMenuActive,
     setViewport,
     isSensorImageVisible,
     sensorClicked,
     setDataSensor,
   } = useZustandState((state) => state);
-
-  // const handleDateChange = async (date) => {
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
-  //   if (isCalenderStartOpen) {
-  //     console.log(`${day}-${month}-${year}`);
-  //     setIsCalenderStartOpen(false);
-  //     setIsCalenderEndOpen(false);
-  //     setStartDate(`${day}-${month}-${year}`);
-  //     setEndDate("End");
-  //   } else {
-  //     let start_date = "";
-  //     let end_date = "";
-  //     const temp = startDate.split("-");
-  //     const startYear = temp[2].split("");
-  //     let y = "29999";
-  //     y = year.toString();
-  //     const endYear = y.split("");
-
-  //     console.log(`${day}-${month}-${year}`);
-  //     setIsCalenderStartOpen(false);
-  //     setIsCalenderEndOpen(false);
-  //     setEndDate(`${day}-${month}-${year}`);
-
-  //     start_date = `${temp[0]}${temp[1]}${startYear[2]}${startYear[3]}`;
-  //     end_date = `${day}${month}${endYear[2]}${endYear[3]}`;
-  //     //!! Get data by startDate and endDate
-  //     const idGateway = dataSensorSelect.idGateway;
-  //     const idNode = dataSensorSelect.idNode;
-  //     console.log(
-  //       `${start_date} - ${end_date} - idgateway ${idGateway} idnode ${idNode}`
-  //     );
-  //     if (isSensorSelect) {
-  //       const other = await fetchChartDataOther(
-  //         idGateway,
-  //         idNode,
-  //         start_date,
-  //         end_date
-  //       );
-  //       setDataChartAllSensor(other);
-  //       const d = convertToDataChart(other.timeOn, other.pitch);
-  //       setDataChartXY(d[0]);
-  //       setMaxY_Axis(d[1]);
-  //       setMinY_Axis(d[2]);
-  //     }
-  //   }
-  // };
-
-  // const [localStorageUserToken, setLocalStorageUserToken] = useState("");
 
   async function getGataNode() {
     //! fetch data Nodes
@@ -149,17 +76,6 @@ const Dashboard = () => {
       setViewport(updateMap);
       setIsFirstFetch(false);
     }
-
-    //   if (!result) {
-    //     localStorage.removeItem("user");
-    //     navigate("/login", { replace: true });
-    //   }
-    //   const user = await JSON.parse(localStorage.getItem("user"));
-    //   setLocalStorageUserToken(user.token);
-    //   const message = result["message"];
-    //   console.log("message", message);
-    //   setUserProfile(message);
-    // }
   }
 
   // useEffect(() => {
@@ -172,43 +88,6 @@ const Dashboard = () => {
   useEffect(() => {
     try {
       getGataNode();
-      //   // eslint-disable-next-line no-inner-declarations
-      //   async function fetchDevices() {
-      //     const res = await axios.get(
-      //       "http://venom-uitjbb.id/api/test/getDevices"
-      //     );
-      //     const convDevice = await processDataDevices(res.data.data);
-
-      //     console.log("markerIndex");
-      //     console.log(markerIndex);
-      //     if (markerIndex != -1 && isDetailBoxShow) {
-      //       convDevice[markerIndex].isClicked = true;
-      //     }
-      //     setDevices(convDevice);
-      //     return convDevice;
-      //   }
-
-      //   // eslint-disable-next-line no-inner-declarations
-      //   async function fetchSensorBox() {
-      //     const res = await axios.get(
-      //       "http://venom-uitjbb.id/api/test//getRealtime"
-      //     );
-      //     // setSensorRealtime(res.data.data);
-      //     return res.data.data;
-      //   }
-
-      //   // eslint-disable-next-line no-inner-declarations
-      //   async function processData() {
-      //     const devices = await fetchDevices();
-      //     const sensorRealtime = await fetchSensorBox();
-      //     const tempSensorBoxData = await processDataToSensorBoxData(
-      //       devices,
-      //       sensorRealtime
-      //     );
-      //     setSensorBox(tempSensorBoxData);
-      //     console.log("parsing data");
-      //     // console.log(devices);
-      //   }
 
       const update = () => {
         setTime(new Date());
@@ -232,26 +111,8 @@ const Dashboard = () => {
     if (windowSize.height < constrainHeightScreen) {
       setResponsiveHeightScreen("560px");
       console.log("560px");
-      // setResponsiveHeightDeviceBox(`300px`);
-      // setTopChartBox("350px");
-      // setHeightMinMaxBox("365px");
-      // setResponsiveHeightSensorBox("300px");
-      // setTopNavigator("295px");
     } else {
       setResponsiveHeightScreen(`${windowSize.height}px`);
-
-      // const heightDeviceBox = windowSize.height * 0.6 - 48;
-      // setResponsiveHeightDeviceBox(`${heightDeviceBox}px`);
-      // const tempTop = heightDeviceBox - 5;
-      // setTopNavigator(`${tempTop}px`);
-      // const top = heightDeviceBox + 50;
-      // setTopChartBox(`${top}px`);
-      // const heightSensorBox = windowSize.height * 0.4 - 10;
-      // setResponsiveHeightSensorBox(`${heightSensorBox}px`); //"h-[200px]");
-      // const tempHeightChartBox = heightSensorBox - 70;
-      // setHeightChartBox(`${tempHeightChartBox}px`);
-      // const tempHeightMinMaxBox = heightSensorBox - 60;
-      // setHeightMinMaxBox(`${tempHeightMinMaxBox}px`);
     }
 
     if (windowSize.width < 1024) {
@@ -267,7 +128,7 @@ const Dashboard = () => {
       style={{
         height: responsiveHeightScreen,
         width: responsiveWidthScreen,
-        backgroundColor: "#273647",
+        backgroundColor: "#223849",
       }}
       className={`flex fixed h-screen w-screen`}
     >
@@ -275,7 +136,7 @@ const Dashboard = () => {
         <SideMenu />
       </div>
       <div className="flex-1 flex flex-col h-full w-full ml-[20px] pr-[10px]">
-        <div className="flex bg-[#34495c]  min-h-[100px] mt-[10px]  rounded-xl">
+        <div className="flex bg-backgorundFirst  min-h-[100px] mt-[10px]  rounded-xl">
           <HeaderDashboard />
         </div>
         <div
@@ -289,7 +150,7 @@ const Dashboard = () => {
       <div className="absolute bottom-[20px] right-[20px] z-10 ">
         <div
           style={{ height: `calc(${responsiveHeightScreen} - 160px)` }}
-          className={`w-[150px]  bg-[#304a60] border-[#258362] border-[2px] rounded-xl`}
+          className={`w-[150px]  bg-backgorundFirst border-primary border-[2px] rounded-xl`}
         >
           <NodeBox />
         </div>
@@ -302,7 +163,7 @@ const Dashboard = () => {
             height: `240px`,
             width: `calc(${responsiveWidthScreen} - 250px - 20px)`,
           }}
-          className={`border-[#258362] border-[2px] rounded-xl p-[3px]`}
+          className={`border-primary border-[2px] rounded-xl p-[3px]`}
         >
           <DetailSensorBox />
         </div>
@@ -320,20 +181,13 @@ const Dashboard = () => {
               height: `240px`,
               width: `240px`,
             }}
-            className={`border-[#258362] border-[2px] rounded-xl p-[3px]`}
+            className={`border-primary border-[2px] rounded-xl p-[3px]`}
           >
             <ImageProduct />
           </div>
         </div>
       )}
-
-      {/* {isDetailBoxShow && (
-        <div className="absolute top-[40px] right-[calc(300px+20px)] z-10">
-          <DeviceDetails />
-        </div>
-      )} */}
     </div>
-    // </div>
   );
 };
 

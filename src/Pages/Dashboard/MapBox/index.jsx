@@ -7,7 +7,11 @@ import MapMarkerGray from "../../../assets/mapMarker_gray.png";
 import { useZustandState } from "../../../store/state";
 // import { findDeviceFromSensorBox, findIndexById } from "../function";
 import "./CircleWave.css";
-import { updateMap, convertToDataChart } from "../function";
+import {
+  updateMap,
+  convertToDataChart,
+  fetchNodeImageProduct,
+} from "../function";
 
 const mapboxToken =
   "pk.eyJ1IjoiemVyb2hhY2siLCJhIjoiY2t2MzR6NzYzOGUxcjJ2bnpydnYwM28yaSJ9._bUy8NIpXyzLkTELdT5qPA";
@@ -24,6 +28,8 @@ const MapComponent = () => {
     setDataChartXY,
     setMaxY_Axis,
     setMinY_Axis,
+    setPhoto,
+    setIsFetchImageProductReady,
   } = useZustandState((state) => state);
 
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(true);
@@ -104,6 +110,13 @@ const MapComponent = () => {
     setMaxY_Axis(d[1]);
     setMinY_Axis(d[2]);
 
+    //! get data photo product
+    setIsFetchImageProductReady(false);
+    const data = await fetchNodeImageProduct(tempDataSensor[index].node_id);
+    console.log(data);
+    setPhoto(`https://fairuz90.pythonanywhere.com/${data}`);
+    setIsFetchImageProductReady(true);
+
     // const temp = await findDeviceFromSensorBox(
     //   sensorBox,
     //   device.idGateway,
@@ -172,7 +185,7 @@ const MapComponent = () => {
                 <div className="flex flex-col w-[48px] items-center relative ">
                   <div className="w-full flex-1 flex justify-center">
                     {currentZoom > 10 && (
-                      <p className="text-[10px] text-white truncate">
+                      <p className="text-[10px] text-textColor truncate">
                         {device.node_id}
                       </p>
                     )}
@@ -204,19 +217,19 @@ const MapComponent = () => {
                         style={{
                           bottom: currentZoom > 10 ? "-18px" : "-18px",
                         }}
-                        className="absolute  left-[12px] w-[24px] h-[24px] bg-white rounded-full -z-10 ripple"
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-textColor rounded-full -z-10 ripple"
                       ></div>
                       <div
                         style={{
                           bottom: currentZoom > 10 ? "-18px" : "-18px",
                         }}
-                        className="absolute  left-[12px] w-[24px] h-[24px] bg-white rounded-full -z-10 ripple delay-200"
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-textColor rounded-full -z-10 ripple delay-200"
                       ></div>
                       <div
                         style={{
                           bottom: currentZoom > 10 ? "-18px" : "-18px",
                         }}
-                        className="absolute  left-[12px] w-[24px] h-[24px] bg-white rounded-full -z-10 ripple delay-400"
+                        className="absolute  left-[12px] w-[24px] h-[24px] bg-textColor rounded-full -z-10 ripple delay-400"
                       ></div>
                     </div>
                   )}
@@ -227,19 +240,19 @@ const MapComponent = () => {
         </ReactMapGL>
       ) : (
         <div className="w-full h-full bg-primary flex items-center justify-center">
-          <p className="text-white">...Loading Maps</p>
+          <p className="text-textColor">...Loading Maps</p>
         </div>
       )}
       {/* <div style={{ top: "150px" }} className="absolute right-[220px] z-40">
         <div className="w-[25px] h-[60px] flex flex-col space-y-2 ">
           <button
-            className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
+            className="w-full h-[20px] bg-secondary text-textColor text-[10px] rounded flex items-center justify-center"
             onClick={() => handleZoomIn()}
           >
             +
           </button>
           <button
-            className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
+            className="w-full h-[20px] bg-secondary text-textColor text-[10px] rounded flex items-center justify-center"
             onClick={() => handleZoomOut()}
           >
             -

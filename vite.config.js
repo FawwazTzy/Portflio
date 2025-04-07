@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgx from "@svgx/vite-plugin-react";
-import path from "path";
+// import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,7 +27,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"), // Alias for src directory
+      // "@": path.resolve(__dirname, "./src"), // Alias for src directory
     },
   },
   define: {
@@ -37,13 +37,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://fairuz90.pythonanywhere.com",
+        target: "http://103.193.178.21",
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        // rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
-    //! Mengizinkan semua subdomain ngrok
-    allowedHosts: [".ngrok-free.app"],
+    // //! Mengizinkan semua subdomain ngrok
+    // allowedHosts: [".ngrok-free.app"],
   },
 });

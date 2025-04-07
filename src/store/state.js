@@ -46,6 +46,13 @@ export const useZustandState = create((set, get) => ({
     });
   },
 
+  photo: "",
+  setPhoto: (value) => {
+    set(() => {
+      return { photo: value };
+    });
+  },
+
   //!=========================== variable sensor image =============
   isSensorImageVisible: false,
   setISensorImageVisible: (value) => {
@@ -53,7 +60,12 @@ export const useZustandState = create((set, get) => ({
       return { isSensorImageVisible: value };
     });
   },
-
+  isFetchImageProductReady: false,
+  setIsFetchImageProductReady: (value) => {
+    set(() => {
+      return { isFetchImageProductReady: value };
+    });
+  },
   //!========================== variable grafik ========================
   minY_Axis: -10,
   setMinY_Axis: (value) => {
@@ -90,4 +102,7 @@ export const useZustandState = create((set, get) => ({
       };
     });
   },
+
+  
+  
 }));

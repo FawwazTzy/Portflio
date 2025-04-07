@@ -69,33 +69,22 @@ export function updateMap(device) {
   };
 }
 
+export async function fetchNodeImageProduct(node_id) {
+  try {
+    console.log(
+      "fetch nodes data https://fairuz90.pythonanywhere.com/vision/image/{node-001}"
+    );
+    const res = await axios.get(`/api/vision/image/${node_id}/`);
+    // console.log(res);
+    const photo = await res.data.photo;
+    return photo;
+  } catch (error) {
+    console.log("response error");
+    return "https://cms.ptgis.id/wp-content/uploads/2024/08/94b5a35d-29df-48b9-beea-b8cd089c29f8.jpg";
+  }
+}
+
 export function convertToDataChart(x, y) {
-  // console.log("day.timeOn");
-  // console.log(x.length);
-  // let min = 0;
-  // let max = 10;
-  // let tempData = [];
-
-  // if (x.length > 0) {
-  //   const tempMax = y.reduce((a, b) => Math.max(a, b));
-  //   const tempMin = y.reduce((a, b) => Math.min(a, b));
-  //   max = Math.ceil(tempMax) + 2;
-  //   min = 0;
-  //   min = Math.ceil(tempMin) - 2;
-
-  //   x.map((item, index) => {
-  //     const t = {
-  //       xAxis: `${item}`,
-  //       value: y[index],
-  //     };
-  //     tempData.push(t);
-  //   });
-
-  //   return [tempData, max, min];
-  // }
-
-  // return [tempData, max, min];
-
   console.log(`x ${x}`);
   console.log(`y ${y}`);
   if (x.length > 0) {

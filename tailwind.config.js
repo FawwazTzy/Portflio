@@ -9,16 +9,19 @@ export default {
         norwester: ["Norwester", "sans-serif"], // Norwester sebagai opsi tambahan
       },
       colors: {
-        primary: "#15202f",
-        secondary: "#ffffff",
-        third: "#2a2d3e",
-        fourth: "#1e1e2c",
-        dark: "#111111",
+        primary: "#00975c",
+        backgorundFirst: "#314a5f",
+        backgorundSecond: "#517ea3",
+        backgorundThird: "#92c6f1",
+        baseBackground: "#223849",
+        textColor: "#efefef",
+        dropDownArrow: "#a5a7a8",
       },
       container: {
         center: true,
       },
     },
   },
+  // eslint-disable-next-line no-undef
   plugins: [require("tailwind-scrollbar")],
 };

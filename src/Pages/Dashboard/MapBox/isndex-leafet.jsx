@@ -144,7 +144,7 @@
 //         //         <div className="flex flex-col w-[48px] items-center relative ">
 //         //           <div className="w-full flex-1 flex justify-center">
 //         //             {currentZoom > 10 && (
-//         //               <p className="text-[10px] text-white truncate">
+//         //               <p className="text-[10px] text-textColor truncate">
 //         //                 {device.nameNode}
 //         //               </p>
 //         //             )}
@@ -206,19 +206,19 @@
 //         </MapContainer>
 //       ) : (
 //         <div className="w-full h-full bg-primary flex items-center justify-center">
-//           <p className="text-white">...Loading Maps</p>
+//           <p className="text-textColor">...Loading Maps</p>
 //         </div>
 //       )}
 //       <div style={{ top: "150px" }} className="absolute right-[220px] z-40">
 //         <div className="w-[25px] h-[60px] flex flex-col space-y-2 ">
 //           <button
-//             className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
+//             className="w-full h-[20px] bg-secondary text-textColor text-[10px] rounded flex items-center justify-center"
 //             onClick={() => handleZoomIn()}
 //           >
 //             +
 //           </button>
 //           <button
-//             className="w-full h-[20px] bg-secondary text-white text-[10px] rounded flex items-center justify-center"
+//             className="w-full h-[20px] bg-secondary text-textColor text-[10px] rounded flex items-center justify-center"
 //             onClick={() => handleZoomOut()}
 //           >
 //             -

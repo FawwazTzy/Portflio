@@ -26,7 +26,7 @@ const NavLinks = [
 
 const Navbar = ({ theme, setTheme }) => {
   return (
-    <nav className="shadow-md bg-white dark:bg-dark dark:text-white duration-300">
+    <nav className="shadow-md bg-textColor dark:bg-dark dark:text-textColor duration-300">
       <div className="container md:py-0">
         <div className="flex justify-between items-center">
           <div>

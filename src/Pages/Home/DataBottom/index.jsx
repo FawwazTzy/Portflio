@@ -47,7 +47,7 @@ const DataBottom = () => {
     <div className="flex flex-col w-full h-full  ">
       <div className="flex w-full h-[50%] pb-[10px] ">
         <div
-          className="flex flex-col w-[25%] h-full bg-[#314a60] rounded-xl text-white px-[10px] mr-[10px] pb-[10px] cursor-pointer"
+          className="flex flex-col w-[25%] h-full bg-backgorundFirst rounded-xl text-textColor px-[10px] mr-[10px] pb-[10px] cursor-pointer"
           onClick={() => onClickHandleGaugeNormal()}
         >
           <div className="flex w-full h-[40px]  text-[24px]">
@@ -62,8 +62,8 @@ const DataBottom = () => {
             <p>{!fetchDataError ? percentageGaugeNormal : 0} %</p>
           </div>
         </div>
-        <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px] mr-[10px]">
-          <div className="flex h-[40px] w-[80px] text-white text-[24px] ">
+        <div className="flex w-[25%] h-full bg-backgorundSecond rounded-xl px-[10px] mr-[10px]">
+          <div className="flex h-[40px] w-[80px] text-textColor text-[24px] ">
             <p>Merk</p>
           </div>
           <div className="flex flex-1 w-full h-full  items-center justify-center">
@@ -73,8 +73,8 @@ const DataBottom = () => {
             />
           </div>
         </div>
-        <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px] mr-[10px]">
-          <div className="flex h-[40px] w-[80px] text-white text-[24px] ">
+        <div className="flex w-[25%] h-full bg-backgorundSecond rounded-xl px-[10px] mr-[10px]">
+          <div className="flex h-[40px] w-[80px] text-textColor text-[24px] ">
             <p>Isolasi</p>
           </div>
           <div className="flex flex-1 w-full h-full  items-center justify-center">
@@ -84,8 +84,8 @@ const DataBottom = () => {
             />
           </div>
         </div>
-        <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px]">
-          <div className="flex h-[40px] w-[80px] text-white text-[24px] ">
+        <div className="flex w-[25%] h-full bg-backgorundSecond rounded-xl px-[10px]">
+          <div className="flex h-[40px] w-[80px] text-textColor text-[24px] ">
             <p>Zona</p>
           </div>
           <div className="flex flex-1 w-full h-full  items-center justify-center">
@@ -95,7 +95,7 @@ const DataBottom = () => {
       </div>
       <div className="flex h-[50%] w-full  ">
         <div
-          className="flex flex-col w-[25%] h-full bg-[#314a60] rounded-xl text-white px-[10px] mr-[10px] cursor-pointer"
+          className="flex flex-col w-[25%] h-full bg-backgorundFirst rounded-xl text-textColor px-[10px] mr-[10px] cursor-pointer"
           onClick={() => onClickHandleGaugeAnomali()}
         >
           <div className="flex w-full h-[40px] text-[24px]">
@@ -112,8 +112,8 @@ const DataBottom = () => {
             <p>{!fetchDataError ? percentageGaugeAnomali : 0} %</p>
           </div>
         </div>
-        <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px] mr-[10px] ">
-          <div className="flex h-[40px] w-[80px] text-white text-[24px] ">
+        <div className="flex w-[25%] h-full bg-backgorundSecond rounded-xl px-[10px] mr-[10px] ">
+          <div className="flex h-[40px] w-[80px] text-textColor text-[24px] ">
             <p>Merk</p>
           </div>
           <div className="flex flex-1 w-full h-full  items-center justify-center">
@@ -123,8 +123,8 @@ const DataBottom = () => {
             />
           </div>
         </div>
-        <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px] mr-[10px]">
-          <div className="flex h-[40px] w-[80px] text-white text-[24px] ">
+        <div className="flex w-[25%] h-full bg-backgorundSecond rounded-xl px-[10px] mr-[10px]">
+          <div className="flex h-[40px] w-[80px] text-textColor text-[24px] ">
             <p>Isolasi</p>
           </div>
           <div className="flex flex-1 w-full h-full  items-center justify-center">
@@ -134,8 +134,8 @@ const DataBottom = () => {
             />
           </div>
         </div>
-        <div className="flex w-[25%] h-full bg-[#507fa3] rounded-xl px-[10px]">
-          <div className="flex h-[40px] w-[80px] text-white text-[24px] ">
+        <div className="flex w-[25%] h-full bg-backgorundSecond rounded-xl px-[10px]">
+          <div className="flex h-[40px] w-[80px] text-textColor text-[24px] ">
             <p>Zona</p>
           </div>
           <div className="flex flex-1 w-full h-full  items-center justify-center">

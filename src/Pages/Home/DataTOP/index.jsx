@@ -28,16 +28,16 @@ const DataTOP = () => {
         className="flex flex-col cursor-pointer w-[200px] h-full bg-gradient-to-r from-[#0297b4] to-[#7dda55] rounded-xl px-[10px]"
         onClick={() => onClickHandleKameraOn()}
       >
-        <div className="flex w-full h-[40px]  text-white text-[24px]">
+        <div className="flex w-full h-[40px]  text-textColor text-[24px]">
           <p>Kamera ON</p>
         </div>
-        <div className="flex flex-1 w-full h-full  text-white ">
+        <div className="flex flex-1 w-full h-full  text-textColor ">
           <div className="flex flex-1 text-[72px] justify-start items-end font-bold ">
             <p className="font-norwester">
               {formatNumber(dataSensorKameraOn.length)}
             </p>
           </div>
-          <div className="flex flex-col w-[100px] text-[24px] text-white justify-end items-end">
+          <div className="flex flex-col w-[100px] text-[24px] text-textColor justify-end items-end">
             <p>{!fetchDataError ? percentageKameraOn : 0} %</p>
             <div className="w-full h-[14px]"></div>
           </div>
@@ -47,16 +47,16 @@ const DataTOP = () => {
         className="flex flex-col cursor-pointer w-[200px] h-full  bg-gradient-to-r from-[#fe312f] to-[#ff8e4d] rounded-xl px-[10px] "
         onClick={() => onClickHandleKameraOff()}
       >
-        <div className="flex w-full h-[40px]  text-white text-[24px]">
+        <div className="flex w-full h-[40px]  text-textColor text-[24px]">
           <p className="font-sans">Kamera OFF</p>
         </div>
-        <div className="flex flex-1 w-full h-full  text-white ">
+        <div className="flex flex-1 w-full h-full  text-textColor ">
           <div className="flex flex-1 text-[72px] justify-start items-end font-bold ">
             <p className="font-norwester">
               {formatNumber(dataSensorKameraOff.length)}
             </p>
           </div>
-          <div className="flex flex-col w-[100px] text-[24px] text-white justify-end items-end">
+          <div className="flex flex-col w-[100px] text-[24px] text-textColor justify-end items-end">
             <p className="font-sans">
               {!fetchDataError ? percentageKameraOff : 0} %
             </p>
@@ -64,7 +64,7 @@ const DataTOP = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 w-full h-full bg-[#507fa3] rounded-xl">
+      <div className="flex flex-1 w-full h-full bg-backgorundSecond rounded-xl">
         <GrafikBatang />
       </div>
     </div>

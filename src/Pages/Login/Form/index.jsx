@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useZustandStateLogin } from "../../../store/stateLogin";
+import { fetchLogin } from "../../../Utils/api";
 
 export const FormLogin = ({ heightScreen }) => {
   const navigate = useNavigate();
@@ -16,22 +16,13 @@ export const FormLogin = ({ heightScreen }) => {
   const onClickHandleLogin = async (username, password) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/v1/login`,
-        // `/api/v1/login`,
-        {
-          username: username,
-          password: password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
+      const response = await fetchLogin(username, password);
       if (response.status === 200) {
         setLoading(false);
         navigate("/map", { replace: true });
       }
+      console.log("status ", response.status);
+      console.log("response ", response.data);
     } catch (error) {
       console.error("Error login", error);
     } finally {

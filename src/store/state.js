@@ -102,7 +102,11 @@ export const useZustandState = create((set, get) => ({
       };
     });
   },
-
-  
-  
+  //! -------------------------- loading ------------------------------------
+  loading: false,
+  setLoading: (value) => {
+    set(() => {
+      return { loading: value };
+    });
+  },
 }));

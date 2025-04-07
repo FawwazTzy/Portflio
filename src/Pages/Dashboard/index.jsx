@@ -16,12 +16,14 @@ import NodeBox from "./NodeBox";
 // import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ImageProduct from "./ImageProduct";
+import { useNavigate } from "react-router-dom";
+import { fetchCheckAuth } from "../../Utils/api";
 
 // import { cekCookie, cekTokenAdmin, fetchProfile } from "../../globalFunction";
 // import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const [userProfile, setUserProfile] = useState({
   //   username: "-",
   //   id: "-",
@@ -47,6 +49,8 @@ const Dashboard = () => {
     isSensorImageVisible,
     sensorClicked,
     setDataSensor,
+    loading,
+    setLoading,
   } = useZustandState((state) => state);
 
   async function getGataNode() {
@@ -86,23 +90,21 @@ const Dashboard = () => {
   //!==================
 
   useEffect(() => {
-    try {
-      getGataNode();
-
-      const update = () => {
-        setTime(new Date());
-      };
-
-      //   //! call function
-      //   processData();
-      //   //! Fetch data every 1 minute
-      const intervalId = setTimeout(update, 10000);
-      //   //! Clean up interval on component unmount
-      return () => clearInterval(intervalId);
-    } catch (error) {
-      console.log("error catch use effect");
-      console.log(error);
-    }
+    // try {
+    //   getGataNode();
+    //   const update = () => {
+    //     setTime(new Date());
+    //   };
+    //   //   //! call function
+    //   //   processData();
+    //   //   //! Fetch data every 1 minute
+    //   const intervalId = setTimeout(update, 10000);
+    //   //   //! Clean up interval on component unmount
+    //   return () => clearInterval(intervalId);
+    // } catch (error) {
+    //   console.log("error catch use effect");
+    //   console.log(error);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
 
@@ -122,6 +124,39 @@ const Dashboard = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowSize]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        console.log("prosess fecth check auth");
+        const response = await fetchCheckAuth();
+        console.log("response ", response.status);
+        console.log("response ", response.data);
+        // if (response.status === 200) {
+        //   setLoading(false);
+        // } else {
+        //   setLoading(false);
+        //   navigate("/404", { replace: true });
+        // }
+      } catch (error) {
+        console.error("catch error check auth");
+      } finally {
+        setLoading(false);
+        console.error("final error check auth");
+      }
+    };
+
+    console.log("Cek auth");
+    // Kirim langsung saat pertama render
+    checkAuth();
+    // Set interval untuk kirim setiap 1 menit (60000 ms)
+    const intervalId = setInterval(() => {
+      checkAuth();
+    }, 60000);
+    // Cleanup saat komponen unmount
+    return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div

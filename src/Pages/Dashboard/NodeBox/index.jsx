@@ -14,6 +14,7 @@ function NodeBox() {
     setDataChartXY,
     setMaxY_Axis,
     setMinY_Axis,
+    nodesView
   } = useZustandState((state) => state);
 
   const onClickHandle = ({ device, index }) => {
@@ -48,18 +49,18 @@ function NodeBox() {
         <p className="text-[18px] text-textColor ">Node Island</p>
       </div>
       <div className="flex-1 overflow-y-auto w-full h-full mt-[10px] pl-[10px] pr-[10px]">
-        {dataSensor.map((device, index) => (
+        {nodesView.map((device, index) => (
           <div
             className="cursor-pointer"
             key={index}
             onClick={() => onClickHandle({ device, index })}
           >
             <DeviceBox
-              title={device.node_id}
-              value={device.Pressure.at(-1)}
+              title={device.nodeName}
+              value={device.pressure}
               isClicked={device.isClicked}
-              statusCam={device.Status_cam.at(-1)}
-              statusGauge={device.Status_gauge.at(-1)}
+              statusCam={device.statusCam}
+              statusGauge={device.statusGauge}
             />
           </div>
         ))}

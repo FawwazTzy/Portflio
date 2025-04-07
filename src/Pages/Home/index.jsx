@@ -8,6 +8,7 @@ import DataTOP from "./DataTOP";
 import DataBottom from "./DataBottom";
 import TableRight from "./TableRight";
 import { fetchNodesData } from "./function";
+import { div } from "framer-motion/client";
 
 const Home = () => {
   const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("100%");
@@ -98,77 +99,80 @@ const Home = () => {
   }
 
   useEffect(() => {
-    try {
-      getGataNode();
+    // try {
+    //   getGataNode();
 
-      const update = () => {
-        setTime(new Date());
-      };
+    //   const update = () => {
+    //     setTime(new Date());
+    //   };
 
-      //   //! call function
-      //   processData();
-      //   //! Fetch data every 1 minute
-      const intervalId = setTimeout(update, 10000);
-      //   //! Clean up interval on component unmount
-      return () => clearInterval(intervalId);
-    } catch (error) {
-      console.log("error catch use effect");
-      console.log(error);
-    }
+    //   //   //! call function
+    //   //   processData();
+    //   //   //! Fetch data every 1 minute
+    //   const intervalId = setTimeout(update, 10000);
+    //   //   //! Clean up interval on component unmount
+    //   return () => clearInterval(intervalId);
+    // } catch (error) {
+    //   console.log("error catch use effect");
+    //   console.log(error);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
 
   return (
-    <div
-      style={{
-        height: responsiveHeightScreen,
-        width: responsiveWidthScreen,
-        backgroundColor: "#223849",
-      }}
-      className={`flex fixed h-screen w-screen`}
-    >
-      <div className="flex h-full w-[60px]">
-        <SideMenu />
-      </div>
-
-      <div className="flex flex-col flex-1 w-full h-full ml-[20px] mr-[10px]">
-        <div className="flex bg-backgorundFirst  min-h-[100px] mt-[10px]  rounded-xl">
-          <HeaderDashboard />
+    <div>
+      {isReady && (<div
+        style={{
+          height: responsiveHeightScreen,
+          width: responsiveWidthScreen,
+          backgroundColor: "#223849",
+        }}
+        className={`flex fixed h-screen w-screen`}
+      >
+        <div className="flex h-full w-[60px]">
+          <SideMenu />
         </div>
-        <div className="flex flex-1 w-full h-full">
-          <div
-            // style={{ height: `${responsiveHeightScreen}` }}
-            className="flex flex-1 flex-col w-full h-full mt-[20px]" //h-[calc(100%-100px-10px-10px)  mr-[10px] mb-[10px]
-          >
-            <div className="flex w-full h-[160px]  rounded-xl border-primary border-[2px] p-[10px]">
-              <DataTOP />
+
+        <div className="flex flex-col flex-1 w-full h-full ml-[20px] mr-[10px]">
+          <div className="flex bg-backgorundFirst  min-h-[100px] mt-[10px]  rounded-xl">
+            <HeaderDashboard />
+          </div>
+          <div className="flex flex-1 w-full h-full">
+            <div
+              // style={{ height: `${responsiveHeightScreen}` }}
+              className="flex flex-1 flex-col w-full h-full mt-[20px]" //h-[calc(100%-100px-10px-10px)  mr-[10px] mb-[10px]
+            >
+              <div className="flex w-full h-[160px]  rounded-xl border-primary border-[2px] p-[10px]">
+                <DataTOP />
+              </div>
+              <div
+                style={{
+                  height:
+                    responsiveHeightScreen == "650px"
+                      ? "650px"
+                      : `${heightDataBootom}px`,
+                }}
+                className="flex w-full rounded-xl border-primary border-[2px] p-[10px] mt-[10px] mb-[10px]"
+              >
+                <DataBottom />
+              </div>
             </div>
             <div
               style={{
                 height:
                   responsiveHeightScreen == "650px"
                     ? "650px"
-                    : `${heightDataBootom}px`,
+                    : `${heightDataBootom + 160 + 10}px`,
               }}
-              className="flex w-full rounded-xl border-primary border-[2px] p-[10px] mt-[10px] mb-[10px]"
+              className="flex w-[400px] rounded-xl border-primary border-[2px] ml-[10px] mt-[20px]"
             >
-              <DataBottom />
+              <TableRight />
             </div>
           </div>
-          <div
-            style={{
-              height:
-                responsiveHeightScreen == "650px"
-                  ? "650px"
-                  : `${heightDataBootom + 160 + 10}px`,
-            }}
-            className="flex w-[400px] rounded-xl border-primary border-[2px] ml-[10px] mt-[20px]"
-          >
-            <TableRight />
-          </div>
         </div>
-      </div>
+      </div>)}
     </div>
+
   );
 };
 

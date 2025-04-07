@@ -30,6 +30,7 @@ const MapComponent = () => {
     setMinY_Axis,
     setPhoto,
     setIsFetchImageProductReady,
+    nodesView,
   } = useZustandState((state) => state);
 
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(true);
@@ -174,19 +175,19 @@ const MapComponent = () => {
           onMove={onMove}
           onLoad={() => handleMapLoad}
         >
-          {dataSensor.length >= 1 &&
-            dataSensor.map((device, index) => (
+          {nodesView.length >= 1 &&
+            nodesView.map((device, index) => (
               <Marker
                 key={index}
-                latitude={device.GPS_Koordinat[0]}
-                longitude={device.GPS_Koordinat[1]}
+                latitude={device.gps_lat}
+                longitude={device.gps_long}
                 anchor="bottom"
               >
                 <div className="flex flex-col w-[48px] items-center relative ">
                   <div className="w-full flex-1 flex justify-center">
                     {currentZoom > 10 && (
                       <p className="text-[10px] text-textColor truncate">
-                        {device.node_id}
+                        {device.nodeName}
                       </p>
                     )}
                   </div>
@@ -196,16 +197,16 @@ const MapComponent = () => {
                   >
                     <img
                       src={
-                        device.Status_cam.at(-1) === "on" &&
-                        device.Status_gauge.at(-1) === "aman"
+                        device.statusCam === "on" &&
+                          device.statusGauge === "aman"
                           ? MapMarkerGreen
-                          : device.Status_cam.at(-1) === "on" &&
-                            device.Status_gauge.at(-1) === "waspada"
-                          ? MapMarkerYellow
-                          : device.Status_cam.at(-1) === "on" &&
-                            device.Status_gauge.at(-1) === "bahaya"
-                          ? MapMarkerRed
-                          : MapMarkerGray
+                          : device.statusCam === "on" &&
+                            device.statusGauge === "waspada"
+                            ? MapMarkerYellow
+                            : device.statusCam === "on" &&
+                              device.statusGauge === "bahaya"
+                              ? MapMarkerRed
+                              : MapMarkerGray
                       }
                       alt={`Marker x`}
                       className="w-8 h-8"

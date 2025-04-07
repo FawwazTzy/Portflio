@@ -35,13 +35,13 @@ export default defineConfig({
   },
   //! sementara untuk mengatasi CORS
   server: {
-    proxy: {
-      "/api": {
-        target: "http://103.193.178.21",
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "http://103.193.178.21",
+    //     changeOrigin: true,
+    //     // rewrite: (path) => path.replace(/^\/api/, ""),
+    //   },
+    // },
     // //! Mengizinkan semua subdomain ngrok
     // allowedHosts: [".ngrok-free.app"],
   },

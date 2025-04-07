@@ -14,7 +14,7 @@ export async function fetchLogin(username, password) {
       }
     );
   } catch (error) {
-    console.error("Error login");
+    console.error("Error API login");
   }
 }
 
@@ -27,6 +27,33 @@ export async function fetchCheckAuth() {
       }
     );
   } catch (error) {
-    console.error("Error check-auth");
+    console.error("Error API check-auth");
   }
 }
+
+export async function fetchGetUnit() {
+  try {
+    return await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/unit`,
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    console.error("Error API Get unit");
+  }
+}
+
+export async function fetchGetNodes() {
+  try {
+    return await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/nodes`,
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    console.error("Error API Get Nodes");
+  }
+}
+

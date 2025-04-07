@@ -55,6 +55,7 @@ const App = () => {
         {/* <Route path="/setting/sensor" element={<Dashboard />} /> */}
 
         <Route path="/error" element={<Status404 />} />
+        <Route path="/404" element={<Status404 />} />
         {/* Catch all unmatched routes and redirect to /error */}
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>

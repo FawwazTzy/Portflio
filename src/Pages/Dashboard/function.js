@@ -105,3 +105,20 @@ export function convertToDataChart(x, y) {
 }
 
 //!====================================================================
+import { fetchGetUnit } from "../../Utils/api";
+
+
+export async function getUnitFromServer() {
+  try {
+    const res = await fetchGetUnit();
+    const data = await res.data;
+    return data;
+  } catch (error) {
+    return false;
+  }
+}
+
+// const processDataUnit = (data) => {
+
+
+// };

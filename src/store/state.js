@@ -109,4 +109,54 @@ export const useZustandState = create((set, get) => ({
       return { loading: value };
     });
   },
+  //! -------------------------- Unit ------------------------------------
+  UPT: [],
+  setUPT: (value) => {
+    set(() => {
+      return { UPT: value };
+    });
+  },
+  ULTG: [],
+  setULTG: (value) => {
+    set(() => {
+      return { ULTG: value };
+    });
+  },
+  unit: [],
+  setUnit: (value) => {
+    set(() => {
+      return { unit: value };
+    });
+  },
+  dipilihULTG: "",
+  setDipilihULTG: (value) => {
+    set(() => {
+      return { dipilihULTG: value };
+    });
+  },
+  unitSelected: "",
+  setUnitSelected: (value) => {
+    set(() => {
+      return { unitSelected: value };
+    });
+  },
+  nodes: [],
+  setNodes: (value) => {
+    set(() => {
+      return { nodes: value };
+    });
+  },
+  nodesView: [],
+  setNodesView: (value) => {
+    set(() => {
+      return { nodesView: value };
+    });
+  },
+  nodeSelected: "",
+  setNodeSelected: (value) => {
+    set(() => {
+      return { nodeSelected: value };
+    });
+  },
+
 }));

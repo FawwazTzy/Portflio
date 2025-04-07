@@ -2,41 +2,18 @@ import { useState, useEffect, useRef } from "react";
 import UserPNG from "../../../assets/user.png";
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import dropDownDataGIJSON from "./dropdownPulogadung.json";
+import { useZustandState } from "../../../store/state";
 
 const Header = () => {
+  const { ULTG, unit, setUnitSelected, setDipilihULTG, nodes, setNodesView, dipilihULTG } = useZustandState((state) => state);
+
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenULTG, setIsOpenULTG] = useState(false);
-  const [stepULTG, setStepULTG] = useState(0);
-  const [dropdownDataGI, setDropdownDataGI] = useState([]);
-  const [ULTGName, setULTGName] = useState("Pilih ULTG");
-  const [GIName, setGIName] = useState("Pilih Gardu Induk");
-
-  const dropdownDataULTG = [
-    { id: 1, label: "Semua ULTG" },
-    { id: 2, label: "ULTG Pulogadung" },
-    { id: 3, label: "ULTG Harapan Indah" },
-    { id: 4, label: "ULTG Ancol" },
-  ];
-
-  let collectionDataGI = [];
-
-  // Gabungkan semua nilai `value` dari setiap objek dalam array
-  const mergedValues = [
-    ...new Set(dropDownDataGIJSON.flatMap((item) => item.value)),
-  ];
-  // Buat data baru dengan value yang sudah digabung
-  const newData = {
-    id: 4,
-    title: "Semua ULTG",
-    value: mergedValues,
-  };
-  // Tambahkan data baru ke dalam array `data`
-  dropDownDataGIJSON.push(newData);
-  collectionDataGI = dropDownDataGIJSON;
+  const [dropdownDataGI, setDropdownDataGI] = useState(["Semua Gardu Induk"]);
+  const [ULTGName, setULTGName] = useState("Semua ULTG");
+  const [GIName, setGIName] = useState("Semua Gardu Induk");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,32 +61,37 @@ const Header = () => {
   }, []);
 
   const onClickHandleULTG = (item) => {
-    // console.log(item);
-    setStepULTG(1);
-    if (item.id === 1) {
-      setDropdownDataGI(collectionDataGI[3]);
-    } else if (item.id === 2) {
-      setDropdownDataGI(collectionDataGI[0]);
-    } else if (item.id === 3) {
-      setDropdownDataGI(collectionDataGI[1]);
-    } else if (item.id === 4) {
-      setDropdownDataGI(collectionDataGI[2]);
+    setIsOpenULTG(!isOpenULTG)
+    setULTGName(item)
+    const index = ULTG.indexOf(item);
+    const unitArray = ["Semua Gardu Induk", ...unit[index]];
+    setDropdownDataGI(unitArray)
+    setGIName("Semua Gardu Induk");
+    console.log("ULTGSelected handle", item)
+    setDipilihULTG(item)
+    setUnitSelected("Semua Gardu Induk")
+    if (index === 0) {
+      setNodesView(nodes)
+      // console.log(nodes)
     } else {
-      setDropdownDataGI([]);
-      setStepULTG(0);
-      setULTGName("Pilih ULTG");
-      setGIName("Pilih Gardu Induk");
+      const filterByULTG = nodes.filter(i => i.ULTG === item);
+      setNodesView(filterByULTG)
+      // console.log(filterByULTG)
     }
-    //! tutup dropdown
-    setIsOpenULTG(false);
-    setULTGName(item.label);
-    setGIName("Pilih Gardu Induk");
+
+
+
+    // console.log(unitArray);
   };
 
+  
+
   const onClickHandleGI = (item) => {
+    console.log("unitSelected handle", dipilihULTG)
     //! tutup dropdown
     setIsOpen(false);
-    setGIName(item.label);
+    setGIName(item);
+    setUnitSelected(item)
   };
 
   const dropdownRefGI = useRef(null); // Referensi untuk dropdown
@@ -174,9 +156,6 @@ const Header = () => {
       <div className="flex-col min-w-[300px] h-full pr-[10px]">
         <div className="flex w-full h-[50%] pb-[10px] pt-[10px]"></div>
         <div className="flex-1 relative" ref={dropdownRefULTG}>
-          {" "}
-          {/* Tambahkan relative */}
-          {/* <div className="w-64"> */}
           <button
             onClick={() => setIsOpenULTG(!isOpenULTG)}
             className="w-full flex justify-between items-center bg-textColor text-black  rounded-lg shadow-md"
@@ -202,13 +181,13 @@ const Header = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md overflow-hidden"
           >
-            {dropdownDataULTG.map((item) => (
+            {ULTG.map((item, index) => (
               <li
-                key={item.id}
+                key={index}
                 className="px-4 py-[8px] hover:bg-gray-100 cursor-pointer"
                 onClick={() => onClickHandleULTG(item)}
               >
-                {item.label}
+                {item}
               </li>
             ))}
           </motion.ul>
@@ -217,17 +196,14 @@ const Header = () => {
       </div>
       <div className="flex-col min-w-[300px] h-full pr-[10px]">
         <div className="flex w-full h-[50%] pb-[10px] pt-[10px]">
-          <div className="flex bg-textColor w-[70%] rounded-lg mr-[10px] items-center justify-center">
+          <div className=" flex bg-textColor w-[60%] rounded-lg mr-[10px] items-center justify-center">
             <p className="text-[16px]"> {currentDate}</p>
           </div>
-          <div className="flex-1 bg-textColor w-[70%] rounded-lg place-content-center place-items-center">
+          <div className="flex bg-textColor w-[40%] rounded-lg place-content-center place-items-center">
             <p className="text-[16px]"> {currentTime}</p>
           </div>
         </div>
         <div className="flex-1 relative " ref={dropdownRefGI}>
-          {" "}
-          {/* Tambahkan relative */}
-          {/* <div className="w-64"> */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="w-full flex justify-between items-center bg-textColor text-black h-full rounded-lg shadow-md 0"
@@ -251,18 +227,16 @@ const Header = () => {
             className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md 
              max-h-[300px] overflow-y-auto"
           >
-            {stepULTG != 0 &&
-              dropdownDataGI.value.map((item, index) => (
-                <li
-                  key={index}
-                  className="px-4 py-[8px] hover:bg-gray-100 cursor-pointer"
-                  onClick={() => onClickHandleGI(item)}
-                >
-                  {item.label}
-                </li>
-              ))}
+            {dropdownDataGI.map((item, index) => (
+              <li
+                key={index}
+                className="px-4 py-[8px] hover:bg-gray-100 cursor-pointer"
+                onClick={() => onClickHandleGI(item)}
+              >
+                {item}
+              </li>
+            ))}
           </motion.ul>
-          {/* </div> */}
         </div>
       </div>
     </div>

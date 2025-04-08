@@ -15,6 +15,7 @@ export async function fetchLogin(username, password) {
     );
   } catch (error) {
     console.error("Error API login");
+    return false;
   }
 }
 
@@ -28,6 +29,7 @@ export async function fetchCheckAuth() {
     );
   } catch (error) {
     console.error("Error API check-auth");
+    return false;
   }
 }
 
@@ -41,6 +43,7 @@ export async function fetchGetUnit() {
     );
   } catch (error) {
     console.error("Error API Get unit");
+    return false;
   }
 }
 
@@ -54,6 +57,7 @@ export async function fetchGetNodes() {
     );
   } catch (error) {
     console.error("Error API Get Nodes");
+    return false;
   }
 }
 
@@ -79,6 +83,31 @@ export async function fetchGetNodePicture(nodeName) {
 
   } catch (error) {
     console.error("Gagal ambil gambar:", error);
+    return false;
+  }
+}
+
+export async function fetchChartNode(nodeName, type, start, end) {
+
+  console.log("fetch ", nodeName)
+  console.log("fetch ", type)
+  try {
+    return await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/node`,
+      // `/api/v1/login`,
+      {
+        node: nodeName,
+        type: type,
+        start: start,
+        end: end
+      },
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    console.error("Error API Chart Node ", error);
+    return false;
   }
 }
 

@@ -6,7 +6,7 @@ import ChartBox from "../ChartBox";
 import { useZustandState } from "../../../store/state";
 
 function DetailSensorBox() {
-  const { sensorClicked } = useZustandState((state) => state);
+  const { nodeSelected } = useZustandState((state) => state);
   return (
     <div className="flex w-full h-full">
       <div className="flex flex-1 w-full h-full bg-[#314a60] rounded-xl ">
@@ -16,74 +16,63 @@ function DetailSensorBox() {
         <div className="flex flex-col w-full h-full bg-backgorundSecond rounded-xl p-[10px]">
           <div className="flex w-full h-[20px]  justify-center items-center">
             <div
-              className={`flex w-[50%] h-[8px] rounded-xl ${
-                sensorClicked.node_id === "err"
-                  ? "bg-[#808080]"
-                  : sensorClicked.Status_cam.at(-1) &&
-                    sensorClicked.Status_gauge.at(-1) === "aman"
+              className={`flex w-[20%] h-[8px] rounded-xl ${nodeSelected.nodeName === "-"
+                ? "bg-[#808080]"
+                : nodeSelected.statusCam &&
+                  nodeSelected.statusGauge === "aman"
                   ? "bg-primary"
-                  : sensorClicked.Status_cam.at(-1) &&
-                    sensorClicked.Status_gauge.at(-1) === "waspada"
-                  ? "bg-[#FFDE59]"
-                  : sensorClicked.Status_cam.at(-1) &&
-                    sensorClicked.Status_gauge.at(-1) === "bahaya"
-                  ? "bg-[#C61D16]"
-                  : "bg-[#808080]"
-              } `}
+                  : nodeSelected.statusCam &&
+                    nodeSelected.statusGauge === "waspada"
+                    ? "bg-[#FFDE59]"
+                    : nodeSelected.statusCam &&
+                      nodeSelected.statusGauge === "bahaya"
+                      ? "bg-[#C61D16]"
+                      : "bg-[#808080]"
+                } `}
             ></div>
             <div className="flex flex-1 w-full h-full justify-start items-center ml-[10px] text-textColor">
               <p>
-                {sensorClicked.node_id === "err" ? "-" : sensorClicked.node_id}
+                {nodeSelected.nodeName}
               </p>
             </div>
           </div>
           <div className="flex flex-1 flex-col ">
-            <Detail title={"Tekanan"} value={5.8} isWithSatuan={true} />
+            <Detail title={"Tekanan"} value={nodeSelected.pressure} isWithSatuan={true} />
             <Detail
               title={"Lokasi"}
-              value={sensorClicked.node_id === "err" ? "-" : `GI Pulogadung`}
+              value={nodeSelected.unit}
               isWithSatuan={false}
             />
             <Detail
               title={"Merk"}
-              value={
-                sensorClicked.node_id === "err"
-                  ? "-"
-                  : `${sensorClicked.Merk} ${sensorClicked.type}`
-              }
+              value={nodeSelected.brand}
               isWithSatuan={false}
             />
             <Detail
               title={"Zona"}
-              value={
-                sensorClicked.node_id === "err"
-                  ? "-"
-                  : sensorClicked.zona_instalasi
-              }
+              value={nodeSelected.zonaInstallation}
               isWithSatuan={false}
             />
             <Detail
               title={"Isolasi"}
-              value={
-                sensorClicked.node_id === "err" ? "-" : sensorClicked.isolasi
-              }
+              value={nodeSelected.isolasi}
               isWithSatuan={false}
             />
             <Detail
               title={"Status"}
               value={
-                sensorClicked.node_id === "err"
+                nodeSelected.nodeName === "-"
                   ? "-"
-                  : sensorClicked.Status_cam.at(-1) &&
-                    sensorClicked.Status_gauge.at(-1) === "aman"
-                  ? "Aman"
-                  : sensorClicked.Status_cam.at(-1) &&
-                    sensorClicked.Status_gauge.at(-1) === "waspada"
-                  ? "Waspada"
-                  : sensorClicked.Status_cam.at(-1) &&
-                    sensorClicked.Status_gauge.at(-1) === "bahaya"
-                  ? "Bahaya"
-                  : "Pasif"
+                  : nodeSelected.statusCam &&
+                    nodeSelected.statusGauge === "aman"
+                    ? "Aman"
+                    : nodeSelected.statusCam &&
+                      nodeSelected.statusGauge === "waspada"
+                      ? "Waspada"
+                      : nodeSelected.statusCam &&
+                        nodeSelected.statusGauge === "bahaya"
+                        ? "Bahaya"
+                        : "Pasif"
               }
               isWithSatuan={false}
             />

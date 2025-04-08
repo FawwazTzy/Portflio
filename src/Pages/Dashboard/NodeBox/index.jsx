@@ -3,32 +3,28 @@ import { useRef, useEffect } from "react";
 import DeviceBox from "./DeviceBox";
 import { useZustandState } from "../../../store/state";
 import { updateMap, convertToDataChart } from "../function";
-import { FaLessThanEqual } from "react-icons/fa";
-import { fetchGetNodePicture } from "../../../Utils/api";
+import { fetchGetNodePicture, fetchChartNode } from "../../../Utils/api";
 
 
 function NodeBox() {
   const {
-    dataSensor,
-    setDataSensor,
-    setSensorClicked,
     setViewport,
     setISensorImageVisible,
     setDataChartXY,
     setMaxY_Axis,
     setMinY_Axis,
     nodesView,
-    nodes,
-    setNodes,
     setNodesView,
     setNodeSelected,
     dipilihULTG,
-    unitSelected, setImageUrl, imageUrl
+    setFilterName,
+    unitSelected, setImageUrl, imageUrl, setIsChartReady
   } = useZustandState((state) => state);
 
-  const onClickHandle = async ({ device, index }) => {
+  const onClickHandle = async ( device ) => {
     // menghilangkan cache pada URL
     URL.revokeObjectURL(imageUrl);
+    setFilterName('Daily')
     setISensorImageVisible(false);
     //! update position map dan zoom
     setViewport(updateMap(device));
@@ -49,7 +45,7 @@ function NodeBox() {
       return item;
     });
     //! update node yang diclick
-    setNodeSelected(device.nodeName)
+    setNodeSelected(device)
     //! update data
     setNodesView(updatedDataHaveClicked)
     console.log("Node Name ", device.nodeName)
@@ -66,13 +62,29 @@ function NodeBox() {
     }, 400); // 3000 ms = 3 detik
 
     //! get data chart
-    // const d = convertToDataChart(
-    //   dataSensor[index].Date_time,
-    //   dataSensor[index].Pressure
-    // );
-    // setDataChartXY(d[0]);
-    // setMaxY_Axis(d[1]);
-    // setMinY_Axis(d[2]);
+    const type = "daily"; //daily, weekly, monthly, other
+    let start = "2025-04-03"; //2025-04-03
+    let end = "2025-04-03"; //2025-04-03
+    const res = await fetchChartNode(device.nodeName, type, start, end)
+    const dataJson = res.data.message;
+    console.log("Chart Res ", dataJson)
+    if (dataJson.length > 0) {
+      const pressure = dataJson[0].pressures
+      const dateTime = dataJson[0].dateTime
+      console.log("pressure ", pressure)
+      console.log("dateTime ", dateTime)
+      const d = await convertToDataChart(
+        dateTime,
+        pressure
+      );
+      console.log("DataChartXY ", d[0])
+      setDataChartXY(d[0]);
+      setMaxY_Axis(d[1]);
+      setMinY_Axis(d[2]);
+      setIsChartReady(true)
+    } else {
+      setIsChartReady(false)
+    }
   };
 
   const dipilihULTGRef = useRef(dipilihULTG);
@@ -94,7 +106,7 @@ function NodeBox() {
           <div
             className="cursor-pointer"
             key={index}
-            onClick={() => onClickHandle({ device, index })}
+            onClick={() => onClickHandle(device )}
           >
             <DeviceBox
               title={device.nodeName}

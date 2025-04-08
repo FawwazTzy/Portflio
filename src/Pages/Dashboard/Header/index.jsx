@@ -15,6 +15,23 @@ const Header = () => {
   const [ULTGName, setULTGName] = useState("Semua ULTG");
   const [GIName, setGIName] = useState("Semua Gardu Induk");
 
+  const initialNodeSelect = {
+    nodeName: "-",
+    UPT: "-",
+    ULTG: "-",
+    unit: "-",
+    brand: "-",
+    type: "-",
+    gps_lat: "-",
+    gps_long: "-",
+    zonaInstallation: "-",
+    isolasi: "-",
+    statusGauge: "-",
+    statusCam: "-",
+    pressure: "-",
+    dateTime: "-"
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
@@ -69,7 +86,7 @@ const Header = () => {
     console.log("ULTGSelected handle", item)
     setDipilihULTG(item)
     setUnitSelected("Semua Gardu Induk")
-    setNodeSelected("");
+    setNodeSelected(initialNodeSelect);
     //! Mengubah semua isClicked menjadi false
     const updateNodesIsClickedFalse = nodes.map((item) => ({
       ...item,
@@ -112,7 +129,7 @@ const Header = () => {
     }
 
     //! tutup dropdown
-    setNodeSelected("");
+    setNodeSelected(initialNodeSelect);
     setIsOpen(false);
     setGIName(item);
     setUnitSelected(item)

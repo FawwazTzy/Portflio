@@ -1,4 +1,4 @@
-import {} from "react";
+import { } from "react";
 import {
   AreaChart,
   Area,
@@ -13,7 +13,7 @@ import { useZustandState } from "../../../../store/state";
 
 // eslint-disable-next-line react/prop-types
 const ChartView = ({ data }) => {
-  const { sensorClicked, minY_Axis, maxY_Axis } = useZustandState(
+  const { isChartReady, minY_Axis, maxY_Axis } = useZustandState(
     (state) => state
   );
 
@@ -37,7 +37,7 @@ const ChartView = ({ data }) => {
 
   return (
     <div className="flex py-[2px] w-full h-full">
-      {sensorClicked.node_id != "err" ? (
+      {isChartReady ? (
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}

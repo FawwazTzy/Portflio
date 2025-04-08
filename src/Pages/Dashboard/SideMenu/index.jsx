@@ -28,13 +28,13 @@ function SideMenu() {
     setIsActive(temp);
     if (index === 0 && index != indexOfMenuActivate) {
       setIndexOfMenuActivate(0);
-      navigate("/home", { replace: false });
+      // navigate("/home", { replace: false });
     } else if (index === 1 && index != indexOfMenuActivate) {
       setIndexOfMenuActivate(1);
       navigate("/map", { replace: false });
     } else if (index === 2 && index != indexOfMenuActivate) {
       setIndexOfMenuActivate(2);
-      navigate("/document", { replace: false });
+      // navigate("/document", { replace: false });
     }
   };
 
@@ -63,33 +63,29 @@ function SideMenu() {
           <img src={Logo} alt="" />
         </div>
         <div
-          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${
-            isActive[0] ? "bg-primary" : "bg-none"
-          }`}
+          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${isActive[0] ? "bg-primary" : "bg-none"
+            }`}
           onClick={() => onClickHandle(0)}
         >
           <img src={HomePNG} alt="" className="w-[25px] h-[25px]" />
         </div>
         <div
-          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${
-            isActive[1] ? "bg-primary" : "bg-none"
-          }`}
+          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${isActive[1] ? "bg-primary" : "bg-none"
+            }`}
           onClick={() => onClickHandle(1)}
         >
           <img src={MapPNG} alt="" className="w-[25px] h-[25px]" />
         </div>
         <div
-          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${
-            isActive[2] ? "bg-primary" : "bg-none"
-          }`}
+          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${isActive[2] ? "bg-primary" : "bg-none"
+            }`}
           onClick={() => onClickHandle(2)}
         >
           <img src={DocumentPNG} alt="" className="w-[25px] h-[25px]" />
         </div>
         <div
-          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${
-            isActive[3] ? "bg-primary" : "bg-none"
-          }`}
+          className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${isActive[3] ? "bg-primary" : "bg-none"
+            }`}
           onClick={() => onClickHandle(3)}
         >
           <img src={SettingPNG} alt="" className="w-[25px] h-[25px]" />

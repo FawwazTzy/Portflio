@@ -157,7 +157,7 @@ export const useZustandState = create((set, get) => ({
       return { nodesView: value };
     });
   },
-  nodeSelected: "",
+  nodeSelected: {},
   setNodeSelected: (value) => {
     set(() => {
       return { nodeSelected: value };
@@ -167,6 +167,18 @@ export const useZustandState = create((set, get) => ({
   setImageUrl: (value) => {
     set(() => {
       return { imageUrl: value };
+    });
+  },
+  isChartReady: false,
+  setIsChartReady: (value) => {
+    set(() => {
+      return { isChartReady: value };
+    });
+  },
+  filterName: "Daily",
+  setFilterName: (value) => {
+    set(() => {
+      return { filterName: value };
     });
   },
 

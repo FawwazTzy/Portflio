@@ -85,7 +85,7 @@ const MapComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClickMarkerHandle = async ({ device, index }) => {
+  const onClickMarkerHandle = async (device) => {
     //! update position map dan zoom
     setViewport(updateMap(device));
 
@@ -162,7 +162,7 @@ const MapComponent = () => {
                   </div>
                   <div
                     className=" flex w-[24px] h-[24px] cursor-pointer  "
-                    onClick={() => onClickMarkerHandle({ device, index })}
+                    onClick={() => onClickMarkerHandle(device)}
                   >
                     <img
                       src={

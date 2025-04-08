@@ -84,7 +84,7 @@ export async function fetchNodeImageProduct(node_id) {
   }
 }
 
-export function convertToDataChart(x, y) {
+export async function convertToDataChart(x, y) {
   console.log(`x ${x}`);
   console.log(`y ${y}`);
   if (x.length > 0) {

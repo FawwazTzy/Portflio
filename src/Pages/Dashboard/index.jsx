@@ -2,45 +2,23 @@ import { useState, useEffect, useRef } from "react";
 import MapComponent from "./MapBox";
 import HeaderDashboard from "./Header";
 import DetailSensorBox from "./DetailSensorBox";
-// import SensorBox from "./SensorBox";
-// import DeviceBox from "./DeviceBox";
-// import NavigatorMap from "./NavigatorMap";
-// import DeviceDetails from "./DeviceDetails";
-// import Menu from "./Menu";
 import { useZustandState } from "../../store/state";
 import { fetchCheckAuth, fetchGetUnit, fetchGetNodes } from "../../Utils/api";
-// import { getUnitFromServer } from "./function";
-
 
 import SideMenu from "./SideMenu";
 import NodeBox from "./NodeBox";
 
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ImageProduct from "./ImageProduct";
 import { useNavigate } from "react-router-dom";
 
 
-// import { cekCookie, cekTokenAdmin, fetchProfile } from "../../globalFunction";
-// import { useNavigate } from "react-router-dom";
-
 const Dashboard = () => {
   const navigate = useNavigate();
-  // const [userProfile, setUserProfile] = useState({
-  //   username: "-",
-  //   id: "-",
-  //   email: "-",
-  //   phone: "-",
-  //   unit: "-",
-  //   nodes_id: [],
-  // });
 
   const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("100%");
   const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("100%");
 
-  // const [responsiveHeightDeviceBox, setResponsiveHeightDeviceBox] =
-  //   useState("300px");
-  // const [topChartBox, setTopChartBox] = useState("350px");
   const [time, setTime] = useState(new Date());
   const [isFirstFetch, setIsFirstFetch] = useState(true);
   const [showContent, setShowContent] = useState(false);
@@ -66,61 +44,6 @@ const Dashboard = () => {
     imageUrl
 
   } = useZustandState((state) => state);
-
-  async function getGataNode() {
-    //! fetch data Nodes
-    // const result = await fetchNodesData();
-    //! cek apakah ada sensor yang sudah di click
-    // const index = result.findIndex(
-    //   (item) => item.node_id === sensorClicked.node_id
-    // );
-    //! jika ada data yang sudah pernah di click
-    // if (index >= 0) {
-    //   result[index].isClicked = sensorClicked.isClicked;
-    // }
-    //! save to global variable
-    // setDataSensor(result);
-    // console.log(result);
-    //! update center map ketika pertama kali fetchdata
-    // if (result[0].node_id != -1 && isFirstFetch) {
-    //   console.log("update map pertama kali");
-
-    //   const updateMap = {
-    //     //!ikuti perhitungan function
-    //     longitude: result[0].GPS_Koordinat[1] + 0.000211111, //kanan kiri
-    //     latitude: result[0].GPS_Koordinat[0] - 0.0002111, //atas bawah
-    //     zoom: 19,
-    //   };
-    //   setViewport(updateMap);
-    //   setIsFirstFetch(false);
-    // }
-  }
-
-  // useEffect(() => {
-  //   getGataNode();
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  //!==================
-
-  useEffect(() => {
-    // try {
-    //   getGataNode();
-    //   const update = () => {
-    //     setTime(new Date());
-    //   };
-    //   //   //! call function
-    //   //   processData();
-    //   //   //! Fetch data every 1 minute
-    //   const intervalId = setTimeout(update, 10000);
-    //   //   //! Clean up interval on component unmount
-    //   return () => clearInterval(intervalId);
-    // } catch (error) {
-    //   console.log("error catch use effect");
-    //   console.log(error);
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time]);
 
   //!================================================================================================================================================
   //!================================================================================================================================================
@@ -207,10 +130,10 @@ const Dashboard = () => {
       isClicked: false
     }));
 
-    console.log("dipilihNodeSelectedRef ", dipilihNodeSelectedRef.current)
+    console.log("dipilihNodeSelectedRef ", nodeSelectedRef.current.nodeName)
     //! update key isCLicked jika sebelumnya sudah di klik
     const updatedDataHaveClicked = updatedDataArray.map(item => {
-      if (item.nodeName === dipilihNodeSelectedRef.current) {
+      if (item.nodeName === nodeSelectedRef.current.nodeName) {
         return {
           ...item,
           isClicked: true
@@ -245,7 +168,7 @@ const Dashboard = () => {
 
   const dipilihULTGRef = useRef(dipilihULTG);
   const dipilihUnitRef = useRef(unitSelected);
-  const dipilihNodeSelectedRef = useRef(nodeSelected);
+  const nodeSelectedRef = useRef(nodeSelected);
 
   // update ref setiap dipilihULTG berubah
   useEffect(() => {
@@ -257,7 +180,7 @@ const Dashboard = () => {
   }, [unitSelected]);
   // update ref setiap nodeSelected berubah
   useEffect(() => {
-    dipilihNodeSelectedRef.current = nodeSelected;
+    nodeSelectedRef.current = nodeSelected;
   }, [nodeSelected]);
 
 

@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useZustandState } from "../../../store/state";
 
 const Header = () => {
-  const { ULTG, unit, setUnitSelected, setDipilihULTG, nodes, setNodesView, dipilihULTG } = useZustandState((state) => state);
+  const { setViewport, Initialviewport, ULTG, unit, setUnitSelected, setDipilihULTG, nodes, setNodesView, dipilihULTG, setNodeSelected } = useZustandState((state) => state);
 
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
@@ -65,30 +65,54 @@ const Header = () => {
     setULTGName(item)
     const index = ULTG.indexOf(item);
     const unitArray = ["Semua Gardu Induk", ...unit[index]];
-    setDropdownDataGI(unitArray)
     setGIName("Semua Gardu Induk");
     console.log("ULTGSelected handle", item)
     setDipilihULTG(item)
     setUnitSelected("Semua Gardu Induk")
+    setNodeSelected("");
+    //! Mengubah semua isClicked menjadi false
+    const updateNodesIsClickedFalse = nodes.map((item) => ({
+      ...item,
+      isClicked: false,
+    }));
+    //! jika dipilih Semua ULTG
     if (index === 0) {
-      setNodesView(nodes)
-      // console.log(nodes)
+      setViewport(Initialviewport);
+      setNodesView(updateNodesIsClickedFalse)
+      setDropdownDataGI(["Semua Gardu Induk"])
     } else {
-      const filterByULTG = nodes.filter(i => i.ULTG === item);
+      const filterByULTG = updateNodesIsClickedFalse.filter(i => i.ULTG === item);
+      const tempViewPort = {
+        longitude: filterByULTG[0].gps_long,
+        latitude: filterByULTG[0].gps_lat,
+        zoom: 17,
+      }
+      setViewport(tempViewPort);
       setNodesView(filterByULTG)
-      // console.log(filterByULTG)
+      setDropdownDataGI(unitArray)
     }
-
-
-
-    // console.log(unitArray);
   };
 
-  
-
   const onClickHandleGI = (item) => {
-    console.log("unitSelected handle", dipilihULTG)
+    console.log("ULTG Selected handle", dipilihULTG)
+    console.log("unit Selected handle", item)
+    //! Mengubah semua isClicked menjadi false
+    // const updateNodesIsClickedFalse = nodes.map((item) => ({
+    //   ...item,
+    //   isClicked: false,
+    // }));
+    if (item === "Semua Gardu Induk") {
+      const filterByULTG = nodes.filter(i => i.ULTG === dipilihULTG);
+      console.log("unit hasil filter ", filterByULTG)
+      setNodesView(filterByULTG)
+    } else {
+      const filterByULTG = nodes.filter(i => i.unit === item);
+      console.log("unit hasil filter ", filterByULTG)
+      setNodesView(filterByULTG)
+    }
+
     //! tutup dropdown
+    setNodeSelected("");
     setIsOpen(false);
     setGIName(item);
     setUnitSelected(item)

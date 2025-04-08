@@ -59,8 +59,8 @@ const processData = (data) => {
 
 export function updateMap(device) {
   //! update position map dan zoom
-  let lat = parseFloat(device.GPS_Koordinat[0]);
-  let long = parseFloat(device.GPS_Koordinat[1]);
+  let lat = parseFloat(device.gps_lat);
+  let long = parseFloat(device.gps_long);
 
   return {
     longitude: long + 0.000211111, //kanan kiri

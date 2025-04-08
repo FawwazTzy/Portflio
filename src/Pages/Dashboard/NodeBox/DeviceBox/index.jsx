@@ -3,7 +3,7 @@
 import React from "react";
 
 // eslint-disable-next-line react/prop-types
-function DeviceBox({ title, value, isClicked, statusCam, statusGauge }) {
+function DeviceBox({ title = "-", value = "0.0", isClicked, statusCam = false, statusGauge = false }) {
   return (
     <div className="flex w-full h-[80px] mb-[10px] bg-backgorundSecond rounded-xl p-[10px]">
       <div

@@ -18,6 +18,11 @@ export const useZustandState = create((set, get) => ({
     });
   },
   //!====================== INIT MAP =====================
+  Initialviewport: {
+    longitude: 115.58724216408724,
+    latitude: -7.824328708769684,
+    zoom: 5,
+  },
   currentZoom: 5,
   viewport: {
     longitude: 115.58724216408724,
@@ -158,5 +163,12 @@ export const useZustandState = create((set, get) => ({
       return { nodeSelected: value };
     });
   },
+  imageUrl: "",
+  setImageUrl: (value) => {
+    set(() => {
+      return { imageUrl: value };
+    });
+  },
+
 
 }));

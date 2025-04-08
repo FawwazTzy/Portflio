@@ -1,8 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import { useRef, useEffect } from "react";
 import DeviceBox from "./DeviceBox";
 import { useZustandState } from "../../../store/state";
 import { updateMap, convertToDataChart } from "../function";
+import { FaLessThanEqual } from "react-icons/fa";
+import { fetchGetNodePicture } from "../../../Utils/api";
+
 
 function NodeBox() {
   const {
@@ -14,34 +17,72 @@ function NodeBox() {
     setDataChartXY,
     setMaxY_Axis,
     setMinY_Axis,
-    nodesView
+    nodesView,
+    nodes,
+    setNodes,
+    setNodesView,
+    setNodeSelected,
+    dipilihULTG,
+    unitSelected, setImageUrl, imageUrl
   } = useZustandState((state) => state);
 
-  const onClickHandle = ({ device, index }) => {
+  const onClickHandle = async ({ device, index }) => {
+    // menghilangkan cache pada URL
+    URL.revokeObjectURL(imageUrl);
+    setISensorImageVisible(false);
     //! update position map dan zoom
     setViewport(updateMap(device));
     //! Mengubah semua isClicked menjadi false
-    const tempDataSensor = dataSensor.map((item) => ({
+    const updatenodesViewIsClickedFalse = nodesView.map((item) => ({
       ...item,
       isClicked: false,
     }));
-    //! update flag isClicked
-    tempDataSensor[index].isClicked = true;
-    setDataSensor(tempDataSensor);
-    //! update flag ke variable backup ketika fetch data server
-    setSensorClicked(tempDataSensor[index]);
+
+    //! update key isCLicked jika sebelumnya sudah di klik
+    const updatedDataHaveClicked = updatenodesViewIsClickedFalse.map(item => {
+      if (item.nodeName === device.nodeName) {
+        return {
+          ...item,
+          isClicked: true
+        };
+      }
+      return item;
+    });
+    //! update node yang diclick
+    setNodeSelected(device.nodeName)
+    //! update data
+    setNodesView(updatedDataHaveClicked)
+    console.log("Node Name ", device.nodeName)
+    console.log("updatedDataHaveClicked ", updatedDataHaveClicked)
+
     //! flag untuk menampilkan sensor image
-    setISensorImageVisible(true);
+    const objectUrl = await fetchGetNodePicture(device.nodeName);
+    console.log("objectUrl ", objectUrl)
+    setImageUrl(objectUrl);
+
+    // delay 3 detik
+    setTimeout(() => {
+      setISensorImageVisible(true);
+    }, 400); // 3000 ms = 3 detik
 
     //! get data chart
-    const d = convertToDataChart(
-      dataSensor[index].Date_time,
-      dataSensor[index].Pressure
-    );
-    setDataChartXY(d[0]);
-    setMaxY_Axis(d[1]);
-    setMinY_Axis(d[2]);
+    // const d = convertToDataChart(
+    //   dataSensor[index].Date_time,
+    //   dataSensor[index].Pressure
+    // );
+    // setDataChartXY(d[0]);
+    // setMaxY_Axis(d[1]);
+    // setMinY_Axis(d[2]);
   };
+
+  const dipilihULTGRef = useRef(dipilihULTG);
+  const unitSelectedRef = useRef(unitSelected);
+
+  // update ref setiap dipilihULTG berubah
+  useEffect(() => {
+    dipilihULTGRef.current = dipilihULTG;
+    unitSelectedRef.current = unitSelected;
+  }, [dipilihULTG, unitSelected]);
 
   return (
     <div className="flex w-full h-full flex-col p-[10my] ">

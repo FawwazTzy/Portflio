@@ -61,7 +61,10 @@ const Dashboard = () => {
     setNodesView,
     nodeSelected,
     dipilihULTG,
-    setDipilihULTG
+    setDipilihULTG,
+    unitSelected,
+    imageUrl
+
   } = useZustandState((state) => state);
 
   async function getGataNode() {
@@ -188,7 +191,6 @@ const Dashboard = () => {
       setUPT(UPTArray);
       setULTG(ULTGArray);
       setUnit(allUnits)
-
       return true;
     } catch (error) {
       console.log("get unit error")
@@ -204,9 +206,11 @@ const Dashboard = () => {
       ...item,
       isClicked: false
     }));
+
+    console.log("dipilihNodeSelectedRef ", dipilihNodeSelectedRef.current)
     //! update key isCLicked jika sebelumnya sudah di klik
     const updatedDataHaveClicked = updatedDataArray.map(item => {
-      if (item.nodeName === nodeSelected) {
+      if (item.nodeName === dipilihNodeSelectedRef.current) {
         return {
           ...item,
           isClicked: true
@@ -214,16 +218,24 @@ const Dashboard = () => {
       }
       return item;
     });
+    console.log("updatedDataHaveClicked every ", updatedDataHaveClicked)
     setNodes(updatedDataHaveClicked)
     console.log("ULTGSelected ", dipilihULTGRef.current)
     if (dipilihULTGRef.current === "" || dipilihULTGRef.current === "Semua ULTG") {
       setDipilihULTG("Semua ULTG")
-      console.log("updatedDataHaveClicked ", updatedDataHaveClicked)
       setNodesView(updatedDataHaveClicked)
     } else {
-      const filterByULTG = updatedDataHaveClicked.filter(i => i.ULTG === dipilihULTGRef.current);
-      console.log("filterByULTG ", filterByULTG)
-      setNodesView(filterByULTG)
+      console.log("dipilihUnitRef ", dipilihUnitRef.current)
+      if (dipilihUnitRef.current === "Semua Gardu Induk") {
+        const filterByULTG = updatedDataHaveClicked.filter(i => i.ULTG === dipilihULTGRef.current);
+        console.log("filterByULTG ", filterByULTG)
+        setNodesView(filterByULTG)
+      } else {
+        const filterByULTG = updatedDataHaveClicked.filter(i => i.unit === dipilihUnitRef.current);
+        console.log("filterByULTG unitfilter ", filterByULTG)
+        setNodesView(filterByULTG)
+      }
+
     }
 
     console.log("get nodes status ", res.status)
@@ -232,11 +244,21 @@ const Dashboard = () => {
   }
 
   const dipilihULTGRef = useRef(dipilihULTG);
+  const dipilihUnitRef = useRef(unitSelected);
+  const dipilihNodeSelectedRef = useRef(nodeSelected);
 
   // update ref setiap dipilihULTG berubah
   useEffect(() => {
     dipilihULTGRef.current = dipilihULTG;
   }, [dipilihULTG]);
+  // update ref setiap unitSelected berubah
+  useEffect(() => {
+    dipilihUnitRef.current = unitSelected;
+  }, [unitSelected]);
+  // update ref setiap nodeSelected berubah
+  useEffect(() => {
+    dipilihNodeSelectedRef.current = nodeSelected;
+  }, [nodeSelected]);
 
 
   useEffect(() => {
@@ -254,7 +276,7 @@ const Dashboard = () => {
       checkAuth();
       getUnitFromServer();
       getNodes();
-    }, 10 * 1000); // Set interval untuk kirim setiap 1 menit (60000 ms)
+    }, 60 * 1000); // Set interval untuk kirim setiap 1 menit (60000 ms)
 
     // // Interval kedua
     // const intervalId2 = setInterval(() => {
@@ -270,13 +292,13 @@ const Dashboard = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowContent(true);
-    }, 100); // 100ms
+    }, 500); // 100ms
 
     return () => clearTimeout(timeout); // cleanup jika unmount
   }, []);
 
   return (
-    <div>
+    <div className="flex bg-backgorundFirst w-screen h-screen">
       {showContent && (<div
         style={{
           height: responsiveHeightScreen,
@@ -323,7 +345,7 @@ const Dashboard = () => {
         </div>
         {windowSize.height > 650 && (
           <div
-            className={`absolute bottom-[270px] right-[180px] z-10 transition-all duration-500 ease-in-out ${isSensorImageVisible
+            className={`absolute bottom-[270px] right-[250px] z-10 transition-all duration-500 ease-in-out ${isSensorImageVisible
               ? "translate-x-0 opacity-100"
               : "translate-x-[150%] opacity-0"
               }`}
@@ -336,6 +358,7 @@ const Dashboard = () => {
               className={`border-primary border-[2px] rounded-xl p-[3px]`}
             >
               <ImageProduct />
+
             </div>
           </div>
         )}

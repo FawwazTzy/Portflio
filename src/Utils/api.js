@@ -57,3 +57,28 @@ export async function fetchGetNodes() {
   }
 }
 
+export async function fetchGetNodePicture(nodeName) {
+  try {
+    let objectUrl = null;
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/node/picture`,
+      // `/api/v1/login`,
+      {
+        node: nodeName
+      },
+      {
+        responseType: "blob",
+        withCredentials: true, // ini WAJIB kalau pakai cookie
+      }
+    );
+
+    objectUrl = URL.createObjectURL(response.data);
+
+    return objectUrl;
+
+  } catch (error) {
+    console.error("Gagal ambil gambar:", error);
+  }
+}
+

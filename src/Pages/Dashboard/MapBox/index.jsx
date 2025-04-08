@@ -89,62 +89,31 @@ const MapComponent = () => {
     //! update position map dan zoom
     setViewport(updateMap(device));
 
-    //! Mengubah semua isClicked menjadi false
-    const tempDataSensor = dataSensor.map((item) => ({
-      ...item,
-      isClicked: false,
-    }));
-    //! update flag isClicked
-    tempDataSensor[index].isClicked = true;
-    setDataSensor(tempDataSensor);
-    //! update flag ke variable backup ketika fetch data server
-    setSensorClicked(tempDataSensor[index]);
-    // console.log(tempDataSensor[index]);
-    //! flag untuk menampilkan sensor image
-    setISensorImageVisible(true);
-    //! get data chart
-    const d = convertToDataChart(
-      dataSensor[index].Date_time,
-      dataSensor[index].Pressure
-    );
-    setDataChartXY(d[0]);
-    setMaxY_Axis(d[1]);
-    setMinY_Axis(d[2]);
-
-    //! get data photo product
-    setIsFetchImageProductReady(false);
-    const data = await fetchNodeImageProduct(tempDataSensor[index].node_id);
-    console.log(data);
-    setPhoto(`https://fairuz90.pythonanywhere.com/${data}`);
-    setIsFetchImageProductReady(true);
-
-    // const temp = await findDeviceFromSensorBox(
-    //   sensorBox,
-    //   device.idGateway,
-    //   device.idNode
+    // //! Mengubah semua isClicked menjadi false
+    // const tempDataSensor = dataSensor.map((item) => ({
+    //   ...item,
+    //   isClicked: false,
+    // }));
+    // //! update flag isClicked
+    // tempDataSensor[index].isClicked = true;
+    // setDataSensor(tempDataSensor);
+    // //! update flag ke variable backup ketika fetch data server
+    // setSensorClicked(tempDataSensor[index]);
+    // // console.log(tempDataSensor[index]);
+    // //! flag untuk menampilkan sensor image
+    // setISensorImageVisible(true);
+    // //! get data chart
+    // const d = convertToDataChart(
+    //   dataSensor[index].Date_time,
+    //   dataSensor[index].Pressure
     // );
+    // setDataChartXY(d[0]);
+    // setMaxY_Axis(d[1]);
+    // setMinY_Axis(d[2]);
 
-    //! data device lama isclicked di buat false semua
-    // if (markerIndex != -1) {
-    //   devices[markerIndex].isClicked = false;
-    // }
 
-    //! update data devices dengan isclicked baru
-    // const index = findIndexById(devices, device._id);
-    // devices[index].isClicked = true;
-    // const devicesUpdate = devices;
-    // setDevices(devicesUpdate);
 
-    // // setDeviceDetail(temp);
-    // setViewport(updateMap);
-    // setIsDetailBoxShow(true);
-    // // setMarkerIndex(index);
-    // console.log("index update ketika marker ditekan");
-    // // console.log(index);
 
-    // console.log("deviceDetail");
-    // console.log(temp);
-    // console.log(index);
   };
 
   useEffect(() => {

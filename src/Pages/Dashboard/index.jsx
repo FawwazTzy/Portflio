@@ -3,7 +3,7 @@ import MapComponent from "./MapBox";
 import HeaderDashboard from "./Header";
 import DetailSensorBox from "./DetailSensorBox";
 import { useZustandState } from "../../store/state";
-import { fetchCheckAuth, fetchGetUnit, fetchGetNodes } from "../../Utils/api";
+import { fetchCheckAuth, fetchGetUnit, fetchGetNodes, fetchUserProfile } from "../../Utils/api";
 
 import SideMenu from "./SideMenu";
 import NodeBox from "./NodeBox";
@@ -41,7 +41,7 @@ const Dashboard = () => {
     dipilihULTG,
     setDipilihULTG,
     unitSelected,
-    imageUrl
+    setUserProfile
 
   } = useZustandState((state) => state);
 
@@ -67,6 +67,7 @@ const Dashboard = () => {
   }, [windowSize]);
 
   async function checkAuth() {
+    console.log("######################### CHECK AUTH")
     try {
       const response = await fetchCheckAuth();
       if (response.status != 200) {
@@ -87,6 +88,7 @@ const Dashboard = () => {
   }
 
   async function getUnitFromServer() {
+    console.log("######################### getUnitFromServer")
     try {
       const res = await fetchGetUnit();
       const dataJson = res.data.message;
@@ -122,6 +124,7 @@ const Dashboard = () => {
   }
 
   async function getNodes() {
+    console.log("######################### getNodes")
     const res = await fetchGetNodes();
     const dataArray = res.data.message;
     //! menambahkan key isClicked: false
@@ -143,7 +146,7 @@ const Dashboard = () => {
     });
     console.log("updatedDataHaveClicked every ", updatedDataHaveClicked)
     setNodes(updatedDataHaveClicked)
-    console.log("ULTGSelected ", dipilihULTGRef.current)
+    console.log("ULTGSelected #1", dipilihULTGRef.current)
     if (dipilihULTGRef.current === "" || dipilihULTGRef.current === "Semua ULTG") {
       setDipilihULTG("Semua ULTG")
       setNodesView(updatedDataHaveClicked)
@@ -164,6 +167,14 @@ const Dashboard = () => {
     console.log("get nodes status ", res.status)
     console.log("get nodes  ", res.data)
 
+  }
+
+  async function getUserProfile() {
+    console.log("cek user profile")
+    const res = await fetchUserProfile();
+    console.log("user profile ", res.data.message);
+    const dataJson = res.data.message;
+    setUserProfile(dataJson)
   }
 
   const dipilihULTGRef = useRef(dipilihULTG);
@@ -187,9 +198,12 @@ const Dashboard = () => {
   useEffect(() => {
     // Kirim langsung saat pertama render
     //! check token
+    console.log("#########################")
+    setDipilihULTG("Semua ULTG")
     checkAuth();
     getUnitFromServer();
     getNodes();
+    getUserProfile();
 
 
     //! get data unit    
@@ -221,72 +235,82 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex bg-backgorundFirst w-screen h-screen">
-      {showContent && (<div
-        style={{
-          height: responsiveHeightScreen,
-          width: responsiveWidthScreen,
-          backgroundColor: "#223849",
-        }}
-        className={`flex fixed h-screen w-screen`}
-      >
-        <div className="flex h-full w-[60px]">
-          <SideMenu />
-        </div>
-        <div className="flex-1 flex flex-col h-full w-full ml-[20px] pr-[10px]">
-          <div className="flex bg-backgorundFirst  min-h-[100px] mt-[10px]  rounded-xl">
-            <HeaderDashboard />
-          </div>
-          <div
-            // style={{ height: `${responsiveHeightScreen}` }}
-            className="flex flex-1 w-full h-full pt-[20px] mr-[10px] mb-[10px]" //h-[calc(100%-100px-10px-10px)
-          >
-            <MapComponent />
-          </div>
-        </div>
-
-        <div className="absolute bottom-[20px] right-[20px] z-10 ">
-          <div
-            style={{ height: `calc(${responsiveHeightScreen} - 160px)` }}
-            className={`w-[220px]  bg-backgorundFirst border-primary border-[2px] rounded-xl`}
-          >
-            <NodeBox />
-          </div>
+    // <div className="flex bg-backgorundFirst w-screen h-screen">
+    //   {showContent && (
+    <div
+      style={{
+        height: responsiveHeightScreen,
+        width: responsiveWidthScreen,
+        backgroundColor: "#223849",
+      }}
+      className={`flex fixed h-screen w-screen`}
+    >
+      <div className="flex h-full w-[60px]">
+        <SideMenu />
+      </div>
+      <div className="flex-1 flex flex-col h-full w-full ml-[20px] pr-[10px]">
+        <div className="flex bg-backgorundFirst  min-h-[100px] mt-[10px]  rounded-xl">
+          <HeaderDashboard />
         </div>
         <div
-          className={`absolute bottom-[20px] right-[250px] z-10 transition-all duration-500 ease-in-out`}
+          // style={{ height: `${responsiveHeightScreen}` }}
+          className="flex flex-1 w-full h-full pt-[20px] mr-[10px] mb-[10px]" //h-[calc(100%-100px-10px-10px)
         >
-          <div
-            style={{
-              height: `240px`,
-              width: `calc(${responsiveWidthScreen} - 320px - 20px)`,
-            }}
-            className={`border-primary border-[2px] rounded-xl p-[3px]`}
-          >
-            <DetailSensorBox />
-          </div>
+          <MapComponent />
         </div>
-        {windowSize.height > 650 && (
-          <div
-            className={`absolute bottom-[270px] right-[250px] z-10 transition-all duration-500 ease-in-out ${isSensorImageVisible
-              ? "translate-x-0 opacity-100"
-              : "translate-x-[150%] opacity-0"
-              }`}
-          >
-            <div
-              style={{
-                height: `240px`,
-                width: `240px`,
-              }}
-              className={`border-primary border-[2px] rounded-xl p-[3px]`}
-            >
-              <ImageProduct />
+        {showContent && (
+          <div>
 
+            <div className="absolute bottom-[20px] right-[20px] z-10 ">
+              <div
+                style={{ height: `calc(${responsiveHeightScreen} - 160px)` }}
+                className={`w-[220px]  bg-backgorundFirst border-primary border-[2px] rounded-xl`}
+              >
+                <NodeBox />
+              </div>
             </div>
+            <div
+              className={`absolute bottom-[20px] right-[250px] z-10 transition-all duration-500 ease-in-out`}
+            >
+              <div
+                style={{
+                  height: `240px`,
+                  width: `calc(${responsiveWidthScreen} - 320px - 20px)`,
+                }}
+                className={`border-primary border-[2px] rounded-xl p-[3px]`}
+              >
+                <DetailSensorBox />
+              </div>
+            </div>
+            {windowSize.height > 650 && (
+              <div
+                className={`absolute bottom-[270px] right-[250px] z-10 transition-all duration-500 ease-in-out ${isSensorImageVisible
+                  ? "translate-x-0 opacity-100"
+                  : "translate-x-[150%] opacity-0"
+                  }`}
+              >
+                <div
+                  style={{
+                    height: `240px`,
+                    width: `240px`,
+                  }}
+                  className={`border-primary border-[2px] rounded-xl p-[3px]`}
+                >
+                  <ImageProduct />
+
+                </div>
+              </div>
+            )}
           </div>
         )}
-      </div>)}
+
+      </div>
+
+
+
+
     </div>
+    // </div>
 
   );
 };

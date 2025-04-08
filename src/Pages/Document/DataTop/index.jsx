@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -8,19 +9,27 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useZustandState } from "../../../store/state";
 
-const DataTop = () => {
+const DataTop = ({ nodes }) => {
   const { dataSensor } = useZustandState((state) => state);
 
   const [isOpenAwal, setIsOpenAwal] = useState(false);
   const [isOpenAkhir, setIsOpenAkhir] = useState(false);
-  const [timeAwal, setTimeAwal] = useState("Time Awal");
-  const [timeAkhir, setTimeAkhir] = useState("Time Akhir");
+  const [timeAwal, setTimeAwal] = useState("Waktu Awal");
+  const [timeAkhir, setTimeAkhir] = useState("Waktu Akhir");
 
   const [selectedDateAwal, setSelectedDateAwal] = useState(null);
   const [isDateAwalClicked, setIsDateAwalClicked] = useState(true);
   const [dateAwal, setDateAwal] = useState("Tanggal Awal");
   const [dateAkhir, setDateAkhir] = useState("Tanggal Akhir");
   const [showCalendar, setShowCalendar] = useState(false);
+
+  const [isOpenNode, setIsOpenNode] = useState(false);
+  const [node, setNode] = useState("Pilih Node");
+  const [isOpenStatusCam, setIsOpenStatusCam] = useState(false);
+  const [statusCam, setStatusCam] = useState("ON");
+  // const [timeAwal, setTimeAwal] = useState("Waktu Awal");
+  // const [timeAkhir, setTimeAkhir] = useState("Waktu Akhir");
+
 
   const dropdownTime = [
     { id: 1, label: "00:00" },
@@ -49,7 +58,7 @@ const DataTop = () => {
     { id: 24, label: "23:00" },
   ];
 
-  // let collectionDataGI = [];
+  const dropdownDataStatusCam = ["ON", "OFF"];
 
   const onClickHandleAwal = (item) => {
     // console.log(item);
@@ -64,12 +73,25 @@ const DataTop = () => {
     setTimeAkhir(item.label);
   };
 
+  const onClickHandleStatusCam = (item) => {
+    //! tutup dropdown
+    setIsOpenStatusCam(false);
+    setStatusCam(item)
+  };
+  const onClickHandleNode = (item) => {
+    //! tutup dropdown
+    setIsOpenNode(false);
+    setNode(item)
+  };
+
   const dropdownRefTimeAwal = useRef(null); // Referensi untuk dropdown
   const dropdownRefTimeAkhir = useRef(null); // Referensi untuk dropdown
+  const dropdownRefNode = useRef(null); // Referensi untuk dropdown
+  const dropdownRefStatusKamera = useRef(null); // Referensi untuk dropdown
 
   // Efek untuk menutup dropdown saat klik di luar atau klik kanan
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutsideAkhir = (event) => {
       if (
         dropdownRefTimeAkhir.current &&
         !dropdownRefTimeAkhir.current.contains(event.target)
@@ -78,19 +100,7 @@ const DataTop = () => {
       }
     };
 
-    // Tambahkan event listener untuk klik dan klik kanan
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("contextmenu", handleClickOutside);
-
-    return () => {
-      // Bersihkan event listener saat komponen unmount
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("contextmenu", handleClickOutside);
-    };
-  }, [setIsOpenAkhir]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutsideAwal = (event) => {
       if (
         dropdownRefTimeAwal.current &&
         !dropdownRefTimeAwal.current.contains(event.target)
@@ -99,6 +109,30 @@ const DataTop = () => {
       }
     };
 
+    const handleClickOutsideNode = (event) => {
+      if (
+        dropdownRefNode.current &&
+        !dropdownRefNode.current.contains(event.target)
+      ) {
+        setIsOpenNode(false); // Tutup dropdown
+      }
+    };
+
+    const handleClickOutsideStatusCam = (event) => {
+      if (
+        dropdownRefStatusKamera.current &&
+        !dropdownRefStatusKamera.current.contains(event.target)
+      ) {
+        setIsOpenStatusCam(false); // Tutup dropdown
+      }
+    };
+
+    const handlers = [handleClickOutsideAwal, handleClickOutsideAkhir, handleClickOutsideNode, handleClickOutsideStatusCam];
+
+    function handleClickOutside(event) {
+      handlers.forEach(fn => fn(event));
+    }
+
     // Tambahkan event listener untuk klik dan klik kanan
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("contextmenu", handleClickOutside);
@@ -108,7 +142,13 @@ const DataTop = () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("contextmenu", handleClickOutside);
     };
-  }, [setIsOpenAwal]);
+  }, [setIsOpenAkhir, setIsOpenAwal, setIsOpenNode, setIsOpenStatusCam]);
+
+
+  useEffect(() => {
+    console.log("nodes1213 ", nodes)
+    setNode("Pilih Node")
+  }, [nodes]);
 
   const onDatePickerClicked = (date) => {
     setSelectedDateAwal(date);
@@ -119,54 +159,15 @@ const DataTop = () => {
     }
   };
 
-  async function getGataNode() {
-    //! fetch data Nodes
-    const result = await fetchNodesData();
-    //! cek apakah ada sensor yang sudah di click
-    const index = result.findIndex(
-      (item) => item.node_id === sensorClicked.node_id
-    );
-    //! jika ada data yang sudah pernah di click
-    if (index >= 0) {
-      result[index].isClicked = sensorClicked.isClicked;
-    }
-    //! save to global variable
-    setDataSensor(result);
-    console.log(result);
-    //! update center map ketika pertama kali fetchdata
-    if (result[0].node_id != -1 && isFirstFetch) {
-      console.log("update map pertama kali");
-
-      const updateMap = {
-        //!ikuti perhitungan function
-        longitude: result[0].GPS_Koordinat[1] + 0.000211111, //kanan kiri
-        latitude: result[0].GPS_Koordinat[0] - 0.0002111, //atas bawah
-        zoom: 19,
-      };
-      setViewport(updateMap);
-      setIsFirstFetch(false);
-    }
-
-    //   if (!result) {
-    //     localStorage.removeItem("user");
-    //     navigate("/login", { replace: true });
-    //   }
-    //   const user = await JSON.parse(localStorage.getItem("user"));
-    //   setLocalStorageUserToken(user.token);
-    //   const message = result["message"];
-    //   console.log("message", message);
-    //   setUserProfile(message);
-    // }
-  }
 
   return (
     <div className="flex w-full h-full ">
-      <div className="flex flex-col w-[20%] h-full ">
+      <div className="flex flex-col w-[25%] h-full ">
         <div className="flex w-full h-[40px]  text-textColor">
           <p>Tanggal & Waktu Awal</p>
         </div>
         <div className="flex flex-1 w-full h-full justify-start items-center">
-          <div className="flex w-[60%] h-full  items-center pr-[10px]">
+          <div className="flex w-[50%] h-full  items-center pr-[10px]">
             <div className="flex-1 relative">
               {" "}
               {/* Tambahkan relative */}
@@ -178,7 +179,7 @@ const DataTop = () => {
                 }}
                 className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
               >
-                <div className="flex flex-1 py-[8px] justify-center text-[14px] items-center">
+                <div className="flex flex-1 py-[8px] justify-center text-[12px] items-center">
                   <p>{dateAwal}</p>
                 </div>
 
@@ -188,7 +189,7 @@ const DataTop = () => {
               </button>
             </div>
           </div>
-          <div className="flex w-[40%] h-full items-center ">
+          <div className="flex w-[50%] h-full items-center ">
             <div className="flex-1 relative" ref={dropdownRefTimeAwal}>
               {" "}
               {/* Tambahkan relative */}
@@ -197,7 +198,7 @@ const DataTop = () => {
                 onClick={() => setIsOpenAwal(!isOpenAwal)}
                 className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
               >
-                <div className="flex flex-1 py-[8px] justify-center text-[14px]">
+                <div className="flex flex-1 py-[8px] justify-center text-[12px]">
                   {timeAwal}
                 </div>
                 {isOpenAwal ? (
@@ -223,7 +224,7 @@ const DataTop = () => {
                 {dropdownTime.map((item) => (
                   <li
                     key={item.id}
-                    className="flex px-4 py-[8px] hover:bg-gray-100 cursor-pointer justify-center items-center"
+                    className="flex px-4 py-[8px] hover:bg-gray-100 text-[12px] cursor-pointer justify-center items-center"
                     onClick={() => onClickHandleAwal(item)}
                   >
                     {item.label}
@@ -240,12 +241,12 @@ const DataTop = () => {
           <div className="w-full h-[2px] bg-textColor"></div>
         </div>
       </div>
-      <div className="flex  flex-col w-[20%]  h-full ">
+      <div className="flex  flex-col w-[25%]  h-full ">
         <div className="flex w-full h-[40px]  text-textColor">
           <p>Tanggal & Waktu Akhir</p>
         </div>
         <div className="flex flex-1 w-full h-full justify-start items-center">
-          <div className="flex w-[60%] h-full  items-center pr-[10px]">
+          <div className="flex w-[50%] h-full  items-center pr-[10px]">
             <div className="flex-1 relative">
               {" "}
               {/* Tambahkan relative */}
@@ -257,7 +258,7 @@ const DataTop = () => {
                 }}
                 className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
               >
-                <div className="flex flex-1 py-[8px] justify-center items-center text-[14px]">
+                <div className="flex flex-1 py-[8px] justify-center items-center text-[12px]">
                   <p>{dateAkhir}</p>
                 </div>
 
@@ -267,7 +268,7 @@ const DataTop = () => {
               </button>
             </div>
           </div>
-          <div className="flex w-[40%] h-full items-center ">
+          <div className="flex w-[50%] h-full items-center ">
             <div className="flex-1 relative" ref={dropdownRefTimeAkhir}>
               {" "}
               {/* Tambahkan relative */}
@@ -276,7 +277,7 @@ const DataTop = () => {
                 onClick={() => setIsOpenAkhir(!isOpenAkhir)}
                 className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
               >
-                <div className="flex flex-1 py-[8px] justify-center text-[14px]">
+                <div className="flex flex-1 py-[8px] justify-center text-[12px]">
                   {timeAkhir}
                 </div>
                 {isOpenAkhir ? (
@@ -302,7 +303,7 @@ const DataTop = () => {
                 {dropdownTime.map((item) => (
                   <li
                     key={item.id}
-                    className="flex px-4 py-[8px] hover:bg-gray-100 cursor-pointer justify-center items-center"
+                    className="flex px-4 py-[8px] hover:bg-gray-100 text-[12px] cursor-pointer justify-center items-center"
                     onClick={() => onClickHandleAkhir(item)}
                   >
                     {item.label}
@@ -321,18 +322,18 @@ const DataTop = () => {
           <p>Node</p>
         </div>
         <div className="flex flex-1 w-full h-full justify-start items-center">
-          <div className="flex-1 relative" ref={dropdownRefTimeAwal}>
+          <div className="flex-1 relative" ref={dropdownRefNode}>
             {" "}
             {/* Tambahkan relative */}
             {/* <div className="w-64"> */}
             <button
-              onClick={() => setIsOpenAwal(!isOpenAwal)}
+              onClick={() => setIsOpenNode(!isOpenAwal)}
               className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
             >
-              <div className="flex flex-1 py-[8px] justify-center">
-                {isOpenAwal}
+              <div className="flex flex-1 py-[8px] justify-center text-[12px]">
+                {node}
               </div>
-              {isOpenAwal ? (
+              {isOpenNode ? (
                 <div className="bg-dropDownArrow h-[30px] w-[20px] justify-center items-center flex rounded-lg">
                   <ChevronUp size={20} className="text-textColor" />
                 </div>
@@ -343,48 +344,48 @@ const DataTop = () => {
               )}
             </button>
             {/* Dropdown dengan posisi absolute & z-index tinggi */}
-            {/* <motion.ul
-                initial={{ height: 0, opacity: 0 }}
-                animate={{
-                  height: isOpenULTG ? "auto" : 0,
-                  opacity: isOpenULTG ? 1 : 0,
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md overflow-hidden"
-              >
-                {dropdownDataULTG.map((item) => (
-                  <li
-                    key={item.id}
-                    className="px-4 py-[8px] hover:bg-gray-100 cursor-pointer"
-                    onClick={() => onClickHandleULTG(item)}
-                  >
-                    {item.label}
-                  </li>
-                ))}
-              </motion.ul> */}
+            <motion.ul
+              initial={{ height: 0, opacity: 0 }}
+              animate={{
+                height: isOpenNode ? "auto" : 0,
+                opacity: isOpenNode ? 1 : 0,
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md overflow-hidden"
+            >
+              {Array.isArray(nodes) && nodes.map((item, index) => (
+                <li
+                  key={index}
+                  className="px-4 py-[8px] hover:bg-gray-100 text-[12px] cursor-pointer"
+                  onClick={() => onClickHandleNode(item.nodeName)}
+                >
+                  {item.nodeName}
+                </li>
+              ))}
+            </motion.ul>
           </div>
         </div>
       </div>
       <div className="flex flex-col w-[30px] h-full  justify-center items-center py-[10px]">
         <div className="h-full w-[2px] bg-gradient-to-b from-[#314a60] via-white to-[#314a60]"></div>
       </div>
-      <div className="flex flex-col w-[15%] h-full ">
+      <div className="flex flex-col w-[10%] h-full ">
         <div className="flex w-full h-[40px]  text-textColor">
           <p>Status Kamera</p>
         </div>
         <div className="flex flex-1 w-full h-full justify-start items-center">
-          <div className="flex-1 relative" ref={dropdownRefTimeAwal}>
+          <div className="flex-1 relative" ref={dropdownRefStatusKamera}>
             {" "}
             {/* Tambahkan relative */}
             {/* <div className="w-64"> */}
             <button
-              onClick={() => setIsOpenAwal(!isOpenAwal)}
+              onClick={() => setIsOpenStatusCam(!isOpenStatusCam)}
               className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
             >
-              <div className="flex flex-1 py-[8px] justify-center">
-                {isOpenAwal}
+              <div className="flex flex-1 py-[8px] justify-center text-[12px]">
+                {statusCam}
               </div>
-              {isOpenAwal ? (
+              {isOpenStatusCam ? (
                 <div className="bg-dropDownArrow h-[30px] w-[20px] justify-center items-center flex rounded-lg">
                   <ChevronUp size={20} className="text-textColor" />
                 </div>
@@ -395,25 +396,25 @@ const DataTop = () => {
               )}
             </button>
             {/* Dropdown dengan posisi absolute & z-index tinggi */}
-            {/* <motion.ul
-                initial={{ height: 0, opacity: 0 }}
-                animate={{
-                  height: isOpenULTG ? "auto" : 0,
-                  opacity: isOpenULTG ? 1 : 0,
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md overflow-hidden"
-              >
-                {dropdownDataULTG.map((item) => (
-                  <li
-                    key={item.id}
-                    className="px-4 py-[8px] hover:bg-gray-100 cursor-pointer"
-                    onClick={() => onClickHandleULTG(item)}
-                  >
-                    {item.label}
-                  </li>
-                ))}
-              </motion.ul> */}
+            <motion.ul
+              initial={{ height: 0, opacity: 0 }}
+              animate={{
+                height: isOpenStatusCam ? "auto" : 0,
+                opacity: isOpenStatusCam ? 1 : 0,
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="absolute left-0 top-full z-50 w-full bg-textColor border border-gray-200 rounded-lg shadow-md overflow-hidden"
+            >
+              {dropdownDataStatusCam.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex px-4 py-[8px] hover:bg-gray-100 text-[12px] cursor-pointer justify-center items-center"
+                  onClick={() => onClickHandleStatusCam(item)}
+                >
+                  {item}
+                </li>
+              ))}
+            </motion.ul>
           </div>
         </div>
       </div>

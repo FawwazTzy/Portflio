@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useZustandState } from "../../../store/state";
 
 const Header = () => {
-  const { setViewport, Initialviewport, ULTG, unit, setUnitSelected, setDipilihULTG, nodes, setNodesView, dipilihULTG, setNodeSelected } = useZustandState((state) => state);
+  const { userProfile, setViewport, Initialviewport, ULTG, unit, setUnitSelected, setDipilihULTG, nodes, setNodesView, dipilihULTG, setNodeSelected } = useZustandState((state) => state);
 
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
@@ -111,20 +111,22 @@ const Header = () => {
   };
 
   const onClickHandleGI = (item) => {
-    console.log("ULTG Selected handle", dipilihULTG)
+    console.log("ULTG Selected handle11", dipilihULTG)
     console.log("unit Selected handle", item)
     //! Mengubah semua isClicked menjadi false
     // const updateNodesIsClickedFalse = nodes.map((item) => ({
     //   ...item,
     //   isClicked: false,
     // }));
-    if (item === "Semua Gardu Induk") {
+    if (item === "Semua Gardu Induk" && dipilihULTG === "Semua ULTG") {
+      setNodesView(nodes)
+    } else if (item === "Semua Gardu Induk" && dipilihULTG != "Semua ULTG") {
       const filterByULTG = nodes.filter(i => i.ULTG === dipilihULTG);
-      console.log("unit hasil filter ", filterByULTG)
+      console.log("unit hasil filter1 ", filterByULTG)
       setNodesView(filterByULTG)
     } else {
       const filterByULTG = nodes.filter(i => i.unit === item);
-      console.log("unit hasil filter ", filterByULTG)
+      console.log("unit hasil filter2 ", filterByULTG)
       setNodesView(filterByULTG)
     }
 
@@ -188,9 +190,9 @@ const Header = () => {
           <img src={UserPNG} alt="" />
         </div>
         <div className="flex-1 flex-col text-textColor ml-[10px]">
-          <p className="text-[20px] font-bold">Name</p>
-          <p className="text-[16px]">ID</p>
-          <p className="text-[16px]">Wilayah Kerja</p>
+          <p className="text-[20px] font-bold">Nama : {userProfile.name}</p>
+          <p className="text-[16px]">ID : {userProfile.username}</p>
+          <p className="text-[16px]">Wilayah Kerja : {userProfile.wilayahKerja}</p>
         </div>
       </div>
       <div className="flex-1 "></div>

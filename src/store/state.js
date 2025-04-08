@@ -157,7 +157,22 @@ export const useZustandState = create((set, get) => ({
       return { nodesView: value };
     });
   },
-  nodeSelected: {},
+  nodeSelected: {
+    nodeName: "-",
+    UPT: "-",
+    ULTG: "-",
+    unit: "-",
+    brand: "-",
+    type: "-",
+    gps_lat: "-",
+    gps_long: "-",
+    zonaInstallation: "-",
+    isolasi: "-",
+    statusGauge: "-",
+    statusCam: "-",
+    pressure: "-",
+    dateTime: "-"
+  },
   setNodeSelected: (value) => {
     set(() => {
       return { nodeSelected: value };
@@ -179,6 +194,16 @@ export const useZustandState = create((set, get) => ({
   setFilterName: (value) => {
     set(() => {
       return { filterName: value };
+    });
+  },
+  userProfile: {
+    username: "-",
+    name: "-",
+    wilayahKerja: "-"
+  },
+  setUserProfile: (value) => {
+    set(() => {
+      return { userProfile: value };
     });
   },
 

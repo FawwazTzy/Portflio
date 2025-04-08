@@ -111,3 +111,16 @@ export async function fetchChartNode(nodeName, type, start, end) {
   }
 }
 
+export async function fetchUserProfile() {
+  try {
+    return await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/user/profile`,
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    console.error("Error API Get Nodes");
+    return false;
+  }
+}

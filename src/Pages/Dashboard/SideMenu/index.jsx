@@ -34,7 +34,7 @@ function SideMenu() {
       navigate("/map", { replace: false });
     } else if (index === 2 && index != indexOfMenuActivate) {
       setIndexOfMenuActivate(2);
-      // navigate("/document", { replace: false });
+      navigate("/document", { replace: false });
     }
   };
 

@@ -4,7 +4,7 @@ import React from "react";
 const TableValue = () => {
   return (
     <div className="flex w-full  gap-1 mb-[5px]">
-      <div className="w-[10%]   flex justify-center items-center text-[14px] bg-backgorundSecond text-textColor">
+      <div className="w-[150px]   flex justify-center items-center text-[14px] bg-backgorundSecond text-textColor">
         <p>27-01-2025 10:00</p>
       </div>
       <div className="w-[10%]   flex justify-center items-center text-[14px] bg-backgorundSecond text-textColor">
@@ -31,7 +31,7 @@ const TableValue = () => {
       <div className="w-[10%]   flex justify-center items-center text-[14px] bg-backgorundThird">
         <p>SF6</p>
       </div>
-      <div className="w-[10%]   flex justify-center items-center text-[14px] bg-backgorundThird">
+      <div className="flex-1 w-full flex justify-center items-center text-[14px] bg-backgorundThird">
         <p>Indoor</p>
       </div>
     </div>

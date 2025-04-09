@@ -19,6 +19,20 @@ export async function fetchLogin(username, password) {
   }
 }
 
+export async function fetchLogout() {
+  try {
+    return await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/logout`,
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    console.error("Error API logout");
+    return false;
+  }
+}
+
 export async function fetchCheckAuth() {
   try {
     return await axios.get(
@@ -93,7 +107,7 @@ export async function fetchChartNode(nodeName, type, start, end) {
   console.log("fetch ", type)
   try {
     return await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/v1/node`,
+      `${import.meta.env.VITE_API_URL}/api/v1/node/chart`,
       // `/api/v1/login`,
       {
         node: nodeName,
@@ -121,6 +135,27 @@ export async function fetchUserProfile() {
     );
   } catch (error) {
     console.error("Error API Get Nodes");
+    return false;
+  }
+}
+
+export async function fetchDocumentNode(nodeName, statusCam, startDate, endDate, startTime, endTime) {
+  try {
+    return await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/node/document`,
+      // `/api/v1/login`,
+      {
+        node: nodeName,
+        statusCam: String(statusCam),
+        startDateTime: `${startDate} ${startTime}`,
+        endDateTime: `${endDate} ${endTime}`
+      },
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    console.error("Error API Document Node ", error);
     return false;
   }
 }

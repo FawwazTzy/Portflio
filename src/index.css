@@ -6,14 +6,23 @@
   .link {
     @apply cursor-pointer hover:underline;
   }
+
   .button-outline {
     @apply rounded-md border-2 border-primary hover:bg-primary/80 hover:text-black duration-500 py-2 px-6 text-primary tracking-wider;
+  }
+
+  .react-datepicker-popper {
+    z-index: 9999 !important;
   }
 }
 
 /* width */
 ::-webkit-scrollbar {
+  /* untuk scroll Y */
   width: 8px;
+  /* untuk scroll X */
+  height: 8px;
+
 }
 
 /* Track */

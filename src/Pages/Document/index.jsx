@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useZustandState } from "../../store/state";
-import { useZustandStateHome } from "../../store/stateHome";
 
 import SideMenu from "../Dashboard/SideMenu";
 import HeaderDashboard from "../Dashboard/Header";
@@ -9,34 +8,20 @@ import DataBottom from "./DataBottom";
 import { useNavigate } from "react-router-dom";
 
 import { fetchCheckAuth, fetchGetUnit, fetchGetNodes, fetchUserProfile } from "../../Utils/api";
+import { useZustandStateDocumen } from "../../store/stateDocument";
+import { generateCSV, generateXLS } from './function'
+
 
 
 
 const Document = () => {
   const navigate = useNavigate();
+  const { dataTable, downloadType, setDataTable } = useZustandStateDocumen((state) => state);
+
   const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("100%");
   const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("100%");
-  const [heightDataBootom, setHeightDataBootom] = useState("500");
 
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [showCalendar, setShowCalendar] = useState(false);
-
-  const [isReady, setIsReady] = useState(false);
-
-  const [time, setTime] = useState(new Date());
-
-  const {
-    setDataSensorKameraOn,
-    setDataSensorKameraOff,
-    setDataSensorHomePage,
-    setFetchDataError,
-    setPercentageKameraOn,
-    setpercentageKameraOff,
-    setDataSensorGaugeNormal,
-    setDataSensorGaugeAnomali,
-    setPercentageGaugeNormal,
-    setpercentageGaugeAnomali,
-  } = useZustandStateHome((state) => state);
+  const [dropDownNodes, setDropDownNodes] = useState([]);
 
   const { windowSize, nodesView, setUPT,
     setLoading,
@@ -48,6 +33,8 @@ const Document = () => {
     dipilihULTG,
     setDipilihULTG,
     unitSelected,
+    isDropDownHeaderSelected,
+    setIsDropDownHeaderSelected,
     setUserProfile } = useZustandState((state) => state);
 
   useEffect(() => {
@@ -61,13 +48,25 @@ const Document = () => {
     if (windowSize.width < 1260) {
       setResponsiveWidthScreen(`1260px`);
     } else {
+      console.log("windowSize.width ", windowSize.width)
       setResponsiveWidthScreen(`${windowSize.width}px`);
     }
 
-    let x = windowSize.height - 180 - 100 - 30;
-    setHeightDataBootom(x);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowSize]);
+
+  async function onClickDownloadLaporan() {
+    console.log("Tombol Download di clik")
+    // generateCSV(dataTable);
+    if (dataTable.length > 0 && downloadType === "optionXLS") {
+      generateXLS(dataTable);
+    } else if (dataTable.length > 0 && downloadType === "optionCVS") {
+      generateCSV(dataTable);
+    } else {
+      console.log("Data tidak ditemukan")
+    }
+
+  }
 
   async function checkAuth() {
     console.log("######################### CHECK AUTH")
@@ -82,16 +81,6 @@ const Document = () => {
       setLoading(false);
     }
   }
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsReady(true);
-      console.log("ready");
-    }, 100);
-
-    // Cleanup function untuk memastikan timer dihentikan jika komponen unmount sebelum selesai
-    return () => clearTimeout(timer);
-  }, []); // Dependency array kosong -> hanya dijalankan sekali saat mount
 
   // Ambil semua unit berdasarkan nama ULTG
   function getUnitsByULTG(data, ULTGfilter) {
@@ -206,13 +195,37 @@ const Document = () => {
   useEffect(() => {
     nodeSelectedRef.current = nodeSelected;
   }, [nodeSelected]);
+  useEffect(() => {
+    const initialNode =
+    {
+      nodeName: "Semua Node",
+      UPT: "-",
+      ULTG: "-",
+      unit: "-",
+      brand: "-",
+      type: "-",
+      gps_lat: "-",
+      gps_long: "-",
+      zonaInstallation: "-",
+      isolasi: "-",
+      statusGauge: "-",
+      statusCam: "-",
+      pressure: "-",
+      dateTime: "-"
+    }
+
+    const tempNodes = [initialNode, ...nodesView]
+    setDropDownNodes(tempNodes)
+  }, [nodesView]);
 
 
   useEffect(() => {
     // Kirim langsung saat pertama render
     //! check token
     console.log("#########################")
+    setIsDropDownHeaderSelected(false);
     setDipilihULTG("Semua ULTG")
+    setDataTable([])
     checkAuth();
     getUnitFromServer();
     getNodes();
@@ -223,6 +236,7 @@ const Document = () => {
 
     // Interval pertama
     const intervalId = setInterval(() => {
+      setIsDropDownHeaderSelected(false);
       checkAuth();
       getUnitFromServer();
       getNodes();
@@ -245,22 +259,22 @@ const Document = () => {
         width: responsiveWidthScreen,
         backgroundColor: "#223849",
       }}
-      className={`flex fixed `}
+      className={`flex fixed h-screen w-screen`}
     >
       <div className="flex h-full w-[60px]">
         <SideMenu />
       </div>
 
-      <div className="flex flex-col flex-1 w-full h-full ml-[20px] mr-[10px]">
+      <div className="flex flex-col flex-1 w-full h-full ml-[20px] mr-[10px] ">
         <div className="flex bg-backgorundFirst  min-h-[100px] mt-[10px]  rounded-xl">
           <HeaderDashboard />
         </div>
-        <div className="flex h-[calc(100vh-150px)] flex-col w-full rounded-xl border-primary border-[2px] mt-[20px] p-[10px] mb-[10px]">
+        <div className="min-h-[510px] flex h-[calc(100vh-150px)] flex-col w-full rounded-xl border-primary border-[2px] mt-[20px] p-[10px] mb-[10px]">
           <div className="flex w-full h-[85px] bg-backgorundFirst rounded-xl p-[10px]">
-            <DataTop nodes={nodesView} />
+            <DataTop nodes={dropDownNodes} isSetNodeToDefault={isDropDownHeaderSelected} />
           </div>
-          <div className="flex flex-1 w-full min-h-[200px] bg-backgorundFirst rounded-xl mt-[10px] p-[10px]">
-            <DataBottom />
+          <div className="flex flex-1 w-full min-h-[400px]  bg-backgorundFirst rounded-xl mt-[10px] p-[10px]">
+            <DataBottom dataTable={dataTable} onClickDownloadLaporan={onClickDownloadLaporan} />
           </div>
         </div>
       </div>

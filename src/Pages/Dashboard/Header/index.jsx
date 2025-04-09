@@ -5,7 +5,20 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useZustandState } from "../../../store/state";
 
 const Header = () => {
-  const { userProfile, setViewport, Initialviewport, ULTG, unit, setUnitSelected, setDipilihULTG, nodes, setNodesView, dipilihULTG, setNodeSelected } = useZustandState((state) => state);
+  const {
+    userProfile,
+    setViewport,
+    Initialviewport,
+    ULTG,
+    unit,
+    setUnitSelected,
+    setDipilihULTG,
+    nodes,
+    setNodesView,
+    dipilihULTG,
+    setNodeSelected,
+    setIsDropDownHeaderSelected
+  } = useZustandState((state) => state);
 
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
@@ -77,7 +90,18 @@ const Header = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const onClickButtonGI = () => {
+    setIsOpen(!isOpen)
+    setIsDropDownHeaderSelected(false)
+  }
+
+  const onClickButtonULTG = () => {
+    setIsOpenULTG(!isOpenULTG)
+    setIsDropDownHeaderSelected(false)
+  }
+
   const onClickHandleULTG = (item) => {
+    setIsDropDownHeaderSelected(true)
     setIsOpenULTG(!isOpenULTG)
     setULTGName(item)
     const index = ULTG.indexOf(item);
@@ -118,6 +142,7 @@ const Header = () => {
     //   ...item,
     //   isClicked: false,
     // }));
+    setIsDropDownHeaderSelected(true)
     if (item === "Semua Gardu Induk" && dipilihULTG === "Semua ULTG") {
       setNodesView(nodes)
     } else if (item === "Semua Gardu Induk" && dipilihULTG != "Semua ULTG") {
@@ -200,7 +225,7 @@ const Header = () => {
         <div className="flex w-full h-[50%] pb-[10px] pt-[10px]"></div>
         <div className="flex-1 relative" ref={dropdownRefULTG}>
           <button
-            onClick={() => setIsOpenULTG(!isOpenULTG)}
+            onClick={() => onClickButtonULTG()}
             className="w-full flex justify-between items-center bg-textColor text-black  rounded-lg shadow-md"
           >
             <span className="px-4 py-[8px]">{ULTGName}</span>
@@ -248,7 +273,7 @@ const Header = () => {
         </div>
         <div className="flex-1 relative " ref={dropdownRefGI}>
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => onClickButtonGI()}
             className="w-full flex justify-between items-center bg-textColor text-black h-full rounded-lg shadow-md 0"
           >
             <span className="px-4 py-[8px]">{GIName}</span>

@@ -2,15 +2,17 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import moment from 'moment-timezone';
 
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
 import "react-datepicker/dist/react-datepicker.css";
+import { fetchDocumentNode } from "../../../Utils/api";
 
-import { useZustandState } from "../../../store/state";
+import { useZustandStateDocumen } from "../../../store/stateDocument";
 
-const DataTop = ({ nodes }) => {
-  const { dataSensor } = useZustandState((state) => state);
+const DataTop = ({ nodes, isSetNodeToDefault }) => {
+  const { setDataTable } = useZustandStateDocumen((state) => state);
 
   const [isOpenAwal, setIsOpenAwal] = useState(false);
   const [isOpenAkhir, setIsOpenAkhir] = useState(false);
@@ -18,18 +20,18 @@ const DataTop = ({ nodes }) => {
   const [timeAkhir, setTimeAkhir] = useState("Waktu Akhir");
 
   const [selectedDateAwal, setSelectedDateAwal] = useState(null);
+  const [selectedDateAkhir, setSelectedDateAkhir] = useState(null);
   const [isDateAwalClicked, setIsDateAwalClicked] = useState(true);
+  const [isDateAkhirClicked, setIsDateAkhirClicked] = useState(true);
   const [dateAwal, setDateAwal] = useState("Tanggal Awal");
   const [dateAkhir, setDateAkhir] = useState("Tanggal Akhir");
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [showCalendarAwal, setShowCalendarAwal] = useState(false);
+  const [showCalendarAkhir, setShowCalendarAkhir] = useState(false);
 
   const [isOpenNode, setIsOpenNode] = useState(false);
   const [node, setNode] = useState("Pilih Node");
   const [isOpenStatusCam, setIsOpenStatusCam] = useState(false);
   const [statusCam, setStatusCam] = useState("ON");
-  // const [timeAwal, setTimeAwal] = useState("Waktu Awal");
-  // const [timeAkhir, setTimeAkhir] = useState("Waktu Akhir");
-
 
   const dropdownTime = [
     { id: 1, label: "00:00" },
@@ -58,7 +60,7 @@ const DataTop = ({ nodes }) => {
     { id: 24, label: "23:00" },
   ];
 
-  const dropdownDataStatusCam = ["ON", "OFF"];
+  const dropdownDataStatusCam = ["Semua Kamera", "ON", "OFF"];
 
   const onClickHandleAwal = (item) => {
     // console.log(item);
@@ -82,6 +84,31 @@ const DataTop = ({ nodes }) => {
     //! tutup dropdown
     setIsOpenNode(false);
     setNode(item)
+  };
+  const onClickHandleLihatTable = async () => {
+    if (dateAwal != "Tanggal Awal" || dateAkhir != "Tanggal Akhir" || timeAwal != "Waktu Awal" || timeAkhir != "Waktu Akhir") {
+      const statusCamConvert = statusCam === "ON" ? true : false;
+      const startDateCov = moment(selectedDateAwal).tz('Asia/Jakarta').format('DD-MM-YYYY');
+      const endDateCov = moment(selectedDateAkhir).tz('Asia/Jakarta').format('DD-MM-YYYY');
+
+      let nodeFilter = [];
+      if (node === "Semua Node") {
+        nodeFilter = nodes
+          .filter(item => item.nodeName !== "Semua Node")
+          .map(item => item.nodeName);
+      } else {
+        nodeFilter = [node]
+      }
+
+      const res = await fetchDocumentNode(nodeFilter, statusCamConvert, startDateCov, endDateCov, timeAwal, timeAkhir);
+      const dataJson = res.data.message;
+      setDataTable(dataJson)
+      console.log("response ", dataJson)
+    } else {
+      console.log("data yang diinputkan tidak valid")
+    }
+
+
   };
 
   const dropdownRefTimeAwal = useRef(null); // Referensi untuk dropdown
@@ -146,22 +173,33 @@ const DataTop = ({ nodes }) => {
 
 
   useEffect(() => {
-    console.log("nodes1213 ", nodes)
-    setNode("Pilih Node")
-  }, [nodes]);
+    console.log("ada perubahan pada nodeViewFromMother ", nodes)
+    if (isSetNodeToDefault) {
+      setNode("Pilih Node")
+      setStatusCam("Pilih Status Kamera")
+    }
+  }, [nodes, isSetNodeToDefault]);
 
-  const onDatePickerClicked = (date) => {
+  const onDatePickerClickedAwal = (date) => {
     setSelectedDateAwal(date);
     if (isDateAwalClicked) {
       setDateAwal(dayjs(date).format("DD-MM-YYYY"));
-    } else {
+      setIsDateAwalClicked(false)
+    }
+  };
+
+  const onDatePickerClickedAkhir = (date) => {
+    console.log("date ", date)
+    setSelectedDateAkhir(date);
+    if (isDateAkhirClicked) {
       setDateAkhir(dayjs(date).format("DD-MM-YYYY"));
+      setIsDateAkhirClicked(false)
     }
   };
 
 
   return (
-    <div className="flex w-full h-full ">
+    <div className="flex w-full h-full overflow-visible">
       <div className="flex flex-col w-[25%] h-full ">
         <div className="flex w-full h-[40px]  text-textColor">
           <p>Tanggal & Waktu Awal</p>
@@ -169,12 +207,9 @@ const DataTop = ({ nodes }) => {
         <div className="flex flex-1 w-full h-full justify-start items-center">
           <div className="flex w-[50%] h-full  items-center pr-[10px]">
             <div className="flex-1 relative">
-              {" "}
-              {/* Tambahkan relative */}
-              {/* <div className="w-64"> */}
               <button
                 onClick={() => {
-                  setShowCalendar(!showCalendar);
+                  setShowCalendarAwal(!showCalendarAwal);
                   setIsDateAwalClicked(true);
                 }}
                 className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
@@ -248,13 +283,10 @@ const DataTop = ({ nodes }) => {
         <div className="flex flex-1 w-full h-full justify-start items-center">
           <div className="flex w-[50%] h-full  items-center pr-[10px]">
             <div className="flex-1 relative">
-              {" "}
-              {/* Tambahkan relative */}
-              {/* <div className="w-64"> */}
               <button
                 onClick={() => {
-                  setShowCalendar(!showCalendar);
-                  setIsDateAwalClicked(false);
+                  setShowCalendarAkhir(!showCalendarAkhir);
+                  setIsDateAkhirClicked(true);
                 }}
                 className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
               >
@@ -375,9 +407,6 @@ const DataTop = ({ nodes }) => {
         </div>
         <div className="flex flex-1 w-full h-full justify-start items-center">
           <div className="flex-1 relative" ref={dropdownRefStatusKamera}>
-            {" "}
-            {/* Tambahkan relative */}
-            {/* <div className="w-64"> */}
             <button
               onClick={() => setIsOpenStatusCam(!isOpenStatusCam)}
               className="w-full flex h-[30px] justify-start items-center bg-textColor text-black  rounded-lg shadow-md"
@@ -421,15 +450,15 @@ const DataTop = ({ nodes }) => {
       <div className="flex flex-1 w-full h-full flex-col justify-center items-center">
         <div className="h-[40px] w-full"></div>
         <button
-          // onClick={() => setIsOpenULTG(!isOpenULTG)}
+          onClick={() => onClickHandleLihatTable()}
           className="w-[80%] flex h-[35px] justify-center items-center bg-[#009959] text-textColor  rounded-lg shadow-md"
         >
           Lihat Tabel
         </button>
       </div>
       {/* //! komponen kalender */}
-      {showCalendar && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      {showCalendarAwal && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
           <div className="flex flex-col p-6 bg-textColor text-black rounded-lg shadow-lg">
             <div className="flex w-full h-[45px] justify-center items-center">
               Pilih Tanggal
@@ -438,15 +467,41 @@ const DataTop = ({ nodes }) => {
             <DatePicker
               selected={selectedDateAwal}
               onChange={(date) => {
-                onDatePickerClicked(date);
-                setShowCalendar(false); // Menutup popup setelah memilih tanggal
+                onDatePickerClickedAwal(date);
+                setShowCalendarAwal(false); // Menutup popup setelah memilih tanggal
+              }}
+              inline
+            />
+
+            {/* </div> */}
+            <button
+              className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-textColor rounded-lg transition w-full"
+              onClick={() => setShowCalendarAwal(false)}
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
+      {showCalendarAkhir && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+          <div className="flex flex-col p-6 bg-textColor text-black rounded-lg shadow-lg">
+            <div className="flex w-full h-[45px] justify-center items-center">
+              Pilih Tanggal
+            </div>
+            {/* <div className="flex w-full h-full"> */}
+            <DatePicker
+              selected={selectedDateAkhir}
+              onChange={(date) => {
+                onDatePickerClickedAkhir(date);
+                setShowCalendarAkhir(false); // Menutup popup setelah memilih tanggal
               }}
               inline
             />
             {/* </div> */}
             <button
               className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-textColor rounded-lg transition w-full"
-              onClick={() => setShowCalendar(false)}
+              onClick={() => setShowCalendarAkhir(false)}
             >
               Tutup
             </button>

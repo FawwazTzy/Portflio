@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import TableTitle from "./TableTitle";
 import TableValue from "./TableValue";
+import DownloadBox from "./DownloadBox";
 
 const dropdownTime = [
   { id: 1, label: "00:00" },
@@ -29,7 +31,7 @@ const dropdownTime = [
   { id: 24, label: "23:00" },
 ];
 
-const DataBottom = () => {
+const DataBottom = ({ dataTable, onClickDownloadLaporan }) => {
   const [length, setLength] = useState(0);
 
   useEffect(() => {
@@ -37,17 +39,40 @@ const DataBottom = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full h-full ">
-      <div className="flex w-full h-[30px] mb-[5px]">
-        <TableTitle isMore={length} />
+        <div className="flex flex-col w-full h-full ">
+      <div className="w-full flex-1 flex flex-col overflow-x-auto">
+        {/* wrapper untuk sync scroll horizontal */}
+        <div className="min-w-max">
+          {/* TableTitle STICKY (tidak ikut scroll Y) */}
+          <div className="sticky top-0 z-1 ">
+            <TableTitle isMore={length} />
+          </div>
+
+          {/* Scroll Y hanya di bagian ini */}
+          <div className="max-h-[calc(100vh-100px)] overflow-y-auto">
+            {Array.isArray(dataTable) && dataTable.map((item, index) => (
+              <TableValue key={index}
+                dateTime={item.dateTime}
+                nodeName={item.nodeName}
+                pressure={item.pressure}
+                ultgName={item.ULTG}
+                garduInduk={item.unit}
+                statusCam={item.statusCam}
+                statusGauge={item.statusGauge}
+                brand={item.brand}
+                isolasi={item.isolasi}
+                zona={item.zonaInstallation}
+
+              />
+            ))}
+          </div>
+        </div>
       </div>
-      <div className="flex-col w-full flex-1 overflow-y-auto ">
-        {dropdownTime.map((item, index) => (
-          <TableValue key={index} />
-        ))}
+      <div className="flex w-full h-[80px] ">
+        <DownloadBox onClickDownloadLaporan={onClickDownloadLaporan} />
       </div>
     </div>
-  );
+  )
 };
 
 export default DataBottom;

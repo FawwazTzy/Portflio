@@ -19,18 +19,12 @@ const Dashboard = () => {
   const [responsiveHeightScreen, setResponsiveHeightScreen] = useState("100%");
   const [responsiveWidthScreen, setResponsiveWidthScreen] = useState("100%");
 
-  const [time, setTime] = useState(new Date());
-  const [isFirstFetch, setIsFirstFetch] = useState(true);
   const [showContent, setShowContent] = useState(false);
 
   const {
     windowSize,
     constrainHeightScreen,
-    setViewport,
     isSensorImageVisible,
-    sensorClicked,
-    setDataSensor,
-    loading,
     setLoading,
     setUPT,
     setULTG,
@@ -42,7 +36,6 @@ const Dashboard = () => {
     setDipilihULTG,
     unitSelected,
     setUserProfile
-
   } = useZustandState((state) => state);
 
   //!================================================================================================================================================
@@ -235,8 +228,6 @@ const Dashboard = () => {
   }, []);
 
   return (
-    // <div className="flex bg-backgorundFirst w-screen h-screen">
-    //   {showContent && (
     <div
       style={{
         height: responsiveHeightScreen,
@@ -297,21 +288,13 @@ const Dashboard = () => {
                   className={`border-primary border-[2px] rounded-xl p-[3px]`}
                 >
                   <ImageProduct />
-
                 </div>
               </div>
             )}
           </div>
         )}
-
       </div>
-
-
-
-
     </div>
-    // </div>
-
   );
 };
 

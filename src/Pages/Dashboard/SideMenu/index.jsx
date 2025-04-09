@@ -9,6 +9,7 @@ import Logo from "../../../assets/govision_circle.png";
 import { useZustandState } from "../../../store/state";
 
 import { useNavigate } from "react-router-dom";
+import { fetchLogout } from "../../../Utils/api";
 
 function SideMenu() {
   const navigate = useNavigate();
@@ -21,8 +22,8 @@ function SideMenu() {
 
   const [isActive, setIsActive] = useState([false, false, false, false]);
 
-  const onClickHandle = (index) => {
-    console.log(index);
+  const onClickHandle = async (index) => {
+    console.log("#################### Menu index ", index);
     let temp = [false, false, false, false];
     temp[index] = true;
     setIsActive(temp);
@@ -35,6 +36,12 @@ function SideMenu() {
     } else if (index === 2 && index != indexOfMenuActivate) {
       setIndexOfMenuActivate(2);
       navigate("/document", { replace: false });
+    } else if (index === 4) {
+      const res = await fetchLogout();
+      console.log("logout")
+      console.log("res ", res.data)
+      setIndexOfMenuActivate(4);
+      navigate("/login", { replace: true });
     }
   };
 
@@ -57,10 +64,12 @@ function SideMenu() {
   }, []);
 
   return (
-    <div className="bg-backgorundFirst w-full h-screen flex-col place-items-center">
+    <div className="bg-backgorundFirst w-[60px] h-screen flex-col place-items-center">
       <div className="flex flex-col h-[calc(92%)] min-h-[600px] ">
-        <div className="w-[25px] h-[25px]  m-[10px] rounded-xl mb-[80px] mt-[30px] ">
-          <img src={Logo} alt="" />
+        <div className="w-full h-[50px] flex items-center justify-center mb-[100px] mt-[40px]">
+          <div className="w-[30px] h-[30px]   rounded-xl  flex ">
+            <img src={Logo} alt="" />
+          </div>
         </div>
         <div
           className={`flex w-full h-[50px] mb-[10px] hover:bg-primary items-center justify-center ${isActive[0] ? "bg-primary" : "bg-none"
@@ -92,7 +101,9 @@ function SideMenu() {
         </div>
       </div>
       <div className="flex-1 w-full px-[10px] ">
-        <div className="flex w-full h-[50px] hover:bg-primary items-center justify-center">
+        <div className="flex w-full h-[50px] hover:bg-primary items-center justify-center"
+          onClick={() => onClickHandle(4)}
+        >
           <img src={LogoutPNG} alt="" className="w-[25px] h-[25px]" />
         </div>
       </div>

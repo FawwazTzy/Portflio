@@ -206,6 +206,12 @@ export const useZustandState = create((set, get) => ({
       return { userProfile: value };
     });
   },
+  isDropDownHeaderSelected: false,
+  setIsDropDownHeaderSelected: (value) => {
+    set(() => {
+      return { isDropDownHeaderSelected: value };
+    });
+  },
 
 
 }));

@@ -7,11 +7,7 @@ import MapMarkerGray from "../../../assets/mapMarker_gray.png";
 import { useZustandState } from "../../../store/state";
 // import { findDeviceFromSensorBox, findIndexById } from "../function";
 import "./CircleWave.css";
-import {
-  updateMap,
-  convertToDataChart,
-  fetchNodeImageProduct,
-} from "../function";
+import { updateMap, convertToDataChart } from "../function";
 
 const mapboxToken =
   "pk.eyJ1IjoiemVyb2hhY2siLCJhIjoiY2t2MzR6NzYzOGUxcjJ2bnpydnYwM28yaSJ9._bUy8NIpXyzLkTELdT5qPA";
@@ -110,10 +106,6 @@ const MapComponent = () => {
     // setDataChartXY(d[0]);
     // setMaxY_Axis(d[1]);
     // setMinY_Axis(d[2]);
-
-
-
-
   };
 
   useEffect(() => {
@@ -167,15 +159,15 @@ const MapComponent = () => {
                     <img
                       src={
                         device.statusCam === "on" &&
-                          device.statusGauge === "aman"
+                        device.statusGauge === "aman"
                           ? MapMarkerGreen
                           : device.statusCam === "on" &&
                             device.statusGauge === "waspada"
-                            ? MapMarkerYellow
-                            : device.statusCam === "on" &&
-                              device.statusGauge === "bahaya"
-                              ? MapMarkerRed
-                              : MapMarkerGray
+                          ? MapMarkerYellow
+                          : device.statusCam === "on" &&
+                            device.statusGauge === "bahaya"
+                          ? MapMarkerRed
+                          : MapMarkerGray
                       }
                       alt={`Marker x`}
                       className="w-8 h-8"

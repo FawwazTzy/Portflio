@@ -4,6 +4,7 @@ import Dashboard from "./Pages/Dashboard";
 import Home from "./Pages/Home";
 import Document from "./Pages/Document";
 import Status404 from "./Pages/404";
+import Canvas from "./Pages/Canvas";
 // import "mapbox-gl/dist/mapbox-gl.css";
 import { useZustandState } from "./store/state";
 import {
@@ -41,10 +42,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
+        {/* <Route path="/canvas" element={<Canvas />} /> */}
         {/* <Route path="/dashboard" element={<Login />} /> */}
-        <Route path="/map" element={<Dashboard />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/document" element={<Document />} />
+        {/* <Route path="/map" element={<Dashboard />} /> */}
+        {/* <Route path="/home" element={<Home />} /> */}
+        {/* <Route path="/document" element={<Document />} /> */}
         {/* <Route path="/setting/admin" element={<AdminSetting />} /> */}
         {/* <Route path="/setting/admin/add" element={<AddAdmin />} /> */}
         {/* <Route path="/setting/user" element={<UserSetting />} /> */}

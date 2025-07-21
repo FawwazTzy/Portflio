@@ -14,29 +14,5 @@
   .react-datepicker-popper {
     z-index: 9999 !important;
   }
-}
 
-/* width */
-::-webkit-scrollbar {
-  /* untuk scroll Y */
-  width: 8px;
-  /* untuk scroll X */
-  height: 8px;
-
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #ffffff;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #00975c;
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #0ab966;
 }

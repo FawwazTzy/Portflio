@@ -6,6 +6,7 @@ import svgx from "@svgx/vite-plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgx()],
+  base: './',
   build: {
     outDir: "dist",
     sourcemap: false, // Disable source maps for production

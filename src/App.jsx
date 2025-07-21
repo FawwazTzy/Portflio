@@ -1,65 +1,51 @@
 import { useEffect } from "react";
-import Login from "./Pages/Login";
-import Dashboard from "./Pages/Dashboard";
-import Home from "./Pages/Home";
-import Document from "./Pages/Document";
-import Status404 from "./Pages/404";
-import Canvas from "./Pages/Canvas";
-// import "mapbox-gl/dist/mapbox-gl.css";
 import { useZustandState } from "./store/state";
+
 import {
   BrowserRouter as Router,
-  Route,
   Routes,
+  Route,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
 
+import Login from "./Pages/Login";
+import Mainpage from "./Pages/MainPage";
+import Status404 from "./Pages/404";
+// import Pengguna from "./Pages/Pengguna";
+// import Pengguna2 from "./Pages/Pengguna2";
+// import Proyek from "./Pages/Proyek";
+
 const App = () => {
-  const { setWindowSize, initialWindowsSize } = useZustandState(
-    (state) => state
-  );
+  const setWindowSize = useZustandState((state) => state.setWindowSize);
+  // Jangan gunakan ini kalau tidak perlu trigger render:
+  // const initialWindowsSize = useZustandState((state) => state.initialWindowsSize);
+
   useEffect(() => {
-    function handleResize() {
+    const handleResize = () => {
       const screen = {
         width: window.innerWidth,
         height: window.innerHeight,
       };
       setWindowSize(screen);
-      console.log("screen");
-      console.log(screen);
-      console.log("initialWindowsSize");
-      console.log(initialWindowsSize);
-    }
+      console.log("screen:", screen);
+    };
 
     window.addEventListener("resize", handleResize);
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  // return <Dashboard />;
+  }, [setWindowSize]);
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/canvas" element={<Canvas />} /> */}
-        {/* <Route path="/dashboard" element={<Login />} /> */}
-        {/* <Route path="/map" element={<Dashboard />} /> */}
-        {/* <Route path="/home" element={<Home />} /> */}
-        {/* <Route path="/document" element={<Document />} /> */}
-        {/* <Route path="/setting/admin" element={<AdminSetting />} /> */}
-        {/* <Route path="/setting/admin/add" element={<AddAdmin />} /> */}
-        {/* <Route path="/setting/user" element={<UserSetting />} /> */}
-        {/* <Route path="/setting/user/add" element={<AddUser />} /> */}
-        {/* <Route path="/setting/user/add/sensor/:id" element={<AddSensor />} /> */}
-        {/* <Route path="/setting/user/detail" element={<UserDetail />} /> */}
-        {/* <Route path="/analytics" element={<Dashboard />} /> */}
-        {/* <Route path="/setting/sensor" element={<Dashboard />} /> */}
-
-        <Route path="/error" element={<Status404 />} />
-        <Route path="/404" element={<Status404 />} />
-        {/* Catch all unmatched routes and redirect to /error */}
-        <Route path="*" element={<Navigate to="/error" />} />
+        <Route path="/mainpage" element={<Mainpage />} />
+        {/* <Route path="/pengguna" element={<Pengguna />} /> */}
+        {/* <Route path="/pengguna2" element={<Pengguna2 />} /> */}
+        {/* <Route path="/proyek" element={<Proyek />} /> */}
+        <Route path="*" element={<Status404 />} />
       </Routes>
     </Router>
   );

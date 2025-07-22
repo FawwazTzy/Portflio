@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import ktpPhoto from "../../../Assets/KTP.jpg";
+import KTP from "../../../assets/KTP.jpg";
 import portfolioPhoto from "../../../Assets/Portfolio.jpg";
 
 const Portfolio = () => {
@@ -48,7 +48,7 @@ const Portfolio = () => {
         {/* Garrison Regiment */}
         <div className="w-[400px] bg-white/30 backdrop-blur-md h-auto  p-6 rounded-lg shadow-lg">
           <img
-            src={ktpPhoto} // <-- gunakan gambar yang di-import
+            src={KTP} // <-- gunakan gambar yang di-import
             alt="KTP"
             className="w-full h-48 object-cover rounded-lg"
           />
@@ -70,12 +70,12 @@ const Portfolio = () => {
 
       <div className="w-[370px] bg-white/30 h-auto backdrop-blur-md p-6 rounded-lg shadow-lg">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQkuHkr6UPHMxKBvDeGLFWw2xHvcuZI_VOPg&s"
+            src="https://i.pinimg.com/1200x/d1/bd/73/d1bd738960a32e7037e19d5a5f034ea8.jpg"
             alt="Portfolio"
             className="w-full h-48 object-cover rounded-lg"
           />
-          <h3 className="mt-4 text-yellow-200 text-xl font-semibold">PPK ORMAWA 2025 (SOON)</h3>
-          <p>So I intend to accept my friend's invitation to join PPK ORMAWA 2025 to improve my abilities and more experience in the web section.</p>
+          <h3 className="mt-4 text-yellow-200 text-xl font-semibold">Notekeeper project</h3>
+          <p>Note Keeper is a note-taking app inspired by personal learning experiences, designed to help organize and manage study materials more efficiently. It allows users to store notes digitally, keeping everything in one place and making the learning process more structured and accessible.</p>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram, FaFacebookF, FaGithub } from "react-icons/fa";
 import { TypeAnimation } from "react-type-animation";
 import myPhoto from "../../../../assets/FAWWAZ.jpg";
 
@@ -23,60 +23,55 @@ const Home = () => {
           </p>
 
           {/* ANIMASI KETIKAN */}
+          <>
+            <style>
+              {`
+                .rainbow-gradient-text {
+                  background: linear-gradient(
+                    270deg,
+                    red,
+                    orange,
+                    yellow,
+                    green,
+                    cyan,
+                    indigo,
+                    violet,
+                    red
+                  );
+                  background-size: 800% 800%;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  animation: rainbowGradient 8s ease infinite;
+                }
 
-  
-  <>
-  <style>
-    {`
-      .rainbow-gradient-text {
-        background: linear-gradient(
-          270deg,
-          red,
-          orange,
-          yellow,
-          green,
-          cyan,
-          indigo,
-          violet,
-          red
-        );
-        background-size: 800% 800%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: rainbowGradient 8s ease infinite;
-      }
+                @keyframes rainbowGradient {
+                  0% { background-position: 0% 50%; }
+                  50% { background-position: 100% 50%; }
+                  100% { background-position: 0% 50%; }
+                }
+              `}
+            </style>
 
-      @keyframes rainbowGradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-    `}
-  </style>
-
-  <h3 className="mt-4 text-xl md:text-2xl">
-    <TypeAnimation
-      sequence={[
-        "Full-Stack Engineer",
-        2000,
-        "React Enthusiast",
-        2000,
-        "Backend Developer",
-        2000,
-        "Creative Coder",
-        2000,
-      ]}
-      wrapper="span"
-      className="rainbow-gradient-text underline"
-      speed={50}
-      repeat={Infinity}
-      cursor={true}
-    />
-  </h3>
-</>
-
-
-
+            <h3 className="mt-4 text-xl md:text-2xl">
+              <TypeAnimation
+                sequence={[
+                  "Full-Stack Engineer",
+                  2000,
+                  "React Enthusiast",
+                  2000,
+                  "Backend Developer",
+                  2000,
+                  "Creative Coder",
+                  2000,
+                ]}
+                wrapper="span"
+                className="rainbow-gradient-text underline"
+                speed={50}
+                repeat={Infinity}
+                cursor={true}
+              />
+            </h3>
+          </>
 
           <p className="mt-4 text-yellow-200 text-lg">
             <u>Welcome to My personal website</u>
@@ -125,6 +120,14 @@ const Home = () => {
             >
               <FaFacebookF className="w-5 h-5" />
             </a>
+            <a
+              href="https://github.com/FawwazTzy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-slate-500 p-2 rounded-full hover:bg-white transition"
+            >
+              <FaGithub className="w-5 h-5" />
+            </a>
           </motion.div>
         </motion.div>
       </div>
@@ -149,7 +152,6 @@ const Home = () => {
             repeatType: "reverse",
           }}
         >
-          {/* Foto */}
           <motion.div
             className="w-full h-full rounded-full overflow-hidden border-4 border-white z-10"
             initial={{ x: "-100%", opacity: 0 }}
@@ -165,7 +167,6 @@ const Home = () => {
             />
           </motion.div>
 
-          {/* Glow belakang */}
           <motion.div
             className="absolute inset-0 rounded-full bg-cyan-400 blur-2xl opacity-30 z-0 animate-pulse"
             initial={{ x: "-100%", opacity: 0 }}
@@ -176,7 +177,6 @@ const Home = () => {
           />
         </motion.div>
 
-        {/* Teks di bawah foto */}
         <p className="mt-4 text-white text-xl font-semibold">My Profile</p>
       </div>
     </div>
@@ -184,4 +184,3 @@ const Home = () => {
 };
 
 export default Home;
-

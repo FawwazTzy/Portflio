@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import KTP from "../../../assets/KTP.jpg";
-import portfolioPhoto from "../../../Assets/Portfolio.jpg";
+import Portfolio from "../../../Assets/Portfolio.jpg";
 
 const Portfolio = () => {
   const openPage = (path) => {
@@ -59,7 +59,7 @@ const Portfolio = () => {
         {/* Military Police */}
         <div className="w-[400px] bg-white/30 h-auto backdrop-blur-md p-6 rounded-lg shadow-lg">
           <img
-            src={portfolioPhoto}
+            src={Portfolio}
             alt="Portfolio"
             className="w-full h-48 object-cover rounded-lg"
           />

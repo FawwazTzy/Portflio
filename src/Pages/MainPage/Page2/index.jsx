@@ -1,7 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import KTP from "../../../assets/KTP.jpg";
-import PortfolioImg from "../../../Assets/Portfolio.jpg"; // Ganti nama import-nya
 
 const Portfolio = () => {
   const openPage = (path) => {
@@ -48,7 +46,7 @@ const Portfolio = () => {
         {/* Garrison Regiment */}
         <div className="w-[400px] bg-white/30 backdrop-blur-md h-auto  p-6 rounded-lg shadow-lg">
           <img
-            src={KTP}
+            src="https://i.pinimg.com/736x/e5/bd/44/e5bd4481fa35d2bb7d4c37a962fd8ddf.jpg"
             alt="KTP"
             className="w-full h-48 object-cover rounded-lg"
           />
@@ -59,7 +57,7 @@ const Portfolio = () => {
         {/* Military Police */}
         <div className="w-[400px] bg-white/30 h-auto backdrop-blur-md p-6 rounded-lg shadow-lg">
           <img
-            src={PortfolioImg}
+            src="https://i.pinimg.com/1200x/d3/b8/7e/d3b87e3d371943ae8d0f223651e09bd4.jpg"
             alt="Portfolio"
             className="w-full h-48 object-cover rounded-lg"
           />

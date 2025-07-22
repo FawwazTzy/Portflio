@@ -59,7 +59,7 @@ const Portfolio = () => {
         {/* Military Police */}
         <div className="w-[400px] bg-white/30 h-auto backdrop-blur-md p-6 rounded-lg shadow-lg">
           <img
-            src={PortfolioImg} {/* Ganti ke nama baru */}
+            src={PortfolioImg}
             alt="Portfolio"
             className="w-full h-48 object-cover rounded-lg"
           />

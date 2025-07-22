@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import KTP from "../../../assets/KTP.jpg";
-import Portfolio from "../../../Assets/Portfolio.jpg";
+import PortfolioImg from "../../../Assets/Portfolio.jpg"; // Ganti nama import-nya
 
 const Portfolio = () => {
   const openPage = (path) => {
@@ -11,19 +11,19 @@ const Portfolio = () => {
   return (
     <div className="bg-cyan-500 bg-cover bg-center py-[70px] min-h-screen text-white px-12">
       <motion.h3
-      className="text-yellow-200 text-2xl text-center"
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 1.5, ease: "easeInOut" }}
+        className="text-yellow-200 text-2xl text-center"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
       >
         Past Project Experience
       </motion.h3>
 
       <motion.p
-      className="text-sm text-center mb-9"
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 1.5, ease: "easeInOut" }}
+        className="text-sm text-center mb-9"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
       >
         Explore the projects that I've worked on so far
       </motion.p>
@@ -48,7 +48,7 @@ const Portfolio = () => {
         {/* Garrison Regiment */}
         <div className="w-[400px] bg-white/30 backdrop-blur-md h-auto  p-6 rounded-lg shadow-lg">
           <img
-            src={KTP} // <-- gunakan gambar yang di-import
+            src={KTP}
             alt="KTP"
             className="w-full h-48 object-cover rounded-lg"
           />
@@ -59,7 +59,7 @@ const Portfolio = () => {
         {/* Military Police */}
         <div className="w-[400px] bg-white/30 h-auto backdrop-blur-md p-6 rounded-lg shadow-lg">
           <img
-            src={Portfolio}
+            src={PortfolioImg} {/* Ganti ke nama baru */}
             alt="Portfolio"
             className="w-full h-48 object-cover rounded-lg"
           />
@@ -68,14 +68,14 @@ const Portfolio = () => {
         </div>
       </motion.div>
 
-      <div className="w-[370px] bg-white/30 h-auto backdrop-blur-md p-6 rounded-lg shadow-lg">
-          <img
-            src="https://i.pinimg.com/1200x/d1/bd/73/d1bd738960a32e7037e19d5a5f034ea8.jpg"
-            alt="Portfolio"
-            className="w-full h-48 object-cover rounded-lg"
-          />
-          <h3 className="mt-4 text-yellow-200 text-xl font-semibold">Notekeeper project</h3>
-          <p>Note Keeper is a note-taking app inspired by personal learning experiences, designed to help organize and manage study materials more efficiently. It allows users to store notes digitally, keeping everything in one place and making the learning process more structured and accessible.</p>
+      <div className="w-[370px] bg-white/30 h-auto backdrop-blur-md p-6 rounded-lg shadow-lg mt-4">
+        <img
+          src="https://i.pinimg.com/1200x/d1/bd/73/d1bd738960a32e7037e19d5a5f034ea8.jpg"
+          alt="Portfolio"
+          className="w-full h-48 object-cover rounded-lg"
+        />
+        <h3 className="mt-4 text-yellow-200 text-xl font-semibold">Notekeeper project</h3>
+        <p>Note Keeper is a note-taking app inspired by personal learning experiences, designed to help organize and manage study materials more efficiently. It allows users to store notes digitally, keeping everything in one place and making the learning process more structured and accessible.</p>
       </div>
     </div>
   );

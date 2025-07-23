@@ -8,7 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Login from "./Pages/Login";
+// import Login from "./Pages/Login";
 import Mainpage from "./Pages/MainPage";
 import Status404 from "./Pages/404";
 // import Pengguna from "./Pages/Pengguna";
@@ -39,8 +39,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Navigate to="/mainpage" replace />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/mainpage" element={<Mainpage />} />
         {/* <Route path="/pengguna" element={<Pengguna />} /> */}
         {/* <Route path="/pengguna2" element={<Pengguna2 />} /> */}
